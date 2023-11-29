@@ -11,7 +11,7 @@ import static frame.StartFrame.setPanel;
 public class RoomPanel extends JPanel {
     //Boolean condition=false;
     String owner;
-    public RoomPanel(String owner) {
+    public RoomPanel(String owner,int roomID) {
         this.owner = owner;
         System.out.println("roomPanel을 보입니다");
 
