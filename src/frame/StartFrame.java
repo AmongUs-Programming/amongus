@@ -12,7 +12,7 @@ public class StartFrame {
     public static JFrame frame = new JFrame("Among Us");
     private Image backgroundImg;
     private JButton startButton;
-    private JPanel mainPanel;
+    public static JPanel mainPanel;
 
     public StartFrame() {
         frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -41,7 +41,7 @@ public class StartFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("게임이 시작됩니다.");
+                new ParticipantSetNameFrame();
             }
         });
         mainPanel.add(startButton); // 패널에 버튼 추가
@@ -50,6 +50,7 @@ public class StartFrame {
     }
     public static void setPanel(JPanel currentPanel,JPanel changePanel){
         frame.remove(currentPanel);
+        changePanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         frame.add(changePanel);
         frame.revalidate();
         frame.repaint();
