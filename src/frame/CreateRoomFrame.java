@@ -3,6 +3,7 @@ package frame;
 import User.UserInfo;
 import panel.RoomListPanel;
 import panel.RoomPanel;
+import participant.ParticipantList;
 import room.RoomList;
 
 import javax.swing.*;
@@ -31,11 +32,12 @@ public class CreateRoomFrame extends JFrame {
                 JTextField t = (JTextField) e.getSource();
                 owner = UserInfo.getName();
                 //방 생성
-                RoomListPanel.roomList.addRoom(1,t.getText());
+                RoomListPanel.roomList.addRoom(3,t.getText());
                 //방에 참가자 넣기
-                RoomListPanel.roomList.getParticipantList(1).addParticipant(UserInfo.getName());
+                RoomListPanel.roomList.getParticipantList(3).addParticipant(UserInfo.getName());
+
                 setVisible(false);
-                StartFrame.setPanel(roomListPanel,new RoomPanel(owner,1));
+                StartFrame.setPanel(roomListPanel,new RoomPanel(owner,3));
             }
         });
         setVisible(true);

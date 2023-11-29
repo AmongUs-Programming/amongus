@@ -68,6 +68,7 @@ public class RoomListPanel extends JPanel {
             paticipantNumPanel.add(new JLabel("hi"));
             paticipantNumPanel.add(paticipantNumLabel);
             eachRoomPanel.add(paticipantNumLabel);
+            eachRoomPanel.add(paticipantNumLabel);
             eachRoomPanel.add(roomNumberLabel);
             eachRoomPanel.add(roomTitleLabel);
             eachRoomPanel.addMouseListener(new MouseAdapter() {

@@ -2,10 +2,10 @@ package participant;
 
 public class Participant {
     String name;
-    int role;
+    int role=0;
     //0-시민
     //1-마피아
-    Boolean isAlive;
+    Boolean isAlive=true;
     public Participant(String name){
         this.name=name;
     }

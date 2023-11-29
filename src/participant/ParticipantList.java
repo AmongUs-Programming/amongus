@@ -1,5 +1,8 @@
 package participant;
 
+import room.Room;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +39,15 @@ public class ParticipantList {
 
     public void setRole(String name,int role){
         participants.get(name).setRole(role);
+    }
+
+    public ArrayList<String> readParticipantNames(){
+        ArrayList<String> nameList = new ArrayList<>();
+        for (Map.Entry<String,Participant> entry : participants.entrySet()){
+            String name = entry.getKey();
+            nameList.add(name);
+        }
+        return nameList;
     }
 
 }
