@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static movePanel.MovePanel.roomListPanel;
+
 public class CreateRoomFrame extends JFrame {
     String owner;
     public CreateRoomFrame(){
@@ -33,7 +35,7 @@ public class CreateRoomFrame extends JFrame {
                 //방에 참가자 넣기
                 RoomListPanel.roomList.getParticipantList(1).addParticipant(UserInfo.getName());
                 setVisible(false);
-                StartFrame.setPanel(RoomListPanel.getPanel(),new RoomPanel(owner,1));
+                StartFrame.setPanel(roomListPanel,new RoomPanel(owner,1));
             }
         });
         setVisible(true);

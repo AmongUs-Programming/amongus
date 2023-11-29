@@ -8,7 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static movePanel.MovePanel.roomListPanel;
+
 public class ParticipantSetNameFrame extends JFrame {
+
     ParticipantSetNameFrame(){
         super("ParticipantSetName");
         setSize(300, 200);
@@ -28,7 +31,7 @@ public class ParticipantSetNameFrame extends JFrame {
                 new UserInfo(name);
                 System.out.println(name);
                 setVisible(false);
-                StartFrame.setPanel(StartFrame.mainPanel,new RoomListPanel());
+                StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
             }
         });
         setVisible(true);

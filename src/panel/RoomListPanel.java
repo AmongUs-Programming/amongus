@@ -14,6 +14,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
+import static movePanel.MovePanel.roomListPanel;
+
 public class RoomListPanel extends JPanel {
 
     private static JPanel panel = new JPanel();
@@ -67,7 +69,7 @@ public class RoomListPanel extends JPanel {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     //선택한 해당 RoomPanel에 이동하기
-                    StartFrame.setPanel(panel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
+                    StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
                 }
             });
             eachRoomPanel.setVisible(true);
@@ -77,10 +79,6 @@ public class RoomListPanel extends JPanel {
 
         add(panel);
         setVisible(true);
-   }
-
-   public static JPanel getPanel(){
-        return panel;
    }
 
 }
