@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static movePanel.MovePanel.roomListPanel;
@@ -20,8 +21,7 @@ public class RoomListPanel extends JPanel {
 
     private static JPanel panel = new JPanel();
     public static RoomList roomList;
-    private JSplitPane splitPane;
-    private JButton button;
+
 
     public RoomListPanel(){
         roomList = new RoomList();
@@ -58,10 +58,15 @@ public class RoomListPanel extends JPanel {
             Room room = entry.getValue();
             int paticipantNum = roomList.getParticipantList(entry.getKey()).getParticipantListSize();
             JPanel eachRoomPanel = new JPanel();
+            JPanel paticipantNumPanel = new JPanel();
+            ImageIcon peopleIcon = new ImageIcon("images/peopleIcon.png");
             eachRoomPanel.setLayout(new FlowLayout());
+            paticipantNumPanel.setLayout(new FlowLayout());
             JLabel paticipantNumLabel = new JLabel(String.valueOf(paticipantNum));
             JLabel roomNumberLabel = new JLabel(String.valueOf(roomNumber));
             JLabel roomTitleLabel = new JLabel(room.getRoomTitle());
+            paticipantNumPanel.add(new JLabel("hi"));
+            paticipantNumPanel.add(paticipantNumLabel);
             eachRoomPanel.add(paticipantNumLabel);
             eachRoomPanel.add(roomNumberLabel);
             eachRoomPanel.add(roomTitleLabel);

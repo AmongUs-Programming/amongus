@@ -13,7 +13,7 @@ public class RoomPanel extends JPanel {
     String owner;
     public RoomPanel(String owner,int roomID) {
         this.owner = owner;
-        System.out.println("roomPanel을 보입니다");
+        System.out.println(roomID);
 
         // RoomPanel에 leftPanel과 rightPanel을 추가합니다.
         setLayout(new BorderLayout()); // GridLayout을 사용하여 왼쪽, 오른쪽 패널을 가로로 나란히 배치합니다.
