@@ -35,7 +35,7 @@ public class RoomChatPanel extends JPanel{
         add(inputPanel); // 전체 패널에 입력 패널 추가
 
         setSize(370, 300);
-         setVisible(true);
+        setVisible(true);
 
     }
 
