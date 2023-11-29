@@ -4,22 +4,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StartFrame extends JFrame {
+public class StartFrame {
 
     public static final int SCREEN_WIDTH = 1270;
     public static final int SCREEN_HEIGHT = 630;
 
+    public static JFrame frame = new JFrame("Among Us");
     private Image backgroundImg;
     private JButton startButton;
     private JPanel mainPanel;
 
     public StartFrame() {
-        setTitle("Among Us");
-        setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null); // 레이아웃 매니저를 사용하지 않기 위해 null 설정
+        frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null); // 레이아웃 매니저를 사용하지 않기 위해 null 설정
 
         mainPanel = new JPanel() {
             @Override
@@ -30,7 +30,7 @@ public class StartFrame extends JFrame {
         };
         mainPanel.setLayout(null);
         mainPanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        add(mainPanel);
+        frame.add(mainPanel);
 
         // 배경 이미지 로드
         backgroundImg = new ImageIcon(Main.class.getResource("/images/backgroundImg.PNG")).getImage();
@@ -46,6 +46,12 @@ public class StartFrame extends JFrame {
         });
         mainPanel.add(startButton); // 패널에 버튼 추가
 
-        setVisible(true);
+        frame.setVisible(true);
+    }
+    public static void setPanel(JPanel currentPanel,JPanel changePanel){
+        frame.remove(currentPanel);
+        frame.add(changePanel);
+        frame.revalidate();
+        frame.repaint();
     }
 }
