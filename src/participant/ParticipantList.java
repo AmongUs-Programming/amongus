@@ -19,6 +19,11 @@ public class ParticipantList {
         System.out.println("participant 넣기 성공: "+name);
     }
     public int getParticipantListSize(){return participants.size();}
+
+    public Map<String, Participant> getParticipants() {
+        return participants;
+    }
+
     public String getOwner() {
         String owner = null;
         if (!participants.isEmpty()) {

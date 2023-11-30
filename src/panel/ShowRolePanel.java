@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import static frame.StartFrame.SCREEN_HEIGHT;
 import static frame.StartFrame.SCREEN_WIDTH;
@@ -16,23 +17,24 @@ public class ShowRolePanel extends JPanel {
     private Image backgroundImg;
     private JLabel roleLabel;
     public ShowRolePanel(){
-        mainPanel = new JPanel() {
+        setLayout(null);
+        setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        backgroundImg = new ImageIcon(ShowRolePanel.class.getResource("/images/backgroundImg.PNG")).getImage();
+
+        JPanel mainPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(backgroundImg, 0, 0, null);
+                g.drawImage(backgroundImg, 0, 0, getWidth(), getHeight(), this);
             }
         };
         mainPanel.setLayout(null);
         mainPanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        add(mainPanel);
-
-        // 배경 이미지 로드
-        backgroundImg = new ImageIcon(Main.class.getResource("/images/backgroundImg.PNG")).getImage();
-
-        // 시작 버튼 생성
-        roleLabel = new JLabel("시작하기");
+        roleLabel = new JLabel("당신은 마피아");
+        roleLabel.setSize(200,300);
         roleLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
-        mainPanel.add(roleLabel); // 패널에 버튼 추가
+        mainPanel.add(roleLabel);
+        add(mainPanel);
     }
 }

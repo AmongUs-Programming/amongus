@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static movePanel.MovePanel.roomListPanel;
+import static movePanel.MovePanel.showRolePanel;
 
 public class ParticipantSetNameFrame extends JFrame {
 
@@ -31,7 +32,9 @@ public class ParticipantSetNameFrame extends JFrame {
                 new UserInfo(name);
                 System.out.println(name);
                 setVisible(false);
-                StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
+//                StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
+
+                StartFrame.setPanel(StartFrame.mainPanel,showRolePanel);
             }
         });
         setVisible(true);
