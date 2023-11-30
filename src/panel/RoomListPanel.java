@@ -3,6 +3,7 @@ package panel;
 import User.UserInfo;
 import frame.CreateRoomFrame;
 import frame.StartFrame;
+import role.Role;
 import room.Room;
 import room.RoomList;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import static movePanel.MovePanel.roomListPanel;
+import static movePanel.MovePanel.showRolePanel;
 
 public class RoomListPanel extends JPanel {
 
@@ -41,15 +43,15 @@ public class RoomListPanel extends JPanel {
         });
 
         //방 생성
-        RoomListPanel.roomList.addRoom(1,"ㅇㅇㅇ");
+        RoomListPanel.roomList.addRoom(1,"room1");
         //방에 참가자 넣기
         RoomListPanel.roomList.getParticipantList(1).addParticipant(UserInfo.getName());
-        RoomListPanel.roomList.getParticipantList(1).addParticipant("ㅅㅅ");
+        RoomListPanel.roomList.getParticipantList(1).addParticipant("parti1-2");
 
-        RoomListPanel.roomList.addRoom(2,"ㅇㅅㅇ");
+        RoomListPanel.roomList.addRoom(2,"room2");
         //방에 참가자 넣기
-        RoomListPanel.roomList.getParticipantList(2).addParticipant("ㄴㄴㄹ");
-        RoomListPanel.roomList.getParticipantList(2).addParticipant("ㅇㅇㅎㄹㅎ");
+        RoomListPanel.roomList.getParticipantList(2).addParticipant("owner2");
+        RoomListPanel.roomList.getParticipantList(2).addParticipant("partici2-2");
         RoomListPanel.roomList.getParticipantList(2).addParticipant(UserInfo.getName());
 
         Map<Integer, Room> rooms = roomList.getRoomList();
@@ -75,7 +77,9 @@ public class RoomListPanel extends JPanel {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     //선택한 해당 RoomPanel에 이동하기
-                    StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
+//                    StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
+                    new Role(roomList.getParticipantList(entry.getKey()).getParticipants());
+                    StartFrame.setPanel(roomListPanel,showRolePanel);
                 }
             });
             eachRoomPanel.setVisible(true);

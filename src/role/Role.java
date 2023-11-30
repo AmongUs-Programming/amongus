@@ -13,8 +13,23 @@ public class Role {
         String random = getRandomKey(participantMap);
         mapia = participantMap.get(random);
         mapia.setRole(1);
+        System.out.println("선택된 마피아 : "+participantMap.get(random).getName());
+        System.out.println("마피아는"+mapia.getName());
 
         //시민인 경우 vector에 저장
+        // 시민인 경우 vector에 저장
+        ciritizen = new Vector<>();
+        for (Map.Entry<String, Participant> entry : participantMap.entrySet()) {
+            Participant participant = entry.getValue();
+            if (participant != mapia) {
+                ciritizen.add(participant);
+            }
+        }
+
+        // ciritizen에 있는 모든 참가자의 이름 출력
+        for (Participant citizen : ciritizen) {
+            System.out.println("시민: " + citizen.getName());
+        }
     }
 
     public Vector<Participant> getCiritizen() {

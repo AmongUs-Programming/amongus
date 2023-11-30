@@ -32,9 +32,9 @@ public class ParticipantSetNameFrame extends JFrame {
                 new UserInfo(name);
                 System.out.println(name);
                 setVisible(false);
-//                StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
+                StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
 
-                StartFrame.setPanel(StartFrame.mainPanel,showRolePanel);
+//                StartFrame.setPanel(StartFrame.mainPanel,showRolePanel);
             }
         });
         setVisible(true);
