@@ -1,5 +1,7 @@
 package thread;
 
+import User.UserInfo;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -14,8 +16,8 @@ public class ChatClient extends JFrame implements ActionListener {
 	private JTextField sender = null; // JTextField 객체로서 보내는 정보를 담는 객체
 	
 	public ChatClient() {
-		setTitle("클라이언트 채팅 창"); // 프레임 타이틀
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 종료 버튼(X)을 클릭하면 프로그램 종료
+		setTitle("채팅창"); // 프레임 타이틀
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 종료 버튼(X)을 클릭하면 프로그램 종료
 		Container c = getContentPane();
 		
 		c.setLayout(new BorderLayout()); //BorderLayout 배치관리자의 사용
@@ -42,8 +44,7 @@ public class ChatClient extends JFrame implements ActionListener {
 	}
 	private void setupConnection() throws IOException {
 		socket = new Socket("localhost", 9999); // 클라이언트 소켓 생성
-		// System.out.println("연결됨");
-		receiver.append("서버에 연결 완료");
+		System.out.println("연결됨");
 		int pos = receiver.getText().length();
 		receiver.setCaretPosition(pos); // caret 포지션을 가장 마지막으로 이동
 		
@@ -67,7 +68,7 @@ public class ChatClient extends JFrame implements ActionListener {
 				} catch (IOException e) {
 					handleError(e.getMessage());
 				} 
-				this.append("\n  서버 : " + msg); // 받은 문자열을 JTextArea에 출력
+				this.append("\n상대 : " + msg); // 받은 문자열을 JTextArea에 출력
 				int pos = this.getText().length();
 				this.setCaretPosition(pos); // caret(커서)을 가장 마지막으로 이동
 			}
@@ -81,8 +82,8 @@ public class ChatClient extends JFrame implements ActionListener {
 			try {
 				out.write(msg+"\n"); // 문자열 전송
 				out.flush();
-				
-				receiver.append("\n클라이언트 : " + msg); // JTextArea에 출력
+				String userName = UserInfo.getName();
+				receiver.append("\n"+userName+" : " + msg); // JTextArea에 출력
 				int pos = receiver.getText().length();
 				receiver.setCaretPosition(pos); // caret 포지션을 가장 마지막으로 이동
 				sender.setText(null); // 입력창의 문자열 지움
@@ -91,8 +92,12 @@ public class ChatClient extends JFrame implements ActionListener {
 			} 
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new ChatClient();
+			// 각 사용자를 위한 ChatClient 인스턴스 생성
+			// 다중스레드 환경에서 안전하게 실행하기 위함
+			//SwingUtilities.invokeLater(() -> new ChatClient());
+			//SwingUtilities.invokeLater(() -> new ChatClient());
 	}
 }

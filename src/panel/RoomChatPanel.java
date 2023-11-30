@@ -1,43 +1,50 @@
 package panel;
 
-import thread.ChatClient;
-import thread.ChatServer;
+import User.UserInfo;
+import thread.JavaChatClientView;
 
-import javax.sound.midi.Receiver;
-import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.net.Socket;
-
-public class RoomChatPanel extends JPanel{
-
-    public RoomChatPanel() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Y축 방향으로 컴포넌트들을 배치하는 BoxLayout 설정
-
-        JTextField textField = new JTextField(); // 채팅창
-        textField.setEditable(false);
-        textField.setPreferredSize(new Dimension(200, 500));
-        JScrollPane scrollPane1 = new JScrollPane(textField);// JScrollPane으로 감싸 스크롤 가능하도록 함
-        add(scrollPane1);
-
-        JPanel inputPanel = new JPanel(); // 입력창과 전송 버튼을 담을 패널 생성
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS)); // X축 방향으로 컴포넌트들을 배치하는 BoxLayout 설정
+import javax.swing.*;
 
 
-        JTextField input = new JTextField("", 1); // 채팅 입력창
-        input.setPreferredSize(new Dimension(200, 10));
-        inputPanel.add(input);
+public class RoomChatPanel extends JPanel {
+    JPanel panel ;
 
-        JButton send = new JButton("전송");
-        inputPanel.add(send);
+    String username = UserInfo.getName();
+    String ip_addr = "127.0.0.1";
+    String port_no = "30000";
+    JavaChatClientView view = new JavaChatClientView(username, ip_addr, port_no);
+       public RoomChatPanel(){
+           setLayout(new BorderLayout());
 
-        add(inputPanel); // 전체 패널에 입력 패널 추가
+           JavaChatClientView chatView = new JavaChatClientView(username, ip_addr, port_no);
+           add(chatView, BorderLayout.CENTER);
 
-        setSize(370, 300);
-        setVisible(true);
+           //setLayout(new FlowLayout());
+           //add(new JLabel("ddd"));
+           //panel = new JPanel();
+           //panel.add(view);
+           //panel.setVisible(true);
+           //setVisible(true);
+        }
+        public static void main(String[] args) {
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        thread.JavaChatClientMain frame = new thread.JavaChatClientMain();
+                        frame.setVisible(true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
-    }
+
+
+
+
+
 
 
 }

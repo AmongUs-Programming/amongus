@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class RoomList {
     private Map<Integer,Room> rooms;
-    private Map<Integer, ParticipantList> participantLists;
+    private static Map<Integer, ParticipantList> participantLists;
     public RoomList(){
         this.rooms = new HashMap<>();
         this.participantLists = new HashMap<>();
@@ -31,7 +31,7 @@ public class RoomList {
         return rooms;
     }
 
-    public ParticipantList getParticipantList(int roomID){
+    public static ParticipantList getParticipantList(int roomID){
         return participantLists.get(roomID);
     }
 }

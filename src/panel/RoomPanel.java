@@ -17,11 +17,10 @@ public class RoomPanel extends JPanel {
 
         // RoomPanel에 leftPanel과 rightPanel을 추가합니다.
         setLayout(new BorderLayout()); // GridLayout을 사용하여 왼쪽, 오른쪽 패널을 가로로 나란히 배치합니다.
-        add(new JButton("dd"));
 
 
         // RoomParticipantListPanel과 RoomChatPanel을 생성
-        RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel();
+        RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(roomID);
         RoomChatPanel roomchatPanel = new RoomChatPanel();
 
         // 왼쪽에 배치될 panel
@@ -36,7 +35,7 @@ public class RoomPanel extends JPanel {
         rightPanel.add(roomchatPanel, BorderLayout.CENTER); // chatPanel을 오른쪽 패널에 추가
 
         leftPanel.setPreferredSize(new Dimension(600, 600));
-        rightPanel.setPreferredSize(new Dimension(500, 600));
+        //rightPanel.setPreferredSize(new Dimension(500, 600));
 
         setVisible(true);
 
