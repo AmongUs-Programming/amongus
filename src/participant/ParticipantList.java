@@ -34,6 +34,8 @@ public class ParticipantList {
 
         return owner;
     }
+
+
     public void removeParticipant(String name){
         participants.remove(name);
     }

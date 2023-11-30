@@ -1,51 +1,52 @@
 package panel;
 
 import User.UserInfo;
-import frame.StartFrame;
 import participant.Participant;
 import participant.ParticipantList;
-import room.Room;
 import room.RoomList;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
-import static movePanel.MovePanel.roomListPanel;
-import static panel.RoomListPanel.roomList;
+import java.util.Set;
 
 public class RoomParticipantListPanel extends JPanel {
-    private static JPanel panel = new JPanel();
     public static ParticipantList participantList;
+    public static UserInfo userInfo = new UserInfo(UserInfo.getName());
 
     public RoomParticipantListPanel(int roomID) {
-        participantList = new ParticipantList();
-        panel.setLayout(new FlowLayout());
-        panel.setBounds(0, 0, 1270, 680);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        System.out.println(RoomListPanel.roomList);
-        System.out.printf(roomList.getRoomList().toString());
-        ArrayList<String> list = new ArrayList<>();
-        list.add("user1");//System.out.println("리스트 크기" + list.size());
-        list.add("user2");//System.out.println("리스트 크기" + list.size());
+        participantList = RoomList.getParticipantList(roomID); // 참가자 목록
 
-        JLabel userName = new JLabel();
+        System.out.println("participantList" + participantList);
+        System.out.println(participantList.getOwner());
+        Map<String, Participant> participantsMap = participantList.getParticipants();
+        Set<String> participantKeys = participantsMap.keySet();
 
+        String ownerName = participantList.getOwner(); // 방장 이름 가져오기
+
+        for (String key : participantKeys) {
+            Participant participant = participantsMap.get(key);
+            String name = participant.getName();
+
+            JPanel userPanel = new JPanel();
+            userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.X_AXIS));
+
+            //방장 이름 앞에 방장 표시, 아니면 그냥 표시(모든 클라이언트)
+            if(ownerName.equals(name)){JLabel userName = new JLabel("방장 "+name);userPanel.add(userName);}
+            else{JLabel userName = new JLabel( name);userPanel.add(userName);}
+
+
+
+            //2명 이상일 때 방장한테만 버튼 보이게 함(방장 화면에서만)
+            if (participantList.getParticipantListSize() >= 2 && name.equals(ownerName)) {
+                JButton startButton = new JButton("게임 시작");
+                userPanel.add(startButton);
+                setVisible(true);
+            }
+
+            add(userPanel);
+        }
     }
-
 }
-
-//for(int i = 0; i < list.size(); i++) {
-//        System.out.println("이름 " + list.get(i));
-//        String currentUser = list.get(i);
-//        JPanel userInfo = new JPanel();
-//        JLabel userName = new JLabel(currentUser);
-//        add(userInfo);
-//        add(userName);
-//        setVisible();
-//        }

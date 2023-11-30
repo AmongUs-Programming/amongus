@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class RoomList {
-    private Map<Integer,Room> rooms;
+    private static Map<Integer,Room> rooms;
     private static Map<Integer, ParticipantList> participantLists;
     public RoomList(){
         this.rooms = new HashMap<>();

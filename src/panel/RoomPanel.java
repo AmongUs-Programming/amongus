@@ -28,6 +28,7 @@ public class RoomPanel extends JPanel {
         add(leftPanel, BorderLayout.WEST); // RoomPanel의 서쪽에 leftPanel 추가
         leftPanel.add(participantListPanel, BorderLayout.WEST); // participantListPanel을 왼쪽 패널에 추가
 
+
         // 오른쪽에 배치될 panel
         JPanel rightPanel = new JPanel(new BorderLayout());
         add(rightPanel, BorderLayout.CENTER);
