@@ -15,6 +15,7 @@ import static movePanel.MovePanel.roomListPanel;
 
 public class CreateRoomFrame extends JFrame {
     String owner;
+    String roomTitle;
     public CreateRoomFrame(){
         super("CreateRoom");
         setSize(300, 200);
@@ -31,8 +32,9 @@ public class CreateRoomFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JTextField t = (JTextField) e.getSource();
                 owner = UserInfo.getName();
+                roomTitle = t.getText();
                 //방 생성
-                RoomListPanel.roomList.addRoom(0,t.getText());
+                RoomListPanel.roomList.addRoom(0,roomTitle);
                 //방에 참가자 넣기
                 RoomListPanel.roomList.getParticipantList(0).addParticipant(UserInfo.getName());
 

@@ -1,6 +1,7 @@
 package room;
 
 import participant.ParticipantList;
+import role.Role;
 
 import java.util.HashMap;
 import java.util.Map;

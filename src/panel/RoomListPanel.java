@@ -45,14 +45,13 @@ public class RoomListPanel extends JPanel {
         //방 생성
         RoomListPanel.roomList.addRoom(1,"room1");
         //방에 참가자 넣기
-        RoomListPanel.roomList.getParticipantList(1).addParticipant(UserInfo.getName());
+
         RoomListPanel.roomList.getParticipantList(1).addParticipant("parti1-2");
 
         RoomListPanel.roomList.addRoom(2,"room2");
         //방에 참가자 넣기
         RoomListPanel.roomList.getParticipantList(2).addParticipant("owner2");
         RoomListPanel.roomList.getParticipantList(2).addParticipant("partici2-2");
-        RoomListPanel.roomList.getParticipantList(2).addParticipant(UserInfo.getName());
 
         Map<Integer, Room> rooms = roomList.getRoomList();
         for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
@@ -77,9 +76,11 @@ public class RoomListPanel extends JPanel {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     //선택한 해당 RoomPanel에 이동하기
-//                    StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
+//                  StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
+                    RoomListPanel.roomList.getParticipantList(entry.getKey()).addParticipant(UserInfo.getName());
                     new Role(roomList.getParticipantList(entry.getKey()).getParticipants());
                     StartFrame.setPanel(roomListPanel,showRolePanel);
+                    showRolePanel.runTimer();
                 }
             });
             eachRoomPanel.setVisible(true);

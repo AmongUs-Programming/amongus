@@ -40,21 +40,13 @@ public class ParticipantList {
         participants.remove(name);
     }
 
-    public void setAlive(String name,Boolean boo){
-        participants.get(name).setAlive(boo);
+    public void setAlive(String name,Boolean state){
+        participants.get(name).setAlive(state);
     }
 
     public void setRole(String name,int role){
         participants.get(name).setRole(role);
     }
 
-    public ArrayList<String> readParticipantNames(){
-        ArrayList<String> nameList = new ArrayList<>();
-        for (Map.Entry<String,Participant> entry : participants.entrySet()){
-            String name = entry.getKey();
-            nameList.add(name);
-        }
-        return nameList;
-    }
 
 }
