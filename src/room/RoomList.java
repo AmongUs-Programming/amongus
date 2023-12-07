@@ -15,13 +15,13 @@ public class RoomList {
         this.participantLists = new HashMap<>();
     }
 
-    public void addRoom(int roomID,String roomTitle){
-        Room room = new Room(roomTitle,false);
-        ParticipantList participantList = new ParticipantList();
-        rooms.put(roomID,room);
-        participantLists.put(roomID,participantList);
-        System.out.println("roomID:"+roomID);
-    }
+//    public void addRoom(int roomID,String roomTitle){
+//        Room room = new Room(roomTitle,false);
+//        ParticipantList participantList = new ParticipantList();
+//        rooms.put(roomID,room);
+//        participantLists.put(roomID,participantList);
+//        System.out.println("roomID:"+roomID);
+//    }
 
     public void removeRoom(int roomID){
         rooms.remove(roomID);
