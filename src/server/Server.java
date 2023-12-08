@@ -18,6 +18,7 @@ public class Server extends JFrame {
    private Socket client_socket;
 
    private ArrayList<Room> roomList = new ArrayList<>(); //게임 방list
+    private ArrayList<UserThread> users = new ArrayList<>(); //게임에 접속한 모든 사람들
 private JTextArea textArea;
     public Server(int port){
         this.port=port;
@@ -75,7 +76,6 @@ private JTextArea textArea;
     //유저 이름 등록 후 접속 시 accept()를 통해 user thread 생성
     class AcceptServer extends Thread{
         ServerSocket socket;
-        private ArrayList<UserThread> users = new ArrayList<>(); //게임에 접속한 모든 사람들
         public AcceptServer(ServerSocket socket){
             this.socket=socket;
         }
@@ -93,10 +93,12 @@ private JTextArea textArea;
                     AppendText("Waiting new clients..."+socket.getLocalPort());
                     client_socket = socket.accept();
                     AppendText("new user from"+client_socket);
+
                     //user 마다 thread 생성
                     UserThread user = new UserThread(client_socket,this);
                     users.add(user);
                     user.start();
+
                     AppendText("현재 인원 :"+users.size());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -105,7 +107,63 @@ private JTextArea textArea;
         }
 
     } //AcceptServer end
+    class UserThread extends Thread {
+        public String userName;
+        private InputStream is;
+        private OutputStream os;
+        private DataInputStream dis;
+        private DataOutputStream dos;
 
+        private ObjectInputStream ois;
+        private ObjectOutputStream oos;
+
+        private Socket client_socket;
+        private ServerSocket socket;
+        private ArrayList userList;
+        public String UserStatus;
+
+        private int roomID;
+
+        public UserThread(Socket client_socket, AcceptServer acceptServer) {
+            // 매개변수로 넘어온 자료 저장
+            this.client_socket = client_socket;
+            this.socket = acceptServer.getSocket();
+            this.userList = acceptServer.getUserList();
+            try {
+                oos = new ObjectOutputStream(client_socket.getOutputStream());
+                oos.flush();
+                ois = new ObjectInputStream(client_socket.getInputStream());
+            } catch (Exception e) {
+                AppendText("userService error");
+            }
+        }
+
+        // 클라이언트에게 메시지 전송
+        public void sendMessage(String message) {
+            try {
+                oos.writeUTF(message);
+                oos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void run() {
+            try {
+                this.userName = ois.readUTF();
+                System.out.println("ois : "+userName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            handlePlayerRegistration(this);
+        }
+    }
+    public void handlePlayerRegistration(UserThread userThread) {
+        String userName = userThread.userName;
+        userThread.sendMessage("SUCCESS: " + userName + "님, 등록되었습니다.");
+        AppendText("새로운 플레이어 등록: " + userName);
+    }
     class RoomThread extends Thread{
 
         private ObjectInputStream ois;
@@ -143,52 +201,40 @@ private JTextArea textArea;
                 e.printStackTrace();
             }
         }
-    }
-
-    class UserThread extends Thread {
-        private InputStream is;
-        private OutputStream os;
-        private DataInputStream dis;
-        private DataOutputStream dos;
-
-        private ObjectInputStream ois;
-        private ObjectOutputStream oos;
-
-        private Socket client_socket;
-        private ServerSocket socket;
-        private ArrayList userList;
-        public String UserStatus;
-        public String userName;
-        public Participant participant;
-
-        private int roomID;
-
-        public UserThread(Socket client_socket, AcceptServer acceptServer) {
-            // 매개변수로 넘어온 자료 저장
-            this.client_socket = client_socket;
-            this.socket = acceptServer.getSocket();
-            this.userList = acceptServer.getUserList();
+        public void removeRoom(String roomTitle){
+            try{
+                roomTitle = ois.readUTF();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            int roomID = Room.getRoomID();
+            roomList.remove(roomID);
             try {
-                oos = new ObjectOutputStream(client_socket.getOutputStream());
+                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' delete successfully");
                 oos.flush();
-                ois = new ObjectInputStream(client_socket.getInputStream());
-            } catch (Exception e) {
-                AppendText("userService error");
+            } catch (IOException e) {
+                AppendText("Error informing client about room delete");
+                e.printStackTrace();
             }
         }
-
-        public void enterRoom(int roomID) {
+    }
+    //게임 thread
+    class GameTherad extends Thread{
+        public Participant participant;
+        //방 입장
+        public void enterRoom(String userName , int roomID) {
             Room room = roomList.get(roomID);
             room.enterRoomParticipant(userName,participant);
             room.getUsers().add(this);
             AppendText("새로운 참가자 " + participant.getName() + " 입장.");
         }
 
-        public int getPlayerNum(int roomID) { // room에 입장한 플레이어 수
+        public int getParticipantNum(int roomID) { // room에 입장한 플레이어 수
             return roomList.get(roomID).getParticipants().size();
         }
 
-        public int getParticipantRole(int roomID, String name){ //찾고자 하는 참가자의 역할
+        //찾고자 하는 참가자의 역할
+        public int getParticipantRole(int roomID, String name){
             return roomList.get(roomID).getParticipants().get(name).getRole();
         }
 
@@ -196,22 +242,14 @@ private JTextArea textArea;
         public Map<String, String> getUserNamesWithColors(int roomID) {
             Map<String, Participant> allParticipants = roomList.get(roomID).getParticipants();
             Map<String, String> userNamesWithColors = new HashMap<>();
+            int index = 0;
 
-            int index = 0; // Index to track player position
             for (Map.Entry<String, Participant> entry : allParticipants.entrySet()) {
                 Participant participant = entry.getValue();
                 String name = participant.getName();
-
-                // Assuming you have a list of color names (e.g., "red", "blue", "green", etc.)
-                List<String> colorList = Arrays.asList("red", "blue", "green", "yellow"); // Adjust as needed
-
-                // Get color based on the index
+                List<String> colorList = Arrays.asList("red", "blue", "green", "yellow");
                 String color = colorList.get(index % colorList.size());
-
-                // Assign color to player in the Room class
                 roomList.get(roomID).assignColorToPlayer(name, color);
-
-                // Add player name and color to the result map
                 userNamesWithColors.put(name, color);
 
                 index++;
@@ -221,6 +259,7 @@ private JTextArea textArea;
         }
 
     }
+
 
 //    public static void main(String[] args) {
 //        new Server(5880);

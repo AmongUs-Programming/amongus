@@ -55,15 +55,4 @@ public class Client{
             return null;
         }
     }
-//    public static void main(String[] args) {
-//        Client client = new Client("127.0.0.1", 5880);
-//        client.connectServer();
-//
-//        // Example: Sending a message to the server
-//        client.sendMessage("Hello, server!");
-//
-//        // Example: Receiving a message from the server
-//        String receivedMessage = client.receiveMessage();
-//        System.out.println("Received message from server: " + receivedMessage);
-//    }
 }

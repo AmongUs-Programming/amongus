@@ -1,6 +1,8 @@
 package frame;
 
 import User.UserInfo;
+import client.Client;
+import client.ClientFrame;
 import notUse.StartFrame;
 
 import javax.swing.*;
@@ -9,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static notUse.MovePanel.roomListPanel;
+import static notUse.MovePanel.startPanel;
 
 public class ParticipantSetNameFrame extends JFrame {
 
@@ -32,8 +35,21 @@ public class ParticipantSetNameFrame extends JFrame {
                 new UserInfo(name);
                 System.out.println(name);
                 setVisible(false);
-                StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
-//                StartFrame.setPanel(StartFrame.mainPanel,showRolePanel);
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        // Connect to the server in the background
+                        Client client = new Client("127.0.0.1", 29998);
+                        client.sendMessage(name);
+                        ClientFrame.isStartPanel=true;
+                        ClientFrame.isChange=true;
+                        return null;
+                    }
+                };
+
+                // Execute the SwingWorker
+                worker.execute();
+
             }
         });
         setVisible(true);
