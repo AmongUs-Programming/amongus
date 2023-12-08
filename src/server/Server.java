@@ -19,6 +19,7 @@ public class Server extends JFrame {
 
    private ArrayList<Room> roomList = new ArrayList<>(); //게임 방list
     private ArrayList<UserThread> users = new ArrayList<>(); //게임에 접속한 모든 사람들
+    private Map<String,GameTherad> gameThList = new HashMap<>(); //각 게임마다의 thread
 private JTextArea textArea;
     public Server(int port){
         this.port=port;
@@ -98,8 +99,8 @@ private JTextArea textArea;
                     UserThread user = new UserThread(client_socket,this);
                     users.add(user);
                     user.start();
-
                     AppendText("현재 인원 :"+users.size());
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -109,20 +110,17 @@ private JTextArea textArea;
     } //AcceptServer end
     class UserThread extends Thread {
         public String userName;
+        private String request;
+
+        private ObjectInputStream ois;
+        private ObjectOutputStream oos;
         private InputStream is;
         private OutputStream os;
         private DataInputStream dis;
         private DataOutputStream dos;
-
-        private ObjectInputStream ois;
-        private ObjectOutputStream oos;
-
         private Socket client_socket;
         private ServerSocket socket;
         private ArrayList userList;
-        public String UserStatus;
-
-        private int roomID;
 
         public UserThread(Socket client_socket, AcceptServer acceptServer) {
             // 매개변수로 넘어온 자료 저장
@@ -147,42 +145,6 @@ private JTextArea textArea;
                 e.printStackTrace();
             }
         }
-        @Override
-        public void run() {
-            try {
-                this.userName = ois.readUTF();
-                System.out.println("ois : "+userName);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-            handlePlayerRegistration(this);
-        }
-    }
-    public void handlePlayerRegistration(UserThread userThread) {
-        String userName = userThread.userName;
-        userThread.sendMessage("SUCCESS: " + userName + "님, 등록되었습니다.");
-        AppendText("새로운 플레이어 등록: " + userName);
-    }
-    class RoomThread extends Thread{
-
-        private ObjectInputStream ois;
-        private ObjectOutputStream oos;
-
-        private Socket client_socket;
-        private ServerSocket socket;
-        public RoomThread(Socket client_socket, AcceptServer acceptServer){
-            // 매개변수로 넘어온 자료 저장
-            this.client_socket = client_socket;
-            this.socket = acceptServer.getSocket();
-            try {
-                oos = new ObjectOutputStream(client_socket.getOutputStream());
-                oos.flush();
-                ois = new ObjectInputStream(client_socket.getInputStream());
-            } catch (Exception e) {
-                AppendText("userService error");
-            }
-        }
 
         public void createRoom(String roomTitle){
             try{
@@ -190,7 +152,7 @@ private JTextArea textArea;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            int roomID = Room.getRoomID();
+            String roomID = Room.getRoomID();
             Room newRoom = new Room(socket,roomTitle);
             roomList.add(newRoom);
             try {
@@ -207,7 +169,7 @@ private JTextArea textArea;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            int roomID = Room.getRoomID();
+            String roomID = Room.getRoomID();
             roomList.remove(roomID);
             try {
                 oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' delete successfully");
@@ -217,6 +179,35 @@ private JTextArea textArea;
                 e.printStackTrace();
             }
         }
+        @Override
+        public void run() {
+            try {
+                request =  ois.readUTF();
+                String code = request.split("/")[0];
+                String msg = request.split("/")[1];
+                switch (code){
+                    case "200": //login
+                        System.out.println("server login 성공 id : "+msg);
+                        this.userName = msg;
+                        break;
+                    case "201": //logout
+                    case "300": //createRoom
+                        String roomTitle = msg;
+                        createRoom(roomTitle);
+                        break;
+                }
+                System.out.println("ois : "+userName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            handlePlayerRegistration(this);
+        }
+    }
+    public void handlePlayerRegistration(UserThread userThread) {
+        String userName = userThread.userName;
+        userThread.sendMessage("SUCCESS: " + userName + "님, 등록되었습니다.");
+        AppendText("새로운 플레이어 등록: " + userName);
     }
     //게임 thread
     class GameTherad extends Thread{
@@ -236,6 +227,11 @@ private JTextArea textArea;
         //찾고자 하는 참가자의 역할
         public int getParticipantRole(int roomID, String name){
             return roomList.get(roomID).getParticipants().get(name).getRole();
+        }
+
+        //방장 select 및 return
+        public Participant setGetRoomOwner(int roomID){
+            return roomList.get(roomID).getParticipants().get(0);
         }
 
         //각 paricipant 색 정하기 및 이름과 색 반환

@@ -40,7 +40,7 @@ public class ParticipantSetNameFrame extends JFrame {
                     protected Void doInBackground() throws Exception {
                         // Connect to the server in the background
                         Client client = new Client("127.0.0.1", 29998);
-                        client.sendMessage(name);
+                        client.sendMessage("200/"+name);
                         ClientFrame.isStartPanel=true;
                         ClientFrame.isChange=true;
                         return null;
@@ -49,7 +49,6 @@ public class ParticipantSetNameFrame extends JFrame {
 
                 // Execute the SwingWorker
                 worker.execute();
-
             }
         });
         setVisible(true);

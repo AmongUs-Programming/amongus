@@ -34,58 +34,49 @@ public class RoomListPanel extends JPanel {
 
         panel.add(title);
         panel.add(button);
-//        button.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                new CreateRoomFrame();
-//            }
-//        });
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CreateRoomFrame();
+            }
+        });
 
-//        //방 생성
-//        RoomListPanel.roomList.addRoom(1,"room1");
-//        //방에 참가자 넣기
-//
-//        RoomListPanel.roomList.getParticipantList(1).addParticipant("parti1-2");
-//
-//        RoomListPanel.roomList.addRoom(2,"room2");
-//        //방에 참가자 넣기
-//        RoomListPanel.roomList.getParticipantList(2).addParticipant("owner2");
-//        RoomListPanel.roomList.getParticipantList(2).addParticipant("partici2-2");
+        //방에 참가자 넣기
 
-//        Map<Integer, Room> rooms = roomList.getRoomList();
-//        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
-//            Integer roomNumber = entry.getKey();
-//            Room room = entry.getValue();
-//            int paticipantNum = roomList.getParticipantList(entry.getKey()).getParticipantListSize();
-//            JPanel eachRoomPanel = new JPanel();
-//            JPanel paticipantNumPanel = new JPanel();
-//            ImageIcon peopleIcon = new ImageIcon("images/peopleIcon.png");
-//            eachRoomPanel.setLayout(new FlowLayout());
-//            paticipantNumPanel.setLayout(new FlowLayout());
-//            JLabel paticipantNumLabel = new JLabel(String.valueOf(paticipantNum));
-//            JLabel roomNumberLabel = new JLabel(String.valueOf(roomNumber));
-//            JLabel roomTitleLabel = new JLabel(room.getRoomTitle());
-//            paticipantNumPanel.add(new JLabel("hi"));
-//            paticipantNumPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(roomNumberLabel);
-//            eachRoomPanel.add(roomTitleLabel);
-//            eachRoomPanel.addMouseListener(new MouseAdapter() {
-//                @Override
-//                public void mouseClicked(MouseEvent e) {
-//                    //선택한 해당 RoomPanel에 이동하기
-////                  StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
-//                    RoomListPanel.roomList.getParticipantList(entry.getKey()).addParticipant(UserInfo.getName());
-//                    new Role(roomList.getParticipantList(entry.getKey()).getParticipants());
-//                    StartFrame.setPanel(roomListPanel,showRolePanel);
-//                    showRolePanel.runTimer();
-//                }
-//            });
-//            eachRoomPanel.setVisible(true);
-//            panel.add(eachRoomPanel);
-//            System.out.println("Room Number: " + roomNumber + ", Room: " + room.getRoomTitle());
-//        }
+        Map<Integer, Room> rooms = roomList.getRoomList();
+        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
+            Integer roomNumber = entry.getKey();
+            Room room = entry.getValue();
+            int paticipantNum = roomList.getParticipantList(entry.getKey()).getParticipantListSize();
+            JPanel eachRoomPanel = new JPanel();
+            JPanel paticipantNumPanel = new JPanel();
+            ImageIcon peopleIcon = new ImageIcon("images/peopleIcon.png");
+            eachRoomPanel.setLayout(new FlowLayout());
+            paticipantNumPanel.setLayout(new FlowLayout());
+            JLabel paticipantNumLabel = new JLabel(String.valueOf(paticipantNum));
+            JLabel roomNumberLabel = new JLabel(String.valueOf(roomNumber));
+            JLabel roomTitleLabel = new JLabel(room.getRoomTitle());
+            paticipantNumPanel.add(new JLabel("hi"));
+            paticipantNumPanel.add(paticipantNumLabel);
+            eachRoomPanel.add(paticipantNumLabel);
+            eachRoomPanel.add(paticipantNumLabel);
+            eachRoomPanel.add(roomNumberLabel);
+            eachRoomPanel.add(roomTitleLabel);
+            eachRoomPanel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    //선택한 해당 RoomPanel에 이동하기
+//                  StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
+                    RoomListPanel.roomList.getParticipantList(entry.getKey()).addParticipant(UserInfo.getName());
+                    new Role(roomList.getParticipantList(entry.getKey()).getParticipants());
+                    StartFrame.setPanel(roomListPanel,showRolePanel);
+                    showRolePanel.runTimer();
+                }
+            });
+            eachRoomPanel.setVisible(true);
+            panel.add(eachRoomPanel);
+            System.out.println("Room Number: " + roomNumber + ", Room: " + room.getRoomTitle());
+        }
 //
         add(panel);
         setVisible(true);

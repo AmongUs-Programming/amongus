@@ -1,6 +1,7 @@
 package frame;
 
 import User.UserInfo;
+import client.Client;
 import notUse.StartFrame;
 import panel.RoomPanel;
 
@@ -29,8 +30,8 @@ public class CreateRoomFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JTextField t = (JTextField) e.getSource();
-                owner = UserInfo.getName();
                 roomTitle = t.getText();
+
 //                //방 생성
 //                RoomListPanel.roomList.addRoom(0,roomTitle);
 //                //방에 참가자 넣기

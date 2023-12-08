@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Room extends Thread{
-    private static int roomCounter = 1;
-    private int roomID;
-    private String roomTitle;
+    private static String roomTitle;
     private Boolean isPlaying = false;
     private ArrayList users;
     private Map<String,Participant> participants;
@@ -20,7 +18,6 @@ public class Room extends Thread{
 
     public Room(ServerSocket socket,String roomTitle){
         this.socket=socket;
-        this.roomID = roomCounter++;
        this.roomTitle = roomTitle;
        users = new ArrayList();
        participants = new HashMap<>();
@@ -38,8 +35,8 @@ public class Room extends Thread{
         isPlaying = playing;
     }
 
-    public static synchronized int getRoomID(){
-        return roomCounter++;
+    public static String getRoomID(){
+        return roomTitle;
     }
 
     public ArrayList getUsers() {
