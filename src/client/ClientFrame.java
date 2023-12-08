@@ -47,8 +47,8 @@ public class ClientFrame extends JFrame {
                 if(isChange){
                     synchronized (ClientFrame.this) {
                         isChange = false;
+                        //화면 변경
                         selectPanel();
-                        System.out.println("화면 변경");
                     }
                 }
                 try {
@@ -78,7 +78,6 @@ public class ClientFrame extends JFrame {
             case GAME_PANEL:
                 setContentPane(new GamePanel());
                 break;
-            // ... 다른 케이스들 ...
         }
         revalidate();
         repaint();
