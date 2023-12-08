@@ -2,11 +2,10 @@ package panel;
 
 import User.UserInfo;
 import participant.Participant;
-import participant.ParticipantList;
-import room.RoomList;
+import notUse.ParticipantList;
+import notUse.RoomList;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Map;
 import java.util.Set;
 

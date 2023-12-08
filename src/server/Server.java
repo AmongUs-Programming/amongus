@@ -29,7 +29,7 @@ private JTextArea textArea;
         setContentPane(contentPane);
         contentPane.setLayout(null);
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(12,10,300,298);
+        scrollPane.setBounds(12,10,500,298);
         contentPane.add(scrollPane);
         textArea = new JTextArea();
         textArea.setEditable(false);
@@ -52,12 +52,14 @@ private JTextArea textArea;
             public void actionPerformed(ActionEvent e) {
                 try {
                     socket = new ServerSocket(port);
+                    AcceptServer acceptServer = new AcceptServer(socket);
+                    acceptServer.start();
+                    serverStartBtn.setText("Server Running..");
+                    serverStartBtn.setEnabled(false); // 서버를 더이상 실행시키지 못 하게 막는다
+                    txtPortNumber.setEnabled(false); // 더이상 포트번호 수정 못하게 막는다
                 } catch (NumberFormatException | IOException e1) {
                     e1.printStackTrace();
                 }
-                serverStartBtn.setText("Chat Server Running..");
-                serverStartBtn.setEnabled(false); // 서버를 더이상 실행시키지 못 하게 막는다
-                txtPortNumber.setEnabled(false); // 더이상 포트번호 수정 못하게 막는다
             }
         });
         serverStartBtn.setBounds(12,356,300,35);
@@ -220,9 +222,9 @@ private JTextArea textArea;
 
     }
 
-    public static void main(String[] args) {
-        new Server(5880);
-    }
+//    public static void main(String[] args) {
+//        new Server(5880);
+//    }
 
 }
 

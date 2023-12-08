@@ -1,4 +1,8 @@
-package frame;
+package notUse;
+import client.Client;
+import frame.ParticipantSetNameFrame;
+import main.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,11 +45,27 @@ public class StartFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        // Connect to the server in the background
+                        Client client = new Client("127.0.0.1", 29998);
+                        client.connectServer();
+                        client.sendMessage("Hello, server!");
+                        String receivedMessage = client.receiveMessage();
+                        System.out.println("Received message from server: " + receivedMessage);
+                        return null;
+                    }
+                };
+
+                // Execute the SwingWorker
+                worker.execute();
+
+                // Open the ParticipantSetNameFrame
                 new ParticipantSetNameFrame();
             }
         });
         mainPanel.add(startButton); // 패널에 버튼 추가
-
         frame.setVisible(true);
     }
     public static void setPanel(JPanel currentPanel,JPanel changePanel){

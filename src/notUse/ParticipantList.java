@@ -1,5 +1,6 @@
-package participant;
+package notUse;
 
+import participant.Participant;
 import room.Room;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Map;
 
 
 public class ParticipantList {
-   private Map<String,Participant> participants;
+   private Map<String, Participant> participants;
     public ParticipantList(){
       this.participants = new HashMap();
     }

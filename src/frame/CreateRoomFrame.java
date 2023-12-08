@@ -1,17 +1,15 @@
 package frame;
 
 import User.UserInfo;
-import panel.RoomListPanel;
+import notUse.StartFrame;
 import panel.RoomPanel;
-import participant.ParticipantList;
-import room.RoomList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static movePanel.MovePanel.roomListPanel;
+import static notUse.MovePanel.roomListPanel;
 
 public class CreateRoomFrame extends JFrame {
     String owner;
@@ -33,10 +31,10 @@ public class CreateRoomFrame extends JFrame {
                 JTextField t = (JTextField) e.getSource();
                 owner = UserInfo.getName();
                 roomTitle = t.getText();
-                //방 생성
-                RoomListPanel.roomList.addRoom(0,roomTitle);
-                //방에 참가자 넣기
-                RoomListPanel.roomList.getParticipantList(0).addParticipant(UserInfo.getName());
+//                //방 생성
+//                RoomListPanel.roomList.addRoom(0,roomTitle);
+//                //방에 참가자 넣기
+//                RoomListPanel.roomList.getParticipantList(0).addParticipant(UserInfo.getName());
 
                 setVisible(false);
                 StartFrame.setPanel(roomListPanel,new RoomPanel(owner,1));

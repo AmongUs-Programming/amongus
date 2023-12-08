@@ -1,19 +1,18 @@
 package frame;
 
 import User.UserInfo;
-import panel.RoomListPanel;
+import notUse.StartFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static movePanel.MovePanel.roomListPanel;
-import static movePanel.MovePanel.showRolePanel;
+import static notUse.MovePanel.roomListPanel;
 
 public class ParticipantSetNameFrame extends JFrame {
 
-    ParticipantSetNameFrame(){
+    public ParticipantSetNameFrame(){
         super("ParticipantSetName");
         setSize(300, 200);
         setResizable(false);
@@ -24,6 +23,7 @@ public class ParticipantSetNameFrame extends JFrame {
         JTextField textField = new JTextField(10);
         add(notice);
         add(textField);
+
         textField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -33,7 +33,6 @@ public class ParticipantSetNameFrame extends JFrame {
                 System.out.println(name);
                 setVisible(false);
                 StartFrame.setPanel(StartFrame.mainPanel,roomListPanel);
-
 //                StartFrame.setPanel(StartFrame.mainPanel,showRolePanel);
             }
         });

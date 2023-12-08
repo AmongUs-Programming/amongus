@@ -2,10 +2,10 @@ package panel;
 
 import User.UserInfo;
 import frame.CreateRoomFrame;
-import frame.StartFrame;
+import notUse.StartFrame;
 import role.Role;
 import room.Room;
-import room.RoomList;
+import notUse.RoomList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Map;
 
-import static movePanel.MovePanel.roomListPanel;
-import static movePanel.MovePanel.showRolePanel;
+import static notUse.MovePanel.roomListPanel;
+import static notUse.MovePanel.showRolePanel;
 
 public class RoomListPanel extends JPanel {
 
@@ -42,16 +41,16 @@ public class RoomListPanel extends JPanel {
             }
         });
 
-        //방 생성
-        RoomListPanel.roomList.addRoom(1,"room1");
-        //방에 참가자 넣기
-
-        RoomListPanel.roomList.getParticipantList(1).addParticipant("parti1-2");
-
-        RoomListPanel.roomList.addRoom(2,"room2");
-        //방에 참가자 넣기
-        RoomListPanel.roomList.getParticipantList(2).addParticipant("owner2");
-        RoomListPanel.roomList.getParticipantList(2).addParticipant("partici2-2");
+//        //방 생성
+//        RoomListPanel.roomList.addRoom(1,"room1");
+//        //방에 참가자 넣기
+//
+//        RoomListPanel.roomList.getParticipantList(1).addParticipant("parti1-2");
+//
+//        RoomListPanel.roomList.addRoom(2,"room2");
+//        //방에 참가자 넣기
+//        RoomListPanel.roomList.getParticipantList(2).addParticipant("owner2");
+//        RoomListPanel.roomList.getParticipantList(2).addParticipant("partici2-2");
 
         Map<Integer, Room> rooms = roomList.getRoomList();
         for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {

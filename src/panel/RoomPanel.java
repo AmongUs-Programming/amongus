@@ -1,12 +1,8 @@
 package panel;
 
-import frame.StartFrame;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-
-import static frame.StartFrame.setPanel;
 
 public class RoomPanel extends JPanel {
     //Boolean condition=false;

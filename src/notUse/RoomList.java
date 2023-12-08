@@ -1,14 +1,13 @@
-package room;
+package notUse;
 
-import participant.ParticipantList;
-import role.Role;
+import notUse.ParticipantList;
+import room.Room;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class RoomList {
-    private static Map<Integer,Room> rooms;
+    private static Map<Integer, Room> rooms;
     private static Map<Integer, ParticipantList> participantLists;
     public RoomList(){
         this.rooms = new HashMap<>();

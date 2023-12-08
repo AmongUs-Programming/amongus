@@ -35,15 +35,15 @@ public class JavaChatServer {
         public void run() {
             while (true) {
                 try {
-                    System.out.println("Waiting clients ...");
+                    System.out.println("Waiting Chat clients ...");
                     client_socket = socket.accept();
-                    System.out.println("New client: " + client_socket);
+                    System.out.println("Chat New client: " + client_socket);
                     UserService new_user = new UserService(client_socket);
                     UserVec.add(new_user);
-                    System.out.println("User joined. Current users: " + UserVec.size());
+                    System.out.println("Chat User joined. Current users: " + UserVec.size());
                     new_user.start();
                 } catch (IOException e) {
-                    System.out.println("Accept error...");
+                    System.out.println("Chat Accept error...");
                 }
             }
         }
@@ -125,7 +125,7 @@ public class JavaChatServer {
     }
 
     public void startServer() {
-        System.out.println("Server started...");
+        System.out.println("Chat Server started...");
         AcceptServer accept_server = new AcceptServer();
         accept_server.start();
     }

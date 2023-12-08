@@ -1,11 +1,11 @@
 package thread;
 
-import frame.StartFrame;
+import notUse.StartFrame;
 
 import javax.swing.*;
 
-import static movePanel.MovePanel.gamePanel;
-import static movePanel.MovePanel.showRolePanel;
+import static notUse.MovePanel.gamePanel;
+import static notUse.MovePanel.showRolePanel;
 
 public class TimerThread extends Thread{
     private JLabel text = null;

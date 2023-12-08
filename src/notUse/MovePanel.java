@@ -1,6 +1,5 @@
-package movePanel;
+package notUse;
 
-import frame.StartFrame;
 import panel.GamePanel;
 import panel.RoomListPanel;
 import panel.ShowRolePanel;
