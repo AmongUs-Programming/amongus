@@ -5,8 +5,8 @@ import thread.TimerThread;
 import javax.swing.*;
 import java.awt.*;
 
-import static frame.StartFrame.SCREEN_HEIGHT;
-import static frame.StartFrame.SCREEN_WIDTH;
+import static notUse.StartFrame.SCREEN_HEIGHT;
+import static notUse.StartFrame.SCREEN_WIDTH;
 
 public class ShowRolePanel extends JPanel {
     JPanel mainPanel;

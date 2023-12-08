@@ -1,7 +1,6 @@
 package room;
 
 import participant.Participant;
-import participant.ParticipantList;
 
 import java.net.ServerSocket;
 import java.util.ArrayList;
