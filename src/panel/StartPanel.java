@@ -33,7 +33,7 @@ public class StartPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 new ParticipantSetNameFrame(clientFrame);
                 //세으나 밑에꺼 주석처리 풀면 됑
-//                clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
+                //clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
             }
         });
         add(startButton); // 패널에 버튼 추가
