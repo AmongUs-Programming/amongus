@@ -1,7 +1,7 @@
 package panel;
 
 import User.UserInfo;
-import thread.JavaChatClientView;
+import thread.JavaChatClientViewPanel;
 
 import java.awt.*;
 import javax.swing.*;
@@ -13,11 +13,11 @@ public class RoomChatPanel extends JPanel {
     String username = UserInfo.getName();
     String ip_addr = "127.0.0.1";
     String port_no = "30000";
-    JavaChatClientView view = new JavaChatClientView(username, ip_addr, port_no);
+    JavaChatClientViewPanel view = new JavaChatClientViewPanel(username, ip_addr, port_no);
        public RoomChatPanel(){
            setLayout(new BorderLayout());
 
-           JavaChatClientView chatView = new JavaChatClientView(username, ip_addr, port_no);
+           JavaChatClientViewPanel chatView = new JavaChatClientViewPanel(username, ip_addr, port_no);
            add(chatView, BorderLayout.CENTER);
 
            //setLayout(new FlowLayout());

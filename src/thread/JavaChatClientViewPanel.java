@@ -17,7 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class JavaChatClientView extends JPanel {
+public class JavaChatClientViewPanel extends JPanel {
     private JTextField txtInput;
     private String UserName;
     private JButton btnSend;
@@ -31,7 +31,7 @@ public class JavaChatClientView extends JPanel {
     private JLabel lblUserName;
 
 
-	public JavaChatClientView(String username, String ip_addr, String port_no) {
+	public JavaChatClientViewPanel(String username, String ip_addr, String port_no) {
 
 		setLayout(null);
 
