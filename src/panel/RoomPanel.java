@@ -16,22 +16,22 @@ public class RoomPanel extends JPanel {
 
 
         // RoomParticipantListPanel과 RoomChatPanel을 생성
-        RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(roomID);
-        RoomChatPanel roomchatPanel = new RoomChatPanel();
-
-        // 왼쪽에 배치될 panel
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        add(leftPanel, BorderLayout.WEST); // RoomPanel의 서쪽에 leftPanel 추가
-        leftPanel.add(participantListPanel, BorderLayout.WEST); // participantListPanel을 왼쪽 패널에 추가
-
-
-        // 오른쪽에 배치될 panel
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        add(rightPanel, BorderLayout.CENTER);
-        roomchatPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        rightPanel.add(roomchatPanel, BorderLayout.CENTER); // chatPanel을 오른쪽 패널에 추가
-
-        leftPanel.setPreferredSize(new Dimension(600, 600));
+//        RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(roomID);
+//        RoomChatPanel roomchatPanel = new RoomChatPanel();
+//
+//        // 왼쪽에 배치될 panel
+//        JPanel leftPanel = new JPanel(new BorderLayout());
+//        add(leftPanel, BorderLayout.WEST); // RoomPanel의 서쪽에 leftPanel 추가
+//        leftPanel.add(participantListPanel, BorderLayout.WEST); // participantListPanel을 왼쪽 패널에 추가
+//
+//
+//        // 오른쪽에 배치될 panel
+//        JPanel rightPanel = new JPanel(new BorderLayout());
+//        add(rightPanel, BorderLayout.CENTER);
+//        roomchatPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+//        rightPanel.add(roomchatPanel, BorderLayout.CENTER); // chatPanel을 오른쪽 패널에 추가
+//
+//        leftPanel.setPreferredSize(new Dimension(600, 600));
         //rightPanel.setPreferredSize(new Dimension(500, 600));
 
         setVisible(true);

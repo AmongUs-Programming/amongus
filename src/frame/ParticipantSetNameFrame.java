@@ -3,20 +3,18 @@ package frame;
 import User.UserInfo;
 import client.Client;
 import client.ClientFrame;
-import notUse.StartFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static notUse.MovePanel.roomListPanel;
-import static notUse.MovePanel.startPanel;
 
 public class ParticipantSetNameFrame extends JFrame {
-
-    public ParticipantSetNameFrame(){
+    private ClientFrame clientFrame;
+    public ParticipantSetNameFrame(ClientFrame clientFrame){
         super("ParticipantSetName");
+        this.clientFrame=clientFrame;
         setSize(300, 200);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -35,22 +33,23 @@ public class ParticipantSetNameFrame extends JFrame {
                 new UserInfo(name);
                 System.out.println(name);
                 setVisible(false);
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        // Connect to the server in the background
-                        Client client = new Client("127.0.0.1", 29998);
-                        client.sendMessage("200/"+name);
-                        ClientFrame.isStartPanel=true;
-                        ClientFrame.isChange=true;
-                        return null;
-                    }
-                };
-
-                // Execute the SwingWorker
-                worker.execute();
+                connectClient(name);
             }
         });
         setVisible(true);
+    }
+    private void connectClient(String name) {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Client client = new Client("127.0.0.1", 29998);
+                client.sendMessage("200/"+name);
+                clientFrame.setClient(client);  // ClientFrame에 Client 객체 저장
+                clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);  // 상태를 ROOM_LIST_PANEL로 변경
+
+                return null;
+            }
+        };
+        worker.execute();
     }
 }

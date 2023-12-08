@@ -1,22 +1,21 @@
 package frame;
 
-import User.UserInfo;
 import client.Client;
-import notUse.StartFrame;
-import panel.RoomPanel;
-
+import client.ClientFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static notUse.MovePanel.roomListPanel;
-
 public class CreateRoomFrame extends JFrame {
     String owner;
     String roomTitle;
-    public CreateRoomFrame(){
+    private Client client;
+    private ClientFrame clientFrame;
+    public CreateRoomFrame(ClientFrame clientFrame,Client client){
         super("CreateRoom");
+        this.client=client;
+        this.clientFrame=clientFrame;
         setSize(300, 200);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -31,14 +30,9 @@ public class CreateRoomFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JTextField t = (JTextField) e.getSource();
                 roomTitle = t.getText();
-
-//                //방 생성
-//                RoomListPanel.roomList.addRoom(0,roomTitle);
-//                //방에 참가자 넣기
-//                RoomListPanel.roomList.getParticipantList(0).addParticipant(UserInfo.getName());
-
+                client.sendMessage("300/"+roomTitle);
+                clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
                 setVisible(false);
-                StartFrame.setPanel(roomListPanel,new RoomPanel(owner,1));
             }
         });
         setVisible(true);

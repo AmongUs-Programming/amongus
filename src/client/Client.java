@@ -7,8 +7,8 @@ public class Client{
     private String serverAddress;
     private int port;
     private Socket socket;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
+    private static ObjectOutputStream oos;
+    private static ObjectInputStream ois;
 
     public Client(String serverAddress, int port){
         this.serverAddress = serverAddress;

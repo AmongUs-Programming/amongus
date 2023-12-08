@@ -155,6 +155,11 @@ private JTextArea textArea;
             String roomID = Room.getRoomID();
             Room newRoom = new Room(socket,roomTitle);
             roomList.add(newRoom);
+            for (Room room : roomList) {
+                String roomId = room.getRoomID();
+                AppendText("server 모든 roomID 출력:");
+                AppendText("Room ID: " + roomId);
+            }
             try {
                 oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' created successfully");
                 oos.flush();
@@ -183,6 +188,7 @@ private JTextArea textArea;
         public void run() {
             try {
                 request =  ois.readUTF();
+                System.out.println("requset"+request);
                 String code = request.split("/")[0];
                 String msg = request.split("/")[1];
                 switch (code){
@@ -191,9 +197,10 @@ private JTextArea textArea;
                         this.userName = msg;
                         break;
                     case "201": //logout
-                    case "300": //createRoom
+                    case "300": //createRoomw
                         String roomTitle = msg;
                         createRoom(roomTitle);
+                        System.out.println("roomTitle");
                         break;
                 }
                 System.out.println("ois : "+userName);

@@ -62,7 +62,7 @@ public class StartFrame {
                 worker.execute();
 
                 // Open the ParticipantSetNameFrame
-                new ParticipantSetNameFrame();
+//                new ParticipantSetNameFrame();
             }
         });
         mainPanel.add(startButton); // 패널에 버튼 추가

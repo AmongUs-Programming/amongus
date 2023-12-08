@@ -1,6 +1,7 @@
 package panel;
 
 import client.Client;
+import client.ClientFrame;
 import frame.ParticipantSetNameFrame;
 import main.Main;
 
@@ -15,7 +16,9 @@ import static client.ClientFrame.SCREEN_WIDTH;
 public class StartPanel extends JPanel {
     private Image backgroundImg;
     private JButton startButton;
-    public StartPanel(){
+    private ClientFrame clientFrame;
+    public StartPanel(ClientFrame clientFrame){
+        this.clientFrame = clientFrame;
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -29,7 +32,7 @@ public class StartPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open the ParticipantSetNameFrame
-                new ParticipantSetNameFrame();
+                new ParticipantSetNameFrame(clientFrame);
             }
         });
         add(startButton); // 패널에 버튼 추가
