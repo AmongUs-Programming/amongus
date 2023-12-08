@@ -1,6 +1,4 @@
-package room;
-
-import participant.Participant;
+package server;
 
 import java.net.ServerSocket;
 import java.util.ArrayList;

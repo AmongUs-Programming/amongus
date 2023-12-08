@@ -1,4 +1,4 @@
-package participant;
+package server;
 
 public class Participant {
     String name;

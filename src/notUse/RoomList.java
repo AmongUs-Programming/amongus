@@ -1,7 +1,6 @@
 package notUse;
 
-import notUse.ParticipantList;
-import room.Room;
+import server.Room;
 
 import java.util.HashMap;
 import java.util.Map;

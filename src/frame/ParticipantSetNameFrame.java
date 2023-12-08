@@ -44,6 +44,7 @@ public class ParticipantSetNameFrame extends JFrame {
             protected Void doInBackground() throws Exception {
                 Client client = new Client("127.0.0.1", 29998);
                 client.sendMessage("200/"+name);
+                client.sendMessage("300/"+"ㄴㄴㄴ");
                 clientFrame.setClient(client);  // ClientFrame에 Client 객체 저장
                 clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);  // 상태를 ROOM_LIST_PANEL로 변경
 

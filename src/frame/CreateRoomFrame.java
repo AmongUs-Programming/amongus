@@ -29,8 +29,8 @@ public class CreateRoomFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JTextField t = (JTextField) e.getSource();
-                roomTitle = t.getText();
-                client.sendMessage("300/"+roomTitle);
+                roomTitle = t.getText().toString();
+                System.out.println("roomTitle"+roomTitle);
                 clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
                 setVisible(false);
             }

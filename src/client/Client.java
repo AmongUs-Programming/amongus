@@ -30,7 +30,7 @@ public class Client{
 
     public void sendMessage(String message) {
         try {
-            if (oos != null) { // null 체크 추가
+            if (oos != null && !socket.isClosed()) { // null 체크 추가
                 oos.writeUTF(message);
                 oos.flush();
             } else {

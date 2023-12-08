@@ -1,6 +1,6 @@
-package role;
+package notUse;
 
-import participant.Participant;
+import server.Participant;
 
 import java.util.Map;
 import java.util.Random;

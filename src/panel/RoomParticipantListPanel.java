@@ -1,7 +1,7 @@
 package panel;
 
 import User.UserInfo;
-import participant.Participant;
+import server.Participant;
 import notUse.ParticipantList;
 import notUse.RoomList;
 

@@ -1,8 +1,5 @@
 package server;
 
-import participant.Participant;
-import room.Room;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -12,7 +9,6 @@ import java.net.*;
 import java.util.*;
 
 public class Server extends JFrame {
-   private  static final long serialUID = 1L;
    private int port;
    private ServerSocket socket;
    private Socket client_socket;
@@ -74,6 +70,16 @@ private JTextArea textArea;
         textArea.append(str + "\n");
         textArea.setCaretPosition(textArea.getText().length());
     }
+
+    public void AppendMovingInfo(Move msg) {
+        textArea.append("code = " + msg.getCode() + "\n");
+        textArea.append("roomId = " + msg.getRoomId() + "\n");
+        textArea.append("posX = " + msg.getPosX() + "\n");
+        textArea.append("posY = " + msg.getPosY() + "\n");
+        textArea.append("characterNum = " + msg.getUserName() + "\n");
+        textArea.append("type = " + msg.getType() + "\n");
+        textArea.setCaretPosition(textArea.getText().length());
+    }
     //유저 이름 등록 후 접속 시 accept()를 통해 user thread 생성
     class AcceptServer extends Thread{
         ServerSocket socket;
@@ -97,7 +103,9 @@ private JTextArea textArea;
 
                     //user 마다 thread 생성
                     UserThread user = new UserThread(client_socket,this);
-                    users.add(user);
+                    synchronized (users) { // 동기화 블록
+                        users.add(user);
+                    }
                     user.start();
                     AppendText("현재 인원 :"+users.size());
 
@@ -147,11 +155,6 @@ private JTextArea textArea;
         }
 
         public void createRoom(String roomTitle){
-            try{
-                roomTitle = ois.readUTF();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             String roomID = Room.getRoomID();
             Room newRoom = new Room(socket,roomTitle);
             roomList.add(newRoom);
@@ -160,13 +163,13 @@ private JTextArea textArea;
                 AppendText("server 모든 roomID 출력:");
                 AppendText("Room ID: " + roomId);
             }
-            try {
-                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' created successfully");
-                oos.flush();
-            } catch (IOException e) {
-                AppendText("Error informing client about room creation");
-                e.printStackTrace();
-            }
+//            try {
+//                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' created successfully");
+//                oos.flush();
+//            } catch (IOException e) {
+//                AppendText("Error informing client about room creation");
+//                e.printStackTrace();
+//            }
         }
         public void removeRoom(String roomTitle){
             try{
@@ -176,39 +179,87 @@ private JTextArea textArea;
             }
             String roomID = Room.getRoomID();
             roomList.remove(roomID);
-            try {
-                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' delete successfully");
-                oos.flush();
-            } catch (IOException e) {
-                AppendText("Error informing client about room delete");
-                e.printStackTrace();
-            }
+//            try {
+//                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' delete successfully");
+//                oos.flush();
+//            } catch (IOException e) {
+//                AppendText("Error informing client about room delete");
+//                e.printStackTrace();
+//            }
         }
         @Override
         public void run() {
-            try {
-                request =  ois.readUTF();
-                System.out.println("requset"+request);
-                String code = request.split("/")[0];
-                String msg = request.split("/")[1];
-                switch (code){
-                    case "200": //login
-                        System.out.println("server login 성공 id : "+msg);
-                        this.userName = msg;
-                        break;
-                    case "201": //logout
-                    case "300": //createRoomw
-                        String roomTitle = msg;
-                        createRoom(roomTitle);
-                        System.out.println("roomTitle");
-                        break;
+            while (true){
+                try {
+
+                    request =  ois.readUTF();
+
+                    System.out.println("requset"+request);
+                    String code = request.split("/")[0];
+                    String msg = request.split("/")[1];
+
+//                    //move code 지우면 안됌!!!
+//                    Object obcm = null;
+//                    Move mi = null;
+//                    obcm = ois.readObject();
+//                    if (obcm == null) {
+//                        break;
+//                    }
+//                    else if (obcm instanceof Move) {
+//                        mi = (Move)obcm;
+//						AppendMovingInfo(mi);
+//                    }
+//                    else {
+//                        continue;
+//                    }
+
+                    switch (code){
+                        case "200": //login
+                            System.out.println("server login 성공 id : "+msg);
+                            this.userName = msg;
+                            handlePlayerRegistration(this);
+                            break;
+                        case "201": //logout
+                            break;
+                        case "300": //createRoom
+                            createRoom(msg);
+                            //create gameThread
+                            gameThList.put(msg,new GameTherad());
+                            //owner enter room
+                            gameThList.get(msg).enterRoom(userName,msg);
+                            //get all paricipants
+                            gameThList.get(msg).getParticipant(msg);
+                            System.out.println("server Room 생성됌 ID: " + msg);
+                            break;
+                        case "301"://removeRoom
+                            removeRoom(msg);
+                            gameThList.remove(msg);
+                            break;
+                        case "302"://enterRoom
+                            gameThList.get(msg).enterRoom(userName,msg);
+                            //all participants
+                            Map participantList = gameThList.get(msg).getParticipant(msg);
+                            //print current 참가자 수
+                            int size = gameThList.get(msg).getParticipantNum(msg);
+                            break;
+                        case "400"://search owner
+                            Participant owner = gameThList.get(msg).setGetRoomOwner(msg);
+                            break;
+                        case "500"://request game start
+                            //select Imposter
+                            gameThList.get(msg).getUserNamesWithColors(msg);
+                            //changePanel (역할 결과 화면)
+                            break;
+                        case "501": //
+                    }
+                    System.out.println("ois : "+userName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
                 }
-                System.out.println("ois : "+userName);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
             }
-            handlePlayerRegistration(this);
+
+
         }
     }
     public void handlePlayerRegistration(UserThread userThread) {
@@ -220,30 +271,89 @@ private JTextArea textArea;
     class GameTherad extends Thread{
         public Participant participant;
         //방 입장
-        public void enterRoom(String userName , int roomID) {
-            Room room = roomList.get(roomID);
-            room.enterRoomParticipant(userName,participant);
-            room.getUsers().add(this);
-            AppendText("새로운 참가자 " + participant.getName() + " 입장.");
+        public void enterRoom(String userName , String roomID) {
+            Room room;
+            for(Room rooms : roomList){
+                if(rooms.getRoomTitle().equals(roomID)){
+                    room = rooms;
+                    if (room != null) {
+                        room.enterRoomParticipant(userName,participant);
+                        room.getUsers().add(this);
+                        AppendText("새로운 참가자 " + participant.getName() + " 입장.");
+                        System.out.println("Found Room: " + room.getRoomTitle());
+                    } else {
+                        System.out.println("Room not found with title: " + room);
+                    }
+                    break;
+                }
+            }
         }
 
-        public int getParticipantNum(int roomID) { // room에 입장한 플레이어 수
-            return roomList.get(roomID).getParticipants().size();
+        public int getParticipantNum(String roomID) { // room에 입장한 플레이어 수
+            Room room;
+            for(Room rooms : roomList){
+                if(rooms.getRoomTitle().equals(roomID)){
+                    room = rooms;
+                    if (room != null) {
+                        return room.getParticipants().size();
+                    } else {
+                        System.out.println("Room not found with title: " + room);
+                    }
+                    break;
+                }
+            }
+            return 0;
         }
 
         //찾고자 하는 참가자의 역할
-        public int getParticipantRole(int roomID, String name){
-            return roomList.get(roomID).getParticipants().get(name).getRole();
+        public Map<String, Participant> getParticipant(String roomID){
+            Room room;
+            for(Room rooms : roomList){
+                if(rooms.getRoomTitle().equals(roomID)){
+                    room = rooms;
+                    if (room != null) {
+                        return room.getParticipants();
+                    } else {
+                        System.out.println("Room not found with title: " + room);
+                    }
+                    break;
+                }
+            }
+            return null;
         }
 
         //방장 select 및 return
-        public Participant setGetRoomOwner(int roomID){
-            return roomList.get(roomID).getParticipants().get(0);
+        public Participant setGetRoomOwner(String roomID){
+            Room room;
+            for(Room rooms : roomList){
+                if(rooms.getRoomTitle().equals(roomID)){
+                    room = rooms;
+                    if (room != null) {
+                        return room.getParticipants().get(0);
+                    } else {
+                        System.out.println("Room not found with title: " + room);
+                    }
+                    break;
+                }
+            }
+            return null;
         }
 
         //각 paricipant 색 정하기 및 이름과 색 반환
-        public Map<String, String> getUserNamesWithColors(int roomID) {
-            Map<String, Participant> allParticipants = roomList.get(roomID).getParticipants();
+        public Map<String, String> getUserNamesWithColors(String roomID) {
+            Map<String, Participant> allParticipants = null;
+            Room findRoom;
+            for(Room rooms : roomList){
+                if(rooms.getRoomTitle().equals(roomID)){
+                    findRoom = rooms;
+                    if (findRoom != null) {
+                        allParticipants=findRoom.getParticipants();
+                    } else {
+                        System.out.println("Room not found with title: " + findRoom);
+                    }
+                    break;
+                }
+            }
             Map<String, String> userNamesWithColors = new HashMap<>();
             int index = 0;
 
@@ -252,7 +362,18 @@ private JTextArea textArea;
                 String name = participant.getName();
                 List<String> colorList = Arrays.asList("red", "blue", "green", "yellow");
                 String color = colorList.get(index % colorList.size());
-                roomList.get(roomID).assignColorToPlayer(name, color);
+                Room room;
+                for(Room rooms : roomList){
+                    if(rooms.getRoomTitle().equals(roomID)){
+                        room = rooms;
+                        if (room != null) {
+                            room.assignColorToPlayer(name, color);
+                        } else {
+                            System.out.println("Room not found with title: " + room);
+                        }
+                        break;
+                    }
+                }
                 userNamesWithColors.put(name, color);
 
                 index++;
@@ -262,11 +383,6 @@ private JTextArea textArea;
         }
 
     }
-
-
-//    public static void main(String[] args) {
-//        new Server(5880);
-//    }
 
 }
 
