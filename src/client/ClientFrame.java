@@ -76,7 +76,7 @@ public class ClientFrame extends JFrame {
                 setContentPane(new RoomPanel(this));
                 break;
             case GAME_PANEL:
-                setContentPane(new GamePanel());
+                setContentPane(new GamePanel(this));
                 break;
         }
         revalidate();

@@ -1,11 +1,6 @@
 package thread;
 
-import notUse.StartFrame;
-
 import javax.swing.*;
-
-import static notUse.MovePanel.gamePanel;
-import static notUse.MovePanel.showRolePanel;
 
 public class TimerThread extends Thread{
     private JLabel text = null;
@@ -23,7 +18,7 @@ public class TimerThread extends Thread{
                 Thread.sleep(delay);
                 if(count<=0){
                     //panel 바꾸기
-                    StartFrame.setPanel(showRolePanel,gamePanel);
+//                    ClientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);  // 상태를 ROOM_LIST_PANEL로 변경
                     break;
                 }else {
                     count--;

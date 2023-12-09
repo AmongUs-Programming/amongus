@@ -190,7 +190,7 @@ private JTextArea textArea;
 
                     request =  ois.readUTF();
 
-                    System.out.println("requset"+request);
+                    System.out.println("client->server requset: "+request);
                     String code = request.split("/")[0];
                     String msg = request.split("/")[1];
 
@@ -227,6 +227,15 @@ private JTextArea textArea;
                             //get all paricipants
                             gameThList.get(msg).getParticipant(msg);
                             System.out.println("server Room 생성됌 ID: " + msg);
+
+                            int size1 = gameThList.get(msg).getParticipantNum(msg);
+                            //모든 참가자들 이름과 참가자 수 전송하기
+                            StringBuilder sb1 = new StringBuilder();
+                            sb1.append(size1+":");
+                            sb1.append(gameThList.get(msg).gerParticipantsName(msg));
+                            String dataToSend1 = sb1.toString();
+                            System.out.println("현재 방 참가자 수: "+dataToSend1);
+                            this.sendMessage("100/"+dataToSend1);
                             break;
                         case "301"://removeRoom
                             removeRoom(msg);
@@ -236,10 +245,9 @@ private JTextArea textArea;
                             gameThList.get(msg).enterRoom(userName,msg);
                             //print current 참가자 수
                             int size = gameThList.get(msg).getParticipantNum(msg);
-
                             //모든 참가자들 이름과 참가자 수 전송하기
                             StringBuilder sb = new StringBuilder();
-                            sb.append(size+"/");
+                            sb.append(size+":");
                             sb.append(gameThList.get(msg).gerParticipantsName(msg));
                             String dataToSend = sb.toString();
                             System.out.println("현재 방 참가자 수: "+dataToSend);

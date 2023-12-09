@@ -8,11 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class RoomListPanel extends JPanel {
     private ClientFrame clientFrame;
     private Client client;
-    private static JPanel panel = new JPanel();
+    private JPanel panel = new JPanel();
 
     public RoomListPanel(ClientFrame clientFrame){
         this.clientFrame = clientFrame;
@@ -33,11 +34,29 @@ public class RoomListPanel extends JPanel {
             }
         });
         client.sendMessage("303/ ");
-        if(client.isSuccess()){
-            String msg = client.receiveMessage();
-            JLabel showRoom = new JLabel(msg);
-            panel.add(showRoom);
-        }
+        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // 서버로부터 응답을 기다립니다.
+                    String msg = client.receiveMessage();
+                    System.out.println("listPAnel: "+msg);
+                    publish(msg);  // publish 메서드를 사용하여 결과를 처리합니다.
+
+                return null;
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                // UI를 업데이트 합니다. 이 메서드는 EDT(Event Dispatch Thread)에서 실행됩니다.
+                for(String msg : chunks) {
+                    JLabel showRoom = new JLabel(msg);
+                    panel.add(showRoom);
+                    panel.revalidate();
+                    System.out.println("Received message: " + msg);
+                }
+            }
+        };
+        worker.execute();
 //        Map<Integer, Room> rooms = roomList.getRoomList();
 //        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
 //            Integer roomNumber = entry.getKey();

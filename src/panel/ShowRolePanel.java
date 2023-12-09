@@ -9,7 +9,6 @@ import static notUse.StartFrame.SCREEN_HEIGHT;
 import static notUse.StartFrame.SCREEN_WIDTH;
 
 public class ShowRolePanel extends JPanel {
-    JPanel mainPanel;
     JLabel timer = new JLabel("5");
     String mapiaText = "당신은 마피아";
     String citizenText = "Loading...";

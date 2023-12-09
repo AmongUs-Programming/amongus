@@ -1,5 +1,6 @@
 package panel;
 
+import client.ClientFrame;
 import main.Main;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public class GamePanel extends JPanel {
                 || shield.contains(x, y) || shieldToCctv.contains(x, y);
     }
 
-    public GamePanel() {
+    public GamePanel(ClientFrame clientFrame) {
         System.out.println("gamepanel입니다");
 
             // 이미지 로드

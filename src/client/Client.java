@@ -52,6 +52,7 @@ public class Client{
         try {
             if (ois != null) { // null 체크 추가
                 serverMessage = ois.readUTF();
+                System.out.println("client serverMessage:"+serverMessage);
                 if(serverMessage.split("/")[0].equals("100")){
                     return true;
                 }
