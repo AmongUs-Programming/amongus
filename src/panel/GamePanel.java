@@ -1,5 +1,7 @@
 package panel;
 
+import main.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -50,17 +52,15 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel() {
-        try {
+        System.out.println("gamepanel입니다");
+
             // 이미지 로드
-            backgroundImage = ImageIO.read(new File("../src/images/gamebg.png"));
-            cafeteriaImage = ImageIO.read(new File("../src/images/cafeteria.png"));
-            userImage = ImageIO.read(new File("../src/images/red.png"));
-            medicalImage = ImageIO.read(new File("../src/images/medical.png"));
-            shieldImage = ImageIO.read(new File("../src/images/shield.png"));
-            cctvImage  = ImageIO.read(new File("../src/images/cctv.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            backgroundImage = new ImageIcon(Main.class.getResource("/images/gamebg.png")).getImage();
+            cafeteriaImage = new ImageIcon(Main.class.getResource("/images/cafeteria.png")).getImage();
+            userImage = new ImageIcon(Main.class.getResource("/images/red.png")).getImage();
+            medicalImage = new ImageIcon(Main.class.getResource("/images/medical.png")).getImage();
+            shieldImage = new ImageIcon(Main.class.getResource("/images/shield.png")).getImage();
+            cctvImage  = new ImageIcon(Main.class.getResource("/images/cctv.png")).getImage();
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -71,6 +71,7 @@ public class GamePanel extends JPanel {
 
                 if (key == KeyEvent.VK_UP) {
                     nextY = userY -10;
+                    System.out.println("up");
                 } else if (key == KeyEvent.VK_DOWN) {
                     nextY = userY+10;
                 } else if (key == KeyEvent.VK_LEFT) {
