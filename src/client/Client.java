@@ -43,18 +43,12 @@ public class Client{
     }
 
     public String receiveMessage() {
-        if(isSuccess()){
-            return serverMessage.split("/")[1];
-        }else return null;
-    }
-
-    public Boolean isSuccess(){
         try {
             if (ois != null) { // null 체크 추가
                 serverMessage = ois.readUTF();
                 System.out.println("client serverMessage:"+serverMessage);
                 if(serverMessage.split("/")[0].equals("100")){
-                    return true;
+                    return serverMessage;
                 }
             } else {
                 System.err.println("ObjectInputStream is null. Connection may be closed.");
@@ -64,6 +58,7 @@ public class Client{
             e.printStackTrace();
             return null;
         }
-        return false;
+        return null;
     }
+
 }
