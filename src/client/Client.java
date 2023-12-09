@@ -9,6 +9,7 @@ public class Client{
     private Socket socket;
     private static ObjectOutputStream oos;
     private static ObjectInputStream ois;
+    private String serverMessage;
 
     public Client(String serverAddress, int port){
         this.serverAddress = serverAddress;
@@ -42,9 +43,18 @@ public class Client{
     }
 
     public String receiveMessage() {
+        if(isSuccess()){
+            return serverMessage.split("/")[1];
+        }else return null;
+    }
+
+    public Boolean isSuccess(){
         try {
             if (ois != null) { // null 체크 추가
-                return ois.readUTF();
+                serverMessage = ois.readUTF();
+                if(serverMessage.split("/")[0].equals("100")){
+                    return true;
+                }
             } else {
                 System.err.println("ObjectInputStream is null. Connection may be closed.");
                 return null;
@@ -53,5 +63,6 @@ public class Client{
             e.printStackTrace();
             return null;
         }
+        return false;
     }
 }

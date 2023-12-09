@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Room extends Thread{
-    private static String roomTitle;
+    private String roomTitle;
     private Boolean isPlaying = false;
     private ArrayList users;
     private Map<String,Participant> participants;
@@ -33,7 +33,7 @@ public class Room extends Thread{
         isPlaying = playing;
     }
 
-    public static String getRoomID(){
+    public String getRoomID(){
         return roomTitle;
     }
 

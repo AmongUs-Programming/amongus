@@ -1,5 +1,6 @@
 package panel;
 
+import client.Client;
 import client.ClientFrame;
 import frame.CreateRoomFrame;
 
@@ -10,10 +11,12 @@ import java.awt.event.ActionListener;
 
 public class RoomListPanel extends JPanel {
     private ClientFrame clientFrame;
+    private Client client;
     private static JPanel panel = new JPanel();
 
     public RoomListPanel(ClientFrame clientFrame){
         this.clientFrame = clientFrame;
+        this.client = clientFrame.getClient();
 //        roomList = new RoomList();
         panel.setLayout(new FlowLayout());
         panel.setBounds(0, 0, 1270, 680);
@@ -26,12 +29,15 @@ public class RoomListPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CreateRoomFrame(clientFrame,clientFrame.getClient());
+                new CreateRoomFrame(clientFrame,client);
             }
         });
-
-        //방에 참가자 넣기
-
+        client.sendMessage("303/ ");
+        if(client.isSuccess()){
+            String msg = client.receiveMessage();
+            JLabel showRoom = new JLabel(msg);
+            panel.add(showRoom);
+        }
 //        Map<Integer, Room> rooms = roomList.getRoomList();
 //        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
 //            Integer roomNumber = entry.getKey();

@@ -66,8 +66,7 @@ private JTextArea textArea;
     }
     //serverFrame message
     public void AppendText(String str) {
-        textArea.append("사용자로부터 들어온 메세지 : " + str+"\n");
-        textArea.append(str + "\n");
+        textArea.append(str+"\n");
         textArea.setCaretPosition(textArea.getText().length());
     }
 
@@ -149,6 +148,7 @@ private JTextArea textArea;
             try {
                 oos.writeUTF(message);
                 oos.flush();
+                System.out.println("server->client : "+message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -157,11 +157,6 @@ private JTextArea textArea;
         public void createRoom(String roomTitle){
             Room newRoom = new Room(socket,roomTitle);
             roomList.add(newRoom);
-            for (Room room : roomList) {
-                String roomId = room.getRoomID();
-                AppendText("server 모든 roomID 출력:");
-                AppendText("Room ID: " + roomId);
-            }
             try {
                 oos.writeUTF("Room '" + roomTitle +"' created successfully");
                 oos.flush();
@@ -171,13 +166,7 @@ private JTextArea textArea;
             }
         }
         public void removeRoom(String roomTitle){
-            try{
-                roomTitle = ois.readUTF();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            String roomID = Room.getRoomID();
-            roomList.remove(roomID);
+            roomList.remove(roomTitle);
 //            try {
 //                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' delete successfully");
 //                oos.flush();
@@ -185,6 +174,14 @@ private JTextArea textArea;
 //                AppendText("Error informing client about room delete");
 //                e.printStackTrace();
 //            }
+        }
+        public String getRoomIDs(){
+            StringBuilder sb = new StringBuilder();
+            for (Room room : roomList) {
+                String roomId = room.getRoomID();
+                sb.append(roomId+" ");
+            }
+            return sb.toString();
         }
         @Override
         public void run() {
@@ -217,6 +214,7 @@ private JTextArea textArea;
                             System.out.println("server login 성공 id : "+msg);
                             this.userName = msg;
                             handlePlayerRegistration(this);
+                            this.sendMessage("100/ok");
                             break;
                         case "201": //logout
                             break;
@@ -236,10 +234,21 @@ private JTextArea textArea;
                             break;
                         case "302"://enterRoom
                             gameThList.get(msg).enterRoom(userName,msg);
-                            //all participants
-                            Map participantList = gameThList.get(msg).getParticipant(msg);
                             //print current 참가자 수
                             int size = gameThList.get(msg).getParticipantNum(msg);
+
+                            //모든 참가자들 이름과 참가자 수 전송하기
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(size+"/");
+                            sb.append(gameThList.get(msg).gerParticipantsName(msg));
+                            String dataToSend = sb.toString();
+                            System.out.println("현재 방 참가자 수: "+dataToSend);
+                            this.sendMessage("100/"+dataToSend);
+
+                            break;
+                        case "303": //roomList
+                            this.sendMessage("100/"+getRoomIDs());
+                            AppendText("현재 방 list:"+getRoomIDs());
                             break;
                         case "400"://search owner
                             Participant owner = gameThList.get(msg).setGetRoomOwner(msg);
@@ -270,22 +279,42 @@ private JTextArea textArea;
     class GameTherad extends Thread{
         public Participant participant;
         //방 입장
-        public void enterRoom(String userName , String roomID) {
+        public void enterRoom(String userName, String roomID) {
+            Room room = null;
+            for (Room rooms : roomList) {
+                if (rooms.getRoomTitle().equals(roomID)) {
+                    room = rooms;
+                    break;
+                }
+            }
+
+            if (room != null) {
+                // 여기서 participant 객체를 생성합니다.
+                this.participant = new Participant(userName);
+                room.enterRoomParticipant(userName, this.participant);
+                AppendText(room.getRoomID()+": "+"새로운 참가자 " + participant.getName() + " 입장.");
+            } else {
+                AppendText("Room not found with title: " + roomID);
+            }
+        }
+        public String gerParticipantsName(String roomID) { // room에 입장한 플레이어 이름
+            StringBuilder sb = new StringBuilder();
             Room room;
             for(Room rooms : roomList){
                 if(rooms.getRoomTitle().equals(roomID)){
                     room = rooms;
                     if (room != null) {
-                        room.enterRoomParticipant(userName,participant);
-                        room.getUsers().add(this);
-                        AppendText("새로운 참가자 " + participant.getName() + " 입장.");
-                        System.out.println("Found Room: " + room.getRoomTitle());
+                        for (String key : room.getParticipants().keySet()) {
+                            sb.append(key).append(",");
+                        }
+                        return sb.toString();
                     } else {
                         System.out.println("Room not found with title: " + room);
                     }
                     break;
                 }
             }
+            return null;
         }
 
         public int getParticipantNum(String roomID) { // room에 입장한 플레이어 수
