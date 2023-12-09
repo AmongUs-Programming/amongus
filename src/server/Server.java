@@ -155,7 +155,6 @@ private JTextArea textArea;
         }
 
         public void createRoom(String roomTitle){
-            String roomID = Room.getRoomID();
             Room newRoom = new Room(socket,roomTitle);
             roomList.add(newRoom);
             for (Room room : roomList) {
@@ -163,13 +162,13 @@ private JTextArea textArea;
                 AppendText("server 모든 roomID 출력:");
                 AppendText("Room ID: " + roomId);
             }
-//            try {
-//                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' created successfully");
-//                oos.flush();
-//            } catch (IOException e) {
-//                AppendText("Error informing client about room creation");
-//                e.printStackTrace();
-//            }
+            try {
+                oos.writeUTF("Room '" + roomTitle +"' created successfully");
+                oos.flush();
+            } catch (IOException e) {
+                AppendText("Error informing client about room creation");
+                e.printStackTrace();
+            }
         }
         public void removeRoom(String roomTitle){
             try{
