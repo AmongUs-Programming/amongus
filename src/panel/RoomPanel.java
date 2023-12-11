@@ -8,7 +8,7 @@ import java.awt.*;
 public class RoomPanel extends JPanel {
     //Boolean condition=false;
     String owner;
-    public RoomPanel(ClientFrame clientFrame, String roomTitle) {
+    public RoomPanel(ClientFrame clientFrame) {
 
         // RoomPanel에 leftPanel과 rightPanel을 추가합니다.
         setLayout(new BorderLayout()); // GridLayout을 사용하여 왼쪽, 오른쪽 패널을 가로로 나란히 배치합니다.
@@ -16,6 +16,7 @@ public class RoomPanel extends JPanel {
         System.out.println("msg"+msg);
         if(!msg.equals(null)){
             // RoomParticipantListPanel과 RoomChatPanel을 생성
+            String roomTitle = clientFrame.getRoomTitle();
             RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(clientFrame,msg,roomTitle);
 //            RoomChatPanel roomchatPanel = new RoomChatPanel();
 

@@ -260,7 +260,7 @@ private JTextArea textArea;
                             AppendText("현재 방 list:"+getRoomIDs());
                             break;
                         case "400"://search owner
-                            Participant owner = gameThList.get(msg).setGetRoomOwner(msg);
+                            String owner = gameThList.get(msg).setGetRoomOwner(msg);
                             this.sendMessage("100/"+owner);
                             break;
                         case "500"://request game start
@@ -361,13 +361,13 @@ private JTextArea textArea;
         }
 
         //방장 select 및 return
-        public Participant setGetRoomOwner(String roomID){
+        public String setGetRoomOwner(String roomID){
             Room room;
             for(Room rooms : roomList){
                 if(rooms.getRoomTitle().equals(roomID)){
                     room = rooms;
                     if (room != null) {
-                        return room.getParticipants().get(0);
+                        return room.getParticipants().get(0).getName();
                     } else {
                         System.out.println("Room not found with title: " + room);
                     }

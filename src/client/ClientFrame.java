@@ -82,7 +82,7 @@ public class ClientFrame extends JFrame {
                 setContentPane(new RoomListPanel(this));
                 break;
             case ROOM_PANEL:
-                setContentPane(new RoomPanel(this,roomTitle));
+                setContentPane(new RoomPanel(this));
                 break;
             case GAME_PANEL:
                 setContentPane(new GamePanel(this));

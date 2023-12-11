@@ -16,20 +16,20 @@ public class RoomParticipantListPanel extends JPanel {
     public RoomParticipantListPanel(ClientFrame clientFrame,String msg,String roomTitle) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel(msg+"-현재 참가자 이름"));
-        String[] participantList = msg.split(":");
-        clientFrame.getClient().sendMessage("400/"+roomTitle);
-        String owner = clientFrame.getClient().receiveMessage();
-
-        for(int i=0;i<participantList.length;i++){
-            JPanel userPanel = new JPanel();
-            userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.X_AXIS));
-
-            //방장 이름 앞에 방장 표시, 아니면 그냥 표시(모든 클라이언트)
-            if(owner.equals(participantList[i])){
-                JLabel userName = new JLabel("방장 "+participantList[i]);userPanel.add(userName);
-            }else{
-                JLabel userName = new JLabel( participantList[i]);userPanel.add(userName);
-            }
+//        String[] participantList = msg.split(":");
+//        clientFrame.getClient().sendMessage("400/"+roomTitle);
+//        String owner = clientFrame.getClient().receiveMessage();
+//
+//        for(int i=0;i<participantList.length;i++){
+//            JPanel userPanel = new JPanel();
+//            userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.X_AXIS));
+//
+//            //방장 이름 앞에 방장 표시, 아니면 그냥 표시(모든 클라이언트)
+//            if(owner.equals(participantList[i])){
+//                JLabel userName = new JLabel("방장 "+participantList[i]);userPanel.add(userName);
+//            }else{
+//                JLabel userName = new JLabel( participantList[i]);userPanel.add(userName);
+//            }
 
 //            //2명 이상일 때 방장한테만 버튼 보이게 함(방장 화면에서만)
 //            if (participantList.getParticipantListSize() >= 2 && name.equals(ownerName)) {
@@ -37,8 +37,9 @@ public class RoomParticipantListPanel extends JPanel {
 //                userPanel.add(startButton);
 //                setVisible(true);
 //            }
-
-            add(userPanel);
-        }
+//
+//            add(userPanel);
+//        }
+        setVisible(true);
     }
 }
