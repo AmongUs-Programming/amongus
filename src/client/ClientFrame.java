@@ -9,6 +9,7 @@ import javax.swing.*;
 
 public class ClientFrame extends JFrame {
     private Client client;  // Client 객체를 저장
+    private String roomTitle;
 
     // Client 객체를 설정하는 메서드
     public void setClient(Client client) {
@@ -18,6 +19,14 @@ public class ClientFrame extends JFrame {
     // Client 객체에 접근하는 메서드
     public Client getClient() {
         return this.client;
+    }
+
+    public void setRoomTitle(String roomTitle){
+        this.roomTitle=roomTitle;
+    }
+
+    public String getRoomTitle(){
+        return roomTitle;
     }
 
     public enum PanelState {
@@ -73,7 +82,7 @@ public class ClientFrame extends JFrame {
                 setContentPane(new RoomListPanel(this));
                 break;
             case ROOM_PANEL:
-                setContentPane(new RoomPanel(this));
+                setContentPane(new RoomPanel(this,roomTitle));
                 break;
             case GAME_PANEL:
                 setContentPane(new GamePanel(this));

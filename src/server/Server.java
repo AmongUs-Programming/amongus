@@ -261,6 +261,7 @@ private JTextArea textArea;
                             break;
                         case "400"://search owner
                             Participant owner = gameThList.get(msg).setGetRoomOwner(msg);
+                            this.sendMessage("100/"+owner);
                             break;
                         case "500"://request game start
                             //select Imposter
