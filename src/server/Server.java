@@ -7,14 +7,15 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server extends JFrame {
    private int port;
    private ServerSocket socket;
    private Socket client_socket;
 
-   private ArrayList<Room> roomList = new ArrayList<>(); //게임 방list
-    private ArrayList<UserThread> users = new ArrayList<>(); //게임에 접속한 모든 사람들
+   private CopyOnWriteArrayList<Room> roomList = new CopyOnWriteArrayList<>(); //게임 방list
+    private CopyOnWriteArrayList<UserThread> users = new CopyOnWriteArrayList<>(); //게임에 접속한 모든 사람들
     private Map<String,GameTherad> gameThList = new HashMap<>(); //각 게임마다의 thread
 private JTextArea textArea;
     public Server(int port){
@@ -88,7 +89,7 @@ private JTextArea textArea;
         public ServerSocket getSocket(){
             return socket;
         }
-        public ArrayList getUserList(){
+        public CopyOnWriteArrayList getUserList(){
             return users;
         }
 
@@ -127,7 +128,7 @@ private JTextArea textArea;
         private DataOutputStream dos;
         private Socket client_socket;
         private ServerSocket socket;
-        private ArrayList userList;
+        private CopyOnWriteArrayList userList;
 
         public UserThread(Socket client_socket, AcceptServer acceptServer) {
             // 매개변수로 넘어온 자료 저장
@@ -418,6 +419,10 @@ private JTextArea textArea;
             return userNamesWithColors;
         }
 
+    }
+
+    public static void main(String[] args) {
+        new Server(29998);
     }
 
 }
