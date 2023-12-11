@@ -260,6 +260,7 @@ private JTextArea textArea;
                             AppendText("현재 방 list:"+getRoomIDs());
                             break;
                         case "400"://search owner
+                            System.out.println("수신완료");
                             String owner = gameThList.get(msg).setGetRoomOwner(msg);
                             this.sendMessage("100/"+owner);
                             break;
@@ -362,6 +363,8 @@ private JTextArea textArea;
 
         //방장 select 및 return
         public String setGetRoomOwner(String roomID){
+            System.out.println("지금 받은 방"+roomID);
+
             Room room;
             for(Room rooms : roomList){
                 if(rooms.getRoomTitle().equals(roomID)){

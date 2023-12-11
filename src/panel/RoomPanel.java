@@ -3,6 +3,7 @@ package panel;
 import client.ClientFrame;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class RoomPanel extends JPanel {
@@ -31,8 +32,8 @@ public class RoomPanel extends JPanel {
 //            add(rightPanel, BorderLayout.CENTER);
 //            roomchatPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 //            rightPanel.add(roomchatPanel, BorderLayout.CENTER); // chatPanel을 오른쪽 패널에 추가
-//
-//            leftPanel.setPreferredSize(new Dimension(600, 600));
+
+            leftPanel.setPreferredSize(new Dimension(600, 600));
 //            rightPanel.setPreferredSize(new Dimension(500, 600));
         }
         setVisible(true);

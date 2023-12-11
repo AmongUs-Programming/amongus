@@ -15,7 +15,17 @@ import java.util.Vector;
 public class RoomParticipantListPanel extends JPanel {
     public RoomParticipantListPanel(ClientFrame clientFrame,String msg,String roomTitle) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel(msg+"-현재 참가자 이름"));
+        add(new JLabel("참가자"));
+        //add(new JLabel(msg+"-현재 참가자 이름"));
+
+        String[] parts = msg.split(":"); // ":" 기준으로 문자열을 나눕니다.
+        String[] participants = parts[1].split(","); // 참가자 이름을 "," 기준으로 나누어 배열로 만듭니다.
+        for(int i=0;i<participants.length;i++){
+            add(new JLabel(participants[i]));
+        }
+
+
+//        clientFrame.getClient().sendMessage("400/"+roomTitle);
 //        String[] participantList = msg.split(":");
 //        clientFrame.getClient().sendMessage("400/"+roomTitle);
 //        String owner = clientFrame.getClient().receiveMessage();
