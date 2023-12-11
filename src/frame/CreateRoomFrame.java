@@ -34,6 +34,7 @@ public class CreateRoomFrame extends JFrame {
                 client.sendMessage("300/"+roomTitle);
 
                 clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
+                clientFrame.setRoomTitle(roomTitle);
 
                 setVisible(false);
             }
