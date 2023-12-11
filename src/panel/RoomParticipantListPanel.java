@@ -13,11 +13,11 @@ import java.util.Set;
 import java.util.Vector;
 
 public class RoomParticipantListPanel extends JPanel {
-    public RoomParticipantListPanel(ClientFrame clientFrame,String msg) {
+    public RoomParticipantListPanel(ClientFrame clientFrame,String msg,String roomTitle) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel(msg+"-현재 참가자 이름"));
         String[] participantList = msg.split(":");
-        clientFrame.getClient().sendMessage("400/owner");
+        clientFrame.getClient().sendMessage("400/"+roomTitle);
         String owner = clientFrame.getClient().receiveMessage();
 
         for(int i=0;i<participantList.length;i++){

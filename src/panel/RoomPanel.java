@@ -16,7 +16,7 @@ public class RoomPanel extends JPanel {
         System.out.println("msg"+msg);
         if(!msg.equals(null)){
             // RoomParticipantListPanel과 RoomChatPanel을 생성
-            RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(clientFrame,msg);
+            RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(clientFrame,msg,roomTitle);
 //            RoomChatPanel roomchatPanel = new RoomChatPanel();
 
             // 왼쪽에 배치될 panel
