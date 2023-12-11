@@ -158,13 +158,13 @@ private JTextArea textArea;
         public void createRoom(String roomTitle){
             Room newRoom = new Room(socket,roomTitle);
             roomList.add(newRoom);
-            try {
-                oos.writeUTF("Room '" + roomTitle +"' created successfully");
-                oos.flush();
-            } catch (IOException e) {
-                AppendText("Error informing client about room creation");
-                e.printStackTrace();
-            }
+//            try {
+//                oos.writeUTF("Room '" + roomTitle +"' created successfully");
+//                oos.flush();
+//            } catch (IOException e) {
+//                AppendText("Error informing client about room creation");
+//                e.printStackTrace();
+//            }
         }
         public void removeRoom(String roomTitle){
             roomList.remove(roomTitle);

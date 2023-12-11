@@ -32,10 +32,9 @@ public class CreateRoomFrame extends JFrame {
                 roomTitle = t.getText().toString();
                 System.out.println("roomTitle"+roomTitle);
                 client.sendMessage("300/"+roomTitle);
-//                String msg = client.receiveMessage();
-//                if(!msg.equals(null)){
-//                    clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
-//                }
+
+                clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
+
                 setVisible(false);
             }
         });

@@ -13,7 +13,12 @@ public class RoomPanel extends JPanel {
 
         // RoomPanel에 leftPanel과 rightPanel을 추가합니다.
         setLayout(new BorderLayout()); // GridLayout을 사용하여 왼쪽, 오른쪽 패널을 가로로 나란히 배치합니다.
-        add(new JLabel(clientFrame.getClient().receiveMessage()+"-현재 참가자 이름")) ;
+        String msg = clientFrame.getClient().receiveMessage();
+        System.out.println("msg"+msg);
+        if(!msg.equals(null)){
+            add(new JLabel(msg+"-현재 참가자 이름")) ;
+        }
+
         // RoomParticipantListPanel과 RoomChatPanel을 생성
 //        RoomParticipantListPanel participantListPanel = new RoomParticipantListPanel(roomID);
 //        RoomChatPanel roomchatPanel = new RoomChatPanel();
