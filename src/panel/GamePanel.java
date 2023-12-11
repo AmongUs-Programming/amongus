@@ -23,6 +23,9 @@ public class GamePanel extends JPanel {
     private final int userHeight = 20;
     private final String name = "세은";
 
+    private JLabel killLabel;
+    private JLabel citizenLabel;
+
     // 좌표가 맵 위나 통로에 있는지 확인하고 true, false 값 return
     private boolean isValidMode(int x, int y){
         // 구내식당
@@ -63,6 +66,17 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(ClientFrame clientFrame) {
+
+        killLabel = new JLabel("Press spacebar to kill");
+        killLabel.setForeground(Color.RED); // Set text color
+        killLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
+        add(killLabel);
+
+        citizenLabel = new JLabel("run!!");
+        citizenLabel.setForeground(Color.BLUE); // Set text color
+        citizenLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
+        //add(citizenLabel);
+
         System.out.println("gamepanel입니다");
 
             // 이미지 로드
@@ -89,6 +103,9 @@ public class GamePanel extends JPanel {
                 } else if (key == KeyEvent.VK_RIGHT) {
                     nextX = userX+10;
                 }
+                else if (key == KeyEvent.VK_SPACE) {
+                    System.out.println("space");
+                }
 
                 if(isValidMode(nextX,nextY)){
                     userX=nextX;
@@ -97,6 +114,7 @@ public class GamePanel extends JPanel {
                 }
             }
         });
+
         setFocusable(true);
     }
 
@@ -112,7 +130,7 @@ public class GamePanel extends JPanel {
             int circleDiameter = userWidth + 100;
 
             // 원 안쪽의 영역을 클리핑
-            //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
+             g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
 
             // 배경이미지 그리기
             if (backgroundImage != null) {
