@@ -243,6 +243,7 @@ private JTextArea textArea;
                             gameThList.remove(msg);
                             break;
                         case "302"://enterRoom
+                            System.out.println(msg);
                             gameThList.get(msg).enterRoom(userName,msg);
                             //print current 참가자 수
                             int size = gameThList.get(msg).getParticipantNum(msg);
@@ -253,7 +254,6 @@ private JTextArea textArea;
                             String dataToSend = sb.toString();
                             System.out.println("현재 방 참가자 수: "+dataToSend);
                             this.sendMessage("100/"+dataToSend);
-
                             break;
                         case "303": //roomList
                             this.sendMessage("100/"+getRoomIDs());

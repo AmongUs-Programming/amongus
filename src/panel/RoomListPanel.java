@@ -49,14 +49,23 @@ public class RoomListPanel extends JPanel {
             protected void process(List<String> chunks) {
                 // UI를 업데이트 합니다. 이 메서드는 EDT(Event Dispatch Thread)에서 실행됩니다.
                 for(String msg : chunks) {
-                    JLabel showRoom = new JLabel(msg);
-                    panel.add(showRoom);
+                    String[] strRoomList = msg.split(",");
+                    for(String room : strRoomList) {
+                        JButton enterRoomButton = new JButton(room);
+                        enterRoomButton.addActionListener(e -> {
+                            // 버튼이 클릭되면 해당 방에 입장하도록 서버에 요청
+                            client.sendMessage("302/"+room);
+                            clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
+                        });
+                        panel.add(enterRoomButton);
+                    }
                     panel.revalidate();
-                    System.out.println("Received message: " + msg);
+                    panel.repaint();
                 }
             }
         };
         worker.execute();
+
 //        Map<Integer, Room> rooms = roomList.getRoomList();
 //        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
 //            Integer roomNumber = entry.getKey();
