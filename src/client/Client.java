@@ -48,7 +48,7 @@ public class Client{
                 serverMessage = ois.readUTF();
                 System.out.println("client serverMessage:"+serverMessage);
                 if(serverMessage.split("/")[0].equals("100")){
-                    return serverMessage;
+                    return serverMessage.split("/")[1];
                 }
             } else {
                 System.err.println("ObjectInputStream is null. Connection may be closed.");
