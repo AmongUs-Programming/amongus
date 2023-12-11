@@ -42,26 +42,6 @@ public class ParticipantSetNameFrame extends JFrame {
         setVisible(true);
     }
     private Boolean connectClient(String name) {
-//        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-//            @Override
-//            protected Void doInBackground() throws Exception {
-//                client = new Client("127.0.0.1", 29998);
-//                client.sendMessage("200/"+name);
-//                clientFrame.setClient(client);  // ClientFrame에 Client 객체 저장
-//                client.receiveMessage();
-////                SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-////                    @Override
-////                    protected Void doInBackground() throws Exception {
-////                        clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);  // 상태를 ROOM_LIST_PANEL로 변경
-////                        return null;
-////                    }
-////                };
-////                worker.execute();
-////                return null;
-//                return null;
-//            }
-//        };
-//        worker.execute();
         client = new Client("127.0.0.1", 29998);
         client.sendMessage("200/"+name);
         clientFrame.setClient(client);  // ClientFrame에 Client 객체 저장

@@ -180,7 +180,7 @@ private JTextArea textArea;
             StringBuilder sb = new StringBuilder();
             for (Room room : roomList) {
                 String roomId = room.getRoomID();
-                sb.append(roomId+" ");
+                sb.append(roomId+",");
             }
             return sb.toString();
         }
