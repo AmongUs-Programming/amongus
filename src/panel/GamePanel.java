@@ -26,23 +26,36 @@ public class GamePanel extends JPanel {
     // 좌표가 맵 위나 통로에 있는지 확인하고 true, false 값 return
     private boolean isValidMode(int x, int y){
         // 구내식당
-        Rectangle cafeteria = new Rectangle((getWidth() - 400) / 2,0,390,290);
+        int[] cafeteriaxPoints = {470, 740, 810, 810, 760, 480,430,430};
+        int[] cafeteriayPoints = {0, 0, 70, 240, 290, 290,240,35};
+        Polygon cafeteria = new Polygon(cafeteriaxPoints, cafeteriayPoints, 8);
+        //Rectangle cafeteria = new Rectangle((getWidth() - 400) / 2,0,390,290);
+
         // 의무실
-        Rectangle medical = new Rectangle(10,300,290,300-userHeight);
+        int[] medicalxPoints = {290, 290, 210, 210, 20, 15, 50};
+        int[] medicalyPoints = {570, 560, 470, 340, 340, 520,580};
+        Polygon medical = new Polygon(medicalxPoints, medicalyPoints, 7);
+        //Rectangle medical = new Rectangle(10,300,290,300-userHeight);
         // cctv
-        Rectangle cctv = new Rectangle(400,330,490,245-userHeight/2);
+        int[] cctvxPoints = {540, 490, 490, 560, 870, 870};
+        int[] cctvyPoints = {340, 390, 490, 560, 560, 340};
+        Polygon cctv = new Polygon(cctvxPoints, cctvyPoints, 6);
+        //Rectangle cctv = new Rectangle(400,330,490,245-userHeight/2);
         // 무기고
-        Rectangle shield = new Rectangle(950,300,290,290-userHeight);
+        int[] shieldxPoints = {1230, 1230, 1090, 960, 960, 1000};
+        int[] shieldyPoints = {300, 460, 580, 580, 360, 310};
+        Polygon shield = new Polygon(shieldxPoints, shieldyPoints, 6);
+        //Rectangle shield = new Rectangle(950,300,290,290-userHeight);
 
         // 의무실 통로
-        Rectangle cafeToMedi = new Rectangle(85,110,350,50);
-        Rectangle cafeToMedi2 = new Rectangle(85,110,50,190);
+        Rectangle cafeToMedi = new Rectangle(80,110,350,50);
+        Rectangle cafeToMedi2 = new Rectangle(80,110,55,230);
         // 무기고통로
         Rectangle cafeToShield = new Rectangle(800,110,310,50);
-        Rectangle cafeToShield2 = new Rectangle(1075,110,50,200);
+        Rectangle cafeToShield2 = new Rectangle(1070,110,55,200);
         // cctv통로
-        Rectangle cafeToCctv = new Rectangle(605,300-userHeight,50,50);
-        Rectangle shieldToCctv = new Rectangle(880,420,80,50);
+        Rectangle cafeToCctv = new Rectangle(605,300-userHeight,50,75);
+        Rectangle shieldToCctv = new Rectangle(870,420,95,50);
 
         return cafeteria.contains(x, y) || cafeToMedi.contains(x, y) || cafeToMedi2.contains(x, y) || cafeToShield.contains(x, y)
                 || cafeToShield2.contains(x, y) || medical.contains(x, y) || cafeToCctv.contains(x, y) || cctv.contains(x, y)
@@ -69,7 +82,6 @@ public class GamePanel extends JPanel {
 
                 if (key == KeyEvent.VK_UP) {
                     nextY = userY -10;
-                    System.out.println("up");
                 } else if (key == KeyEvent.VK_DOWN) {
                     nextY = userY+10;
                 } else if (key == KeyEvent.VK_LEFT) {
@@ -81,6 +93,7 @@ public class GamePanel extends JPanel {
                 if(isValidMode(nextX,nextY)){
                     userX=nextX;
                     userY=nextY;
+                    System.out.println(userX+","+userY);
                 }
             }
         });
@@ -93,14 +106,13 @@ public class GamePanel extends JPanel {
 
         // 사용자 그리기
         if (userImage != null) {
-
             // 사용자 주변 원 그리기
             int circleX = userX - 50;
             int circleY = userY - 50;
             int circleDiameter = userWidth + 100;
 
             // 원 안쪽의 영역을 클리핑
-            g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
+            //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
 
             // 배경이미지 그리기
             if (backgroundImage != null) {
