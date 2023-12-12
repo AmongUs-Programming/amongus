@@ -9,17 +9,17 @@ import javax.swing.*;
 
 public class RoomChatPanel extends JPanel {
     JPanel panel ;
-ClientFrame clientFrame;
-    String username = clientFrame.getName();
-
+    ClientFrame clientFrame;
     String ip_addr = "127.0.0.1";
     String port_no = "30000";
-    JavaChatClientViewPanel view = new JavaChatClientViewPanel(username, ip_addr, port_no);
-       public RoomChatPanel(ClientFrame clientFrame){
-           this.clientFrame = clientFrame;
+    String userName;
+       public RoomChatPanel(String userName){
+           this.userName = userName;
+           //this.clientFrame = clientFrame;
            setLayout(new BorderLayout());
 
-           JavaChatClientViewPanel chatView = new JavaChatClientViewPanel(username, ip_addr, port_no);
+           //username = clientFrame.getName();
+           JavaChatClientViewPanel chatView = new JavaChatClientViewPanel(userName, ip_addr, port_no);
            add(chatView, BorderLayout.CENTER);
 
            //setLayout(new FlowLayout());
