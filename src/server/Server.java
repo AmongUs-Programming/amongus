@@ -245,15 +245,6 @@ private JTextArea textArea;
                         case "302"://enterRoom
                             System.out.println(msg);
                             gameThList.get(msg).enterRoom(userName,msg);
-                            //print current 참가자 수
-                            int size = gameThList.get(msg).getParticipantNum(msg);
-                            //모든 참가자들 이름과 참가자 수 전송하기
-                            StringBuilder sb = new StringBuilder();
-                            sb.append(size+":");
-                            sb.append(gameThList.get(msg).gerParticipantsName(msg));
-                            String dataToSend = sb.toString();
-                            System.out.println("현재 방 참가자 수: "+dataToSend);
-                            this.sendMessage("100/"+dataToSend);
                             break;
                         case "303": //roomList
                             this.sendMessage("100/"+getRoomIDs());
@@ -264,6 +255,16 @@ private JTextArea textArea;
                             String owner = gameThList.get(msg).setGetRoomOwner(msg);
                             this.sendMessage("100/"+owner);
                             break;
+                        case "401"://participantList
+                            //print current 참가자 수
+                            int size = gameThList.get(msg).getParticipantNum(msg);
+                            //모든 참가자들 이름과 참가자 수 전송하기
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(size+":");
+                            sb.append(gameThList.get(msg).gerParticipantsName(msg));
+                            String dataToSend = sb.toString();
+                            System.out.println("현재 방 참가자 수: "+dataToSend);
+                            this.sendMessage("100/"+dataToSend);
                         case "500"://request game start
                             //select Imposter
                             gameThList.get(msg).getUserNamesWithColors(msg);
