@@ -99,34 +99,85 @@ public class GamePanel extends JPanel {
         shieldImage = new ImageIcon(Main.class.getResource("/images/shield.png")).getImage();
         cctvImage = new ImageIcon(Main.class.getResource("/images/cctv.png")).getImage();
 
-        addKeyListener(new KeyAdapter() {
+        setFocusable(true);
+        requestFocusInWindow();
+
+        // 키 바인딩 설정
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        // 위 방향 키 바인딩
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
+        actionMap.put("moveUp", new AbstractAction() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
-                int nextX = userX;
-                int nextY = userY;
-
-                if (key == KeyEvent.VK_UP) {
-                    nextY = userY - 10;
-                } else if (key == KeyEvent.VK_DOWN) {
-                    nextY = userY + 10;
-                } else if (key == KeyEvent.VK_LEFT) {
-                    nextX = userX - 10;
-                } else if (key == KeyEvent.VK_RIGHT) {
-                    nextX = userX + 10;
-                } else if (key == KeyEvent.VK_SPACE) {
-                    System.out.println("space");
-                }
-
-                if (isValidMode(nextX, nextY)) {
-                    userX = nextX;
-                    userY = nextY;
-                    System.out.println(userX + "," + userY);
-                }
+            public void actionPerformed(ActionEvent e) {
+                movePlayer(0, -10);
             }
         });
 
-        setFocusable(true);
+        // 아래 방향 키 바인딩
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
+        actionMap.put("moveDown", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePlayer(0, 10);
+            }
+        });
+
+        // 왼쪽 방향 키 바인딩
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
+        actionMap.put("moveLeft", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePlayer(-10, 0);
+            }
+        });
+
+        // 오른쪽 방향 키 바인딩
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
+        actionMap.put("moveRight", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                movePlayer(10, 0);
+            }
+        });
+
+        // 스페이스바 키 바인딩
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceBar");
+        actionMap.put("spaceBar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("space");
+            }
+        });
+
+//        addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                int key = e.getKeyCode();
+//                int nextX = userX;
+//                int nextY = userY;
+//
+//                if (key == KeyEvent.VK_UP) {
+//                    nextY = userY - 10;
+//                } else if (key == KeyEvent.VK_DOWN) {
+//                    nextY = userY + 10;
+//                } else if (key == KeyEvent.VK_LEFT) {
+//                    nextX = userX - 10;
+//                } else if (key == KeyEvent.VK_RIGHT) {
+//                    nextX = userX + 10;
+//                } else if (key == KeyEvent.VK_SPACE) {
+//                    System.out.println("space");
+//                }
+//
+//                if (isValidMode(nextX, nextY)) {
+//                    userX = nextX;
+//                    userY = nextY;
+//                    System.out.println(userX + "," + userY);
+//                }
+//            }
+//        });
+        setVisible(true);
     }
 
     @Override
@@ -201,5 +252,15 @@ public class GamePanel extends JPanel {
         }
 
         repaint();
+    }
+    private void movePlayer(int deltaX, int deltaY) {
+        int nextX = userX + deltaX;
+        int nextY = userY + deltaY;
+
+        if (isValidMode(nextX, nextY)) {
+            userX = nextX;
+            userY = nextY;
+            System.out.println(userX + "," + userY);
+        }
     }
 }
