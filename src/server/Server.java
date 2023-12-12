@@ -252,7 +252,7 @@ public class Server extends JFrame {
                         case "201": //logout
                             break;
                         case "202": //user Name
-                            this.sendMessage("101/"+this.userName);
+                            this.sendMessage("100/"+this.userName);
                             System.out.println("내이름 : "+userName);
                             break;
                         case "300": //createRoom
