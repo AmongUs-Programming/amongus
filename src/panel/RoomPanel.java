@@ -37,7 +37,7 @@ public class RoomPanel extends JPanel {
 
             }
         });
-        add(startBtn);
+        add(startBtn, BorderLayout.NORTH);
         // RoomParticipantListPanel과 RoomChatPanel을 생성
         client.sendMessage("202/"+"userName");
         userName = client.receiveMessage();
