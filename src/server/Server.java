@@ -451,7 +451,7 @@ public class Server extends JFrame {
                     if (rooms.getRoomTitle().equals(roomID)) {
                         room = rooms;
                         if (room != null) {
-//                            room.assignColorToPlayer(name, color);
+                            room.assignColorToPlayer(name, color);
                         } else {
                             System.out.println("Room not found with title: " + room);
                         }

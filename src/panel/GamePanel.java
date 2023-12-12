@@ -99,9 +99,7 @@ public class GamePanel extends JPanel {
         shieldImage = new ImageIcon(Main.class.getResource("/images/shield.png")).getImage();
         cctvImage = new ImageIcon(Main.class.getResource("/images/cctv.png")).getImage();
 
-
-
-        this.addKeyListener(new KeyAdapter() {
+        addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
@@ -127,10 +125,8 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-        setVisible(true);
+
         setFocusable(true);
-        requestFocus();
-        requestFocusInWindow();
     }
 
     @Override
