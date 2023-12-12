@@ -233,7 +233,7 @@ private JTextArea textArea;
                             //모든 참가자들 이름과 참가자 수 전송하기
                             StringBuilder sb1 = new StringBuilder();
                             sb1.append(size1+":");
-                            sb1.append(gameThList.get(msg).gerParticipantsName(msg));
+                            sb1.append(gameThList.get(msg).getParticipantsName(msg));
                             String dataToSend1 = sb1.toString();
                             System.out.println("현재 방 참가자 수: "+dataToSend1);
                             this.sendMessage("100/"+dataToSend1);
@@ -243,7 +243,7 @@ private JTextArea textArea;
                             gameThList.remove(msg);
                             break;
                         case "302"://enterRoom
-                            System.out.println(msg);
+                            System.out.println("여기1"+msg);
                             gameThList.get(msg).enterRoom(userName,msg);
                             break;
                         case "303": //roomList
@@ -261,9 +261,17 @@ private JTextArea textArea;
                             //모든 참가자들 이름과 참가자 수 전송하기
                             StringBuilder sb = new StringBuilder();
                             sb.append(size+":");
-                            sb.append(gameThList.get(msg).gerParticipantsName(msg));
+                            sb.append(gameThList.get(msg).getParticipantsName(msg));
                             String dataToSend = sb.toString();
                             System.out.println("현재 방 참가자 수: "+dataToSend);
+                            for(int i=0;i<size;i++){
+                                this.sendMessage("100/"+dataToSend);
+                                System.out.println("data : "+dataToSend);
+                                gameThList.get(msg).getParticipant(msg);
+                            }
+//                            for (Participant participant : roomTitle.getParticipants().values()) {
+//                                participant.sendMessage("100/" + dataToSend);
+//                            }
                             this.sendMessage("100/"+dataToSend);
                         case "500"://request game start
                             //select Imposter
@@ -309,7 +317,7 @@ private JTextArea textArea;
                 AppendText("Room not found with title: " + roomID);
             }
         }
-        public String gerParticipantsName(String roomID) { // room에 입장한 플레이어 이름
+        public String getParticipantsName(String roomID) { // room에 입장한 플레이어 이름
             StringBuilder sb = new StringBuilder();
             Room room;
             for(Room rooms : roomList){

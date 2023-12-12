@@ -55,6 +55,7 @@ public class RoomListPanel extends JPanel {
                         enterRoomButton.addActionListener(e -> {
                             // 버튼이 클릭되면 해당 방에 입장하도록 서버에 요청
                             client.sendMessage("302/"+room);
+                            client.sendMessage("401/"+room);
                             clientFrame.setRoomTitle(room);
                             clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
                         });

@@ -14,7 +14,10 @@ import java.util.Vector;
 
 public class RoomParticipantListPanel extends JPanel {
     public RoomParticipantListPanel(ClientFrame clientFrame,String msg,String roomTitle) {
+
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        removeAll(); // 기존 라벨들을 제거
         add(new JLabel("참가자"));
         //add(new JLabel(msg+"-현재 참가자 이름"));
 
@@ -23,6 +26,8 @@ public class RoomParticipantListPanel extends JPanel {
         for(int i=0;i<participants.length;i++){
             add(new JLabel(participants[i]));
         }
+        revalidate();
+        repaint();
 
 
 //        clientFrame.getClient().sendMessage("400/"+roomTitle);
