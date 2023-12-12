@@ -5,8 +5,9 @@ import thread.TimerThread;
 import javax.swing.*;
 import java.awt.*;
 
-import static notUse.StartFrame.SCREEN_HEIGHT;
-import static notUse.StartFrame.SCREEN_WIDTH;
+import static client.ClientFrame.SCREEN_HEIGHT;
+import static client.ClientFrame.SCREEN_WIDTH;
+
 
 public class ShowRolePanel extends JPanel {
     JLabel timer = new JLabel("5");

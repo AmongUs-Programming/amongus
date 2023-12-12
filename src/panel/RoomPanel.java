@@ -24,7 +24,7 @@ public class RoomPanel extends JPanel {
             // RoomParticipantListPanel과 RoomChatPanel을 생성
             String roomTitle = clientFrame.getRoomTitle();
             participantListPanel = new RoomParticipantListPanel(clientFrame,message,roomTitle);
-//            RoomChatPanel roomchatPanel = new RoomChatPanel();
+//            RoomChatPanel roomchatPanel = new RoomChatPanel(clientFrame);
 
             // 왼쪽에 배치될 panel
             JPanel leftPanel = new JPanel(new BorderLayout());
@@ -40,6 +40,8 @@ public class RoomPanel extends JPanel {
 
             leftPanel.setPreferredSize(new Dimension(600, 600));
 //            rightPanel.setPreferredSize(new Dimension(500, 600));
+
+
         setVisible(true);
 
     }

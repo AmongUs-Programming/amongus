@@ -1,7 +1,6 @@
 package thread;//JavaChatClientMain.java
 //Java Client 시작import java.awt.BorderLayout;
 
-import User.UserInfo;
 
 import java.awt.EventQueue;
 
@@ -31,7 +30,7 @@ public class JavaChatClientMain extends JFrame {
 	}
 
 
-			String username = UserInfo.getName();
+			String username = "";
 			String ip_addr = "127.0.0.1";
 			String port_no = "30000";
 			JavaChatClientViewPanel view = new JavaChatClientViewPanel(username, ip_addr, port_no);

@@ -1,6 +1,5 @@
 package frame;
 
-import User.UserInfo;
 import client.Client;
 import client.ClientFrame;
 
@@ -31,7 +30,6 @@ public class ParticipantSetNameFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JTextField t = (JTextField) e.getSource();
                 String name = t.getText();
-                new UserInfo(name);
                 System.out.println(name);
                 setVisible(false);
                 if(connectClient(name)){

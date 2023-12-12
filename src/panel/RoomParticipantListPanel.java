@@ -1,16 +1,11 @@
 package panel;
 
-import User.UserInfo;
 import client.ClientFrame;
 //import server.Participant;
 //import notUse.ParticipantList;
 //import notUse.RoomList;
 
 import javax.swing.*;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
 
 public class RoomParticipantListPanel extends JPanel {
     public RoomParticipantListPanel(ClientFrame clientFrame,String msg,String roomTitle) {
