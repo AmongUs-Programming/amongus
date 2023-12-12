@@ -286,20 +286,11 @@ private JTextArea textArea;
                             sb.append(gameThList.get(msg).getParticipantsName(msg));
                             String dataToSend = sb.toString();
                             System.out.println("현재 방 참가자 수: "+dataToSend);
-//                            for(int i=0;i<size;i++){
-////                                this.sendMessage("100/"+dataToSend);
-//                                System.out.println("data : "+dataToSend);
-//                                gameThList.get(msg).getParticipant(msg).get(userName).sendMessage("100/"+dataToSend);
-//                            }
                             Map<String, UserThread> participantList = gameThList.get(msg).getParticipant(msg);
                             for(UserThread userThread :participantList.values() ){
                                 System.out.println("data : "+dataToSend+"send to "+userThread.userName);
                                 userThread.sendMessage("100/"+dataToSend);
                             }
-//                            for (Participant participant : roomTitle.getParticipants().values()) {
-//                                participant.sendMessage("100/" + dataToSend);
-//                            }
-                            this.sendMessage("100/"+dataToSend);
                         case "500"://request game start
                             //select Imposter
                             gameThList.get(msg).getUserNamesWithColors(msg);

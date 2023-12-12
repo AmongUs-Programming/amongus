@@ -17,7 +17,6 @@ public class RoomParticipantListPanel extends JPanel {
 
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        removeAll(); // 기존 라벨들을 제거
         add(new JLabel("참가자"));
         //add(new JLabel(msg+"-현재 참가자 이름"));
 
@@ -26,9 +25,6 @@ public class RoomParticipantListPanel extends JPanel {
         for(int i=0;i<participants.length;i++){
             add(new JLabel(participants[i]));
         }
-        revalidate();
-        repaint();
-
 
 //        clientFrame.getClient().sendMessage("400/"+roomTitle);
 //        String[] participantList = msg.split(":");
@@ -56,5 +52,19 @@ public class RoomParticipantListPanel extends JPanel {
 //            add(userPanel);
 //        }
         setVisible(true);
+    }
+
+    public void updateMessage(String msg) {
+        removeAll(); // 기존 라벨들을 제거
+        add(new JLabel("참가자"));
+
+        String[] parts = msg.split(":"); // ":" 기준으로 문자열을 나눕니다.
+        String[] participants = parts[1].split(","); // 참가자 이름을 "," 기준으로 나누어 배열로 만듭니다.
+        for(int i=0;i<participants.length;i++){
+            add(new JLabel(participants[i]));
+            System.out.println("updateMeesage " +participants[i]);
+        }
+        revalidate();
+        repaint();
     }
 }
