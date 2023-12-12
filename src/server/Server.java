@@ -144,6 +144,28 @@ private JTextArea textArea;
             }
         }
 
+        String name;
+        int role=0;
+        //0-시민
+        //1-마피아
+        Boolean isAlive=true;
+
+        public int getRole() {
+            return role;
+        }
+
+        public void setRole(int role) {
+            this.role = role;
+        }
+
+        public Boolean getAlive() {
+            return isAlive;
+        }
+
+        public void setAlive(Boolean alive) {
+            isAlive = alive;
+        }
+
         // 클라이언트에게 메시지 전송
         public void sendMessage(String message) {
             try {
@@ -224,7 +246,7 @@ private JTextArea textArea;
                             //create gameThread
                             gameThList.put(msg,new GameTherad());
                             //owner enter room
-                            gameThList.get(msg).enterRoom(userName,msg);
+                            gameThList.get(msg).enterRoom(userName,msg,this);
                             //get all paricipants
                             gameThList.get(msg).getParticipant(msg);
                             System.out.println("server Room 생성됌 ID: " + msg);
@@ -244,7 +266,7 @@ private JTextArea textArea;
                             break;
                         case "302"://enterRoom
                             System.out.println("여기1"+msg);
-                            gameThList.get(msg).enterRoom(userName,msg);
+                            gameThList.get(msg).enterRoom(userName,msg,this);
                             break;
                         case "303": //roomList
                             this.sendMessage("100/"+getRoomIDs());
@@ -264,10 +286,15 @@ private JTextArea textArea;
                             sb.append(gameThList.get(msg).getParticipantsName(msg));
                             String dataToSend = sb.toString();
                             System.out.println("현재 방 참가자 수: "+dataToSend);
-                            for(int i=0;i<size;i++){
-                                this.sendMessage("100/"+dataToSend);
-                                System.out.println("data : "+dataToSend);
-                                gameThList.get(msg).getParticipant(msg);
+//                            for(int i=0;i<size;i++){
+////                                this.sendMessage("100/"+dataToSend);
+//                                System.out.println("data : "+dataToSend);
+//                                gameThList.get(msg).getParticipant(msg).get(userName).sendMessage("100/"+dataToSend);
+//                            }
+                            Map<String, UserThread> participantList = gameThList.get(msg).getParticipant(msg);
+                            for(UserThread userThread :participantList.values() ){
+                                System.out.println("data : "+dataToSend+"send to "+userThread.userName);
+                                userThread.sendMessage("100/"+dataToSend);
                             }
 //                            for (Participant participant : roomTitle.getParticipants().values()) {
 //                                participant.sendMessage("100/" + dataToSend);
@@ -297,9 +324,9 @@ private JTextArea textArea;
     }
     //게임 thread
     class GameTherad extends Thread{
-        public Participant participant;
+//        public Participant participant;
         //방 입장
-        public void enterRoom(String userName, String roomID) {
+        public void enterRoom(String userName, String roomID,UserThread userThread) {
             Room room = null;
             for (Room rooms : roomList) {
                 if (rooms.getRoomTitle().equals(roomID)) {
@@ -310,9 +337,9 @@ private JTextArea textArea;
 
             if (room != null) {
                 // 여기서 participant 객체를 생성합니다.
-                this.participant = new Participant(userName);
-                room.enterRoomParticipant(userName, this.participant);
-                AppendText(room.getRoomID()+": "+"새로운 참가자 " + participant.getName() + " 입장.");
+//                this.participant = new Participant(userName);
+                room.enterRoomParticipant(userName,userThread);
+                AppendText(room.getRoomID()+": "+"새로운 참가자 " + userName + " 입장.");
             } else {
                 AppendText("Room not found with title: " + roomID);
             }
@@ -354,7 +381,7 @@ private JTextArea textArea;
         }
 
         //찾고자 하는 참가자의 역할
-        public Map<String, Participant> getParticipant(String roomID){
+        public Map<String, UserThread> getParticipant(String roomID){
             Room room;
             for(Room rooms : roomList){
                 if(rooms.getRoomTitle().equals(roomID)){
@@ -391,7 +418,7 @@ private JTextArea textArea;
 
         //각 paricipant 색 정하기 및 이름과 색 반환
         public Map<String, String> getUserNamesWithColors(String roomID) {
-            Map<String, Participant> allParticipants = null;
+            Map<String, UserThread> allParticipants = null;
             Room findRoom;
             for(Room rooms : roomList){
                 if(rooms.getRoomTitle().equals(roomID)){
@@ -407,8 +434,8 @@ private JTextArea textArea;
             Map<String, String> userNamesWithColors = new HashMap<>();
             int index = 0;
 
-            for (Map.Entry<String, Participant> entry : allParticipants.entrySet()) {
-                Participant participant = entry.getValue();
+            for (Map.Entry<String, UserThread> entry : allParticipants.entrySet()) {
+                UserThread participant = entry.getValue();
                 String name = participant.getName();
                 List<String> colorList = Arrays.asList("red", "blue", "green", "yellow");
                 String color = colorList.get(index % colorList.size());

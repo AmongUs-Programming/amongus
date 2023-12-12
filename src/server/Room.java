@@ -10,7 +10,7 @@ public class Room extends Thread{
     private String roomTitle;
     private Boolean isPlaying = false;
     private ArrayList users;
-    private Map<String,Participant> participants;
+    private Map<String, Server.UserThread> participants;
     private Map<String, String> participantsColorMap;
     private ServerSocket socket;
 
@@ -41,13 +41,13 @@ public class Room extends Thread{
         return users;
     }
 
-    public Map<String,Participant> getParticipants() {
+    public Map<String, Server.UserThread> getParticipants() {
         return participants;
     }
 
-    public void enterRoomParticipant(String userName,Participant participant){
+    public void enterRoomParticipant(String userName, Server.UserThread userThread){
         System.out.println("enterRoom");
-        participants.put(userName,participant);
+        participants.put(userName,userThread);
     }
 
     public void selectImposter(){
@@ -72,4 +72,6 @@ public class Room extends Thread{
     public String getPlayerColor(String playerName) {
         return participantsColorMap.get(playerName);
     }
+
+
 }

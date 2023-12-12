@@ -2,9 +2,9 @@ package panel;
 
 import User.UserInfo;
 import client.ClientFrame;
-import server.Participant;
-import notUse.ParticipantList;
-import notUse.RoomList;
+//import server.Participant;
+//import notUse.ParticipantList;
+//import notUse.RoomList;
 
 import javax.swing.*;
 import java.util.Arrays;
