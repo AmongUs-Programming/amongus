@@ -251,6 +251,9 @@ public class Server extends JFrame {
                             break;
                         case "201": //logout
                             break;
+                        case "202": //user Name
+                            this.sendMessage("100/"+this.userName);
+                            break;
                         case "300": //createRoom
                             createRoom(msg);
                             //create gameThread

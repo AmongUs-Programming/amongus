@@ -64,11 +64,12 @@ public class GamePanel extends JPanel {
         Ellipse2D.Double table1 = new Ellipse2D.Double(570, 110, 80, 60);
         Ellipse2D.Double table2 = new Ellipse2D.Double(480, 200, 85, 60);
         Ellipse2D.Double table3 = new Ellipse2D.Double(650, 200, 85, 60);
-        Ellipse2D.Double table4 = new Ellipse2D.Double(480,20, 85, 60);
-        Ellipse2D.Double table5 = new Ellipse2D.Double(650,18 , 85, 60);
+        Ellipse2D.Double table4 = new Ellipse2D.Double(480, 20, 85, 60);
+        Ellipse2D.Double table5 = new Ellipse2D.Double(650, 18, 85, 60);
 
 
-        if(table1.contains(x,y)||table2.contains(x,y)||table3.contains(x,y)||table4.contains(x,y)||table5.contains(x,y)) return false;
+        if (table1.contains(x, y) || table2.contains(x, y) || table3.contains(x, y) || table4.contains(x, y) || table5.contains(x, y))
+            return false;
 
         return (cafeteria.contains(x, y) || cafeToMedi.contains(x, y) || cafeToMedi2.contains(x, y) || cafeToShield.contains(x, y)
                 || cafeToShield2.contains(x, y) || medical.contains(x, y) || cafeToCctv.contains(x, y) || cctv.contains(x, y)
@@ -90,38 +91,37 @@ public class GamePanel extends JPanel {
 
         System.out.println("gamepanel입니다");
 
-            // 이미지 로드
-            backgroundImage = new ImageIcon(Main.class.getResource("/images/gamebg.png")).getImage();
-            cafeteriaImage = new ImageIcon(Main.class.getResource("/images/cafeteria.png")).getImage();
-            userImage = new ImageIcon(Main.class.getResource("/images/red.png")).getImage();
-            medicalImage = new ImageIcon(Main.class.getResource("/images/medical.png")).getImage();
-            shieldImage = new ImageIcon(Main.class.getResource("/images/shield.png")).getImage();
-            cctvImage  = new ImageIcon(Main.class.getResource("/images/cctv.png")).getImage();
+        // 이미지 로드
+        backgroundImage = new ImageIcon(Main.class.getResource("/images/gamebg.png")).getImage();
+        cafeteriaImage = new ImageIcon(Main.class.getResource("/images/cafeteria.png")).getImage();
+        userImage = new ImageIcon(Main.class.getResource("/images/red.png")).getImage();
+        medicalImage = new ImageIcon(Main.class.getResource("/images/medical.png")).getImage();
+        shieldImage = new ImageIcon(Main.class.getResource("/images/shield.png")).getImage();
+        cctvImage = new ImageIcon(Main.class.getResource("/images/cctv.png")).getImage();
 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
-                int nextX=userX;
-                int nextY=userY;
+                int nextX = userX;
+                int nextY = userY;
 
                 if (key == KeyEvent.VK_UP) {
-                    nextY = userY -10;
+                    nextY = userY - 10;
                 } else if (key == KeyEvent.VK_DOWN) {
-                    nextY = userY+10;
+                    nextY = userY + 10;
                 } else if (key == KeyEvent.VK_LEFT) {
-                    nextX = userX-10;
+                    nextX = userX - 10;
                 } else if (key == KeyEvent.VK_RIGHT) {
-                    nextX = userX+10;
-                }
-                else if (key == KeyEvent.VK_SPACE) {
+                    nextX = userX + 10;
+                } else if (key == KeyEvent.VK_SPACE) {
                     System.out.println("space");
                 }
 
-                if(isValidMode(nextX,nextY)){
-                    userX=nextX;
-                    userY=nextY;
-                    System.out.println(userX+","+userY);
+                if (isValidMode(nextX, nextY)) {
+                    userX = nextX;
+                    userY = nextY;
+                    System.out.println(userX + "," + userY);
                 }
             }
         });
@@ -141,7 +141,7 @@ public class GamePanel extends JPanel {
             int circleDiameter = userWidth + 100;
 
             // 원 안쪽의 영역을 클리핑
-             //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
+            //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
 
             // 배경이미지 그리기
             if (backgroundImage != null) {
@@ -170,7 +170,7 @@ public class GamePanel extends JPanel {
                 g2d.fillRect(1075, 110, 60, 190);
 
                 //식당->cctv 통로
-                g2d.fillRect(610,300,60,30);
+                g2d.fillRect(610, 300, 60, 30);
                 g2d.dispose();
             }
 
@@ -180,8 +180,8 @@ public class GamePanel extends JPanel {
             }
 
             //무기고 그리기
-            if(shieldImage != null){
-                g.drawImage(shieldImage, 950,300,300,300,this);
+            if (shieldImage != null) {
+                g.drawImage(shieldImage, 950, 300, 300, 300, this);
                 //무기고 통로 그리기
                 Graphics2D g2d = (Graphics2D) g.create();
                 g2d.setColor(Color.GRAY);
@@ -191,8 +191,8 @@ public class GamePanel extends JPanel {
             }
 
             //cctv방 그리기
-            if(cctvImage != null){
-                g.drawImage(cctvImage, 400,330,500,250,this);
+            if (cctvImage != null) {
+                g.drawImage(cctvImage, 400, 330, 500, 250, this);
             }
 
             g.drawImage(userImage, userX, userY, userWidth, userHeight, this);
