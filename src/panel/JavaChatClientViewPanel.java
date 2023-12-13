@@ -1,4 +1,4 @@
-package thread;
+package panel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,38 +32,41 @@ public class JavaChatClientViewPanel extends JPanel {
     private JLabel lblUserName;
 
 
-	public JavaChatClientViewPanel(String username, String ip_addr, String port_no) {
+    public JavaChatClientViewPanel(String username) {
 
-		setLayout(null);
+        String ip_addr = "127.0.0.1";
+        String port_no = "30000";
+
+        setLayout(null);
         setBackground(Color.BLACK);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 10, 595, 450);
-		add(scrollPane);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(20, 10, 595, 450);
+        add(scrollPane);
 
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		scrollPane.setViewportView(textArea);
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        scrollPane.setViewportView(textArea);
 
-		txtInput = new JTextField();
-		txtInput.setBounds(91, 480, 435, 40);
-		add(txtInput);
-		txtInput.setColumns(10);
+        txtInput = new JTextField();
+        txtInput.setBounds(91, 480, 435, 40);
+        add(txtInput);
+        txtInput.setColumns(10);
 
-		btnSend = new JButton("Send");
-		btnSend.setBounds(535,480 , 76, 40);
-		add(btnSend);
+        btnSend = new JButton("Send");
+        btnSend.setBounds(535,480 , 76, 40);
+        add(btnSend);
 
-		lblUserName = new JLabel("Name");
-		lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUserName.setBounds(12, 480, 67, 40);
+        lblUserName = new JLabel("Name");
+        lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUserName.setBounds(12, 480, 67, 40);
         lblUserName.setForeground(Color.WHITE);
-		add(lblUserName);
-		setVisible(true);
+        add(lblUserName);
+        setVisible(true);
 
-		AppendText("User " + username + " connecting " + ip_addr + " " + port_no + "\n");
-		UserName = username;
-		lblUserName.setText(username + ">");
+        AppendText("User " + username + " connecting " + ip_addr + " " + port_no + "\n");
+        UserName = username;
+        lblUserName.setText(username + ">");
 
         try {
             socket = new Socket(ip_addr, Integer.parseInt(port_no));
@@ -108,23 +111,23 @@ public class JavaChatClientViewPanel extends JPanel {
         }
     }
 
-	// keyboard enter key 치면 서버로 전송
-	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// Send button을 누르거나 메시지 입력하고 Enter key 치면
-			if (e.getSource() == btnSend || e.getSource() == txtInput) {
-				String msg = null;
-				msg = String.format("[%s] %s\n", UserName, txtInput.getText());
-				SendMessage(msg);
-				txtInput.setText(""); // 메세지를 보내고 나면 메세지 쓰는창을 비운다.
-				txtInput.requestFocus(); // 메세지를 보내고 커서를 다시 텍스트 필드로 위치시킨다
-				if (msg.contains("/exit")) // 종료 처리
-					System.exit(0);
-			}
-		}
-	}
+    // keyboard enter key 치면 서버로 전송
+    class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Send button을 누르거나 메시지 입력하고 Enter key 치면
+            if (e.getSource() == btnSend || e.getSource() == txtInput) {
+                String msg = null;
+                msg = String.format("[%s] %s\n", UserName, txtInput.getText());
+                SendMessage(msg);
+                txtInput.setText(""); // 메세지를 보내고 나면 메세지 쓰는창을 비운다.
+                txtInput.requestFocus(); // 메세지를 보내고 커서를 다시 텍스트 필드로 위치시킨다
+                if (msg.contains("/exit")) // 종료 처리
+                    System.exit(0);
+            }
+        }
+    }
 
     // 화면에 출력
     public void AppendText(String msg) {

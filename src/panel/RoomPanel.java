@@ -20,67 +20,62 @@ public class RoomPanel extends JPanel {
 
     public RoomPanel(ClientFrame clientFrame) {
         this.clientFrame = clientFrame;
+        client = clientFrame.getClient();
         clientFrame.getClient().receiveMessage();
         message = clientFrame.getClient().getServerRealMessage();
-        client = clientFrame.getClient();
         System.out.println("message: " + message);
-
-        setLayout(new BorderLayout()); // GridLayout을 사용하여 왼쪽, 오른쪽 패널을 가로로 나란히 배치합니다.
-
-        client.sendMessage("202/" + "userName");
-        client.receiveMessage();
-        userName = client.getServerRealMessage();
-
-        System.out.println("내 이름" + userName);
-        String roomTitle = clientFrame.getRoomTitle();
-        participantListPanel = new RoomParticipantListPanel(clientFrame, message, roomTitle);
-        RoomChatPanel roomchatPanel = new RoomChatPanel(userName);
-
         MessageThread messageThread = new MessageThread();
         messageThread.start();
 
-        JButton startBtn = new JButton("GAME START");
-        startBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
-        startBtn.setFont(new Font("Arial",Font.BOLD,15));
+        setLayout(new BorderLayout()); // 전체 패널을 BorderLayout으로 설정
+
+        // 왼쪽 패널 (participantListPanel 포함)
+        userName = client.getName();
+        String roomTitle = clientFrame.getRoomTitle();
+        participantListPanel = new RoomParticipantListPanel(clientFrame, message, roomTitle);
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(participantListPanel, BorderLayout.CENTER);
+
+        // 오른쪽 패널 (roomchatPanel 포함)
+        JavaChatClientViewPanel roomchatPanel = new JavaChatClientViewPanel(userName);
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(roomchatPanel, BorderLayout.CENTER);
+
+        // 중앙 패널 (왼쪽 패널과 오른쪽 패널을 반반씩 배치)
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2)); // 1행 2열 그리드 레이아웃
+        centerPanel.add(leftPanel);
+        centerPanel.add(rightPanel);
+
+        // 시작하기 버튼
+        JButton startBtn = new JButton("게임 시작");
         startBtn.setBackground(Color.BLACK);
         startBtn.setForeground(Color.WHITE);
-        Dimension startBtnSize = new Dimension(1270, 40);
-        startBtn.setPreferredSize(startBtnSize);
-        startBtn.setMinimumSize(startBtnSize);
-        startBtn.setMaximumSize(startBtnSize);
-
+        startBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
+        startBtn.setFont(startBtn.getFont().deriveFont(15.0f)); // 현재 폰트를 유지하며 크기만 변경
+        Dimension buttonSize = new Dimension(1270, 40);
+        startBtn.setPreferredSize(buttonSize);
+        startBtn.setMinimumSize(buttonSize);
+        startBtn.setMaximumSize(buttonSize);
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messageThread.interrupt();
                 clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
             }
         });
 
+        // 전체 패널에 추가
+        add(centerPanel, BorderLayout.CENTER);
         add(startBtn, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel(new GridLayout(1,2));
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(participantListPanel, BorderLayout.CENTER);
-
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        roomchatPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        rightPanel.add(roomchatPanel, BorderLayout.CENTER); // chatPanel을 오른쪽 패널에 추가
-
-        leftPanel.setPreferredSize(new Dimension(600, 600));
-        rightPanel.setPreferredSize(new Dimension(500, 600));
-
-        centerPanel.add(leftPanel);
-        centerPanel.add(rightPanel);
-
-        add(centerPanel, BorderLayout.CENTER);
         setVisible(true);
     }
+
 
 
     public class MessageThread extends Thread {
         @Override
         public void run() {
+//            clientFrame.getClient().sendMessage("401/"+clientFrame.getRoomTitle());
             clientFrame.getClient().receiveMessage();
             String message2 = clientFrame.getClient().getServerRealMessage();
             System.out.println("message2: " + message2);
@@ -88,11 +83,8 @@ public class RoomPanel extends JPanel {
                 message = message2;
                 System.out.println(message);
                 participantListPanel.updateMessage(message);
-                new RoomChatPanel(userName);
             }
-
         }
     }
 }
-
 

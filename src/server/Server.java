@@ -264,7 +264,7 @@ public class Server extends JFrame {
                                 break;
                             case "202": //user Name
                                 this.sendMessage("100/"+this.userName);
-                                System.out.println("내이름 : "+userName);
+                                //System.out.println("내이름 : "+userName);
                                 break;
                             case "300": //createRoom
                                 createRoom(msg);
@@ -290,7 +290,7 @@ public class Server extends JFrame {
                                 gameThList.remove(msg);
                                 break;
                             case "302"://enterRoom
-                                System.out.println("여기1" + msg);
+                                //System.out.println("여기1" + msg);
                                 gameThList.get(msg).enterRoom(userName, msg, this);
                                 break;
                             case "303": //roomList

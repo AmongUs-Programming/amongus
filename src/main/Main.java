@@ -14,7 +14,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        //JavaChatServer chatServer = new JavaChatServer();
-        //chatServer.startServer();
+        JavaChatServer chatServer = new JavaChatServer();
+        chatServer.startServer();
     }
 }
