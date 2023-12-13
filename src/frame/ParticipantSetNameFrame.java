@@ -45,8 +45,7 @@ public class ParticipantSetNameFrame extends JFrame {
         clientFrame.setClient(client);  // ClientFrame에 Client 객체 저장
         client.receiveMessage();
         client.receiveMessage();
-        if(client.getServerRealMessage().equals(null)){
-            return false;
-        }else return true;
+
+        return true;
     }
 }

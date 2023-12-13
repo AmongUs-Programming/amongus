@@ -15,7 +15,7 @@ public class RoomListPanel extends JPanel {
     private Client client;
     private JPanel panel = new JPanel();
 
-    public RoomListPanel(ClientFrame clientFrame){
+    public RoomListPanel(ClientFrame clientFrame) {
         this.clientFrame = clientFrame;
         this.client = clientFrame.getClient();
 //        roomList = new RoomList();
@@ -30,82 +30,28 @@ public class RoomListPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new CreateRoomFrame(clientFrame,client);
+                new CreateRoomFrame(clientFrame, client);
             }
         });
-        client.sendMessage("303/ ");
-        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                // 서버로부터 응답을 기다립니다.
-                    client.receiveMessage();
-                String msg = client.getServerRealMessage();
-                System.out.println("listPanel: "+msg);
-                    publish(msg);  // publish 메서드를 사용하   여 결과를 처리합니다.
-
-                return null;
+        client.sendMessage("303/roomlist");
+        client.receiveMessage();
+        String msg = client.getServerRealMessage();
+        if(!msg.equals(null)){
+            String[] strRoomList = msg.split(",");
+            for (String room : strRoomList) {
+                JButton enterRoomButton = new JButton(room);
+                enterRoomButton.addActionListener(e -> {
+                    // 버튼이 클릭되면 해당 방에 입장하도록 서버에 요청
+                    client.sendMessage("302/" + room);
+                    client.sendMessage("401/" + room);
+                    clientFrame.setRoomTitle(room);
+                    clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
+                });
+                panel.add(enterRoomButton);
             }
-
-            @Override
-            protected void process(List<String> chunks) {
-                // UI를 업데이트 합니다. 이 메서드는 EDT(Event Dispatch Thread)에서 실행됩니다.
-                for(String msg : chunks) {
-                    String[] strRoomList = msg.split(",");
-                    for(String room : strRoomList) {
-                        JButton enterRoomButton = new JButton(room);
-                        enterRoomButton.addActionListener(e -> {
-                            // 버튼이 클릭되면 해당 방에 입장하도록 서버에 요청
-                            client.sendMessage("302/"+room);
-                            client.sendMessage("401/"+room);
-                            clientFrame.setRoomTitle(room);
-                            clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
-                        });
-                        panel.add(enterRoomButton);
-                    }
-                    panel.revalidate();
-                    panel.repaint();
-                }
-            }
-        };
-        worker.execute();
-
-//        Map<Integer, Room> rooms = roomList.getRoomList();
-//        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
-//            Integer roomNumber = entry.getKey();
-//            Room room = entry.getValue();
-//            int paticipantNum = roomList.getParticipantList(entry.getKey()).getParticipantListSize();
-//            JPanel eachRoomPanel = new JPanel();
-//            JPanel paticipantNumPanel = new JPanel();
-//            ImageIcon peopleIcon = new ImageIcon("images/peopleIcon.png");
-//            eachRoomPanel.setLayout(new FlowLayout());
-//            paticipantNumPanel.setLayout(new FlowLayout());
-//            JLabel paticipantNumLabel = new JLabel(String.valueOf(paticipantNum));
-//            JLabel roomNumberLabel = new JLabel(String.valueOf(roomNumber));
-//            JLabel roomTitleLabel = new JLabel(room.getRoomTitle());
-//            paticipantNumPanel.add(new JLabel("hi"));
-//            paticipantNumPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(roomNumberLabel);
-//            eachRoomPanel.add(roomTitleLabel);
-//            eachRoomPanel.addMouseListener(new MouseAdapter() {
-//                @Override
-//                public void mouseClicked(MouseEvent e) {
-//                    //선택한 해당 RoomPanel에 이동하기
-////                  StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
-//                    RoomListPanel.roomList.getParticipantList(entry.getKey()).addParticipant(UserInfo.getName());
-//                    new Role(roomList.getParticipantList(entry.getKey()).getParticipants());
-//                    StartFrame.setPanel(roomListPanel,showRolePanel);
-//                    showRolePanel.runTimer();
-//                }
-//            });
-//            eachRoomPanel.setVisible(true);
-//            panel.add(eachRoomPanel);
-//            System.out.println("Room Number: " + roomNumber + ", Room: " + room.getRoomTitle());
-//        }
-//
+        }
         add(panel);
         setVisible(true);
-   }
+    }
 
 }

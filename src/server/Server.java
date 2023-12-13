@@ -207,11 +207,15 @@ public class Server extends JFrame {
 
         public String getRoomIDs() {
             StringBuilder sb = new StringBuilder();
-            for (Room room : roomList) {
-                String roomId = room.getRoomID();
-                sb.append(roomId + ",");
+            if(roomList.size()==0){
+                return null;
+            }else {
+                for (Room room : roomList) {
+                    String roomId = room.getRoomID();
+                    sb.append(roomId + ",");
+                }
+                return sb.toString();
             }
-            return sb.toString();
         }
 
         public void broadcastMoveToOtherClients(Move move, UserThread sourceUser) {
@@ -290,8 +294,13 @@ public class Server extends JFrame {
                                 gameThList.get(msg).enterRoom(userName, msg, this);
                                 break;
                             case "303": //roomList
-                                this.sendMessage("100/" + getRoomIDs());
-                                AppendText("현재 방 list:" + getRoomIDs());
+                                System.out.println("roomIDS"+getRoomIDs());
+                                if(getRoomIDs()==null){
+                                    this.sendMessage("100/null");
+                                }else{
+                                    this.sendMessage("100/" + getRoomIDs());
+                                    AppendText("현재 방 list:" + getRoomIDs());
+                                }
                                 break;
                             case "400"://search owner
                                 System.out.println("수신완료");
