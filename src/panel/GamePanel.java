@@ -2,6 +2,7 @@ package panel;
 
 import client.ClientFrame;
 import main.Main;
+import server.Move;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,8 @@ public class GamePanel extends JPanel {
 
     private JLabel killLabel;
     private JLabel citizenLabel;
+
+    private ClientFrame clientFrame;
 
     // 좌표가 맵 위나 통로에 있는지 확인하고 true, false 값 return
     private boolean isValidMode(int x, int y) {
@@ -78,6 +81,7 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(ClientFrame clientFrame) {
+        this.clientFrame=clientFrame;
 
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
@@ -150,33 +154,6 @@ public class GamePanel extends JPanel {
                 System.out.println("space");
             }
         });
-
-//        addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                int key = e.getKeyCode();
-//                int nextX = userX;
-//                int nextY = userY;
-//
-//                if (key == KeyEvent.VK_UP) {
-//                    nextY = userY - 10;
-//                } else if (key == KeyEvent.VK_DOWN) {
-//                    nextY = userY + 10;
-//                } else if (key == KeyEvent.VK_LEFT) {
-//                    nextX = userX - 10;
-//                } else if (key == KeyEvent.VK_RIGHT) {
-//                    nextX = userX + 10;
-//                } else if (key == KeyEvent.VK_SPACE) {
-//                    System.out.println("space");
-//                }
-//
-//                if (isValidMode(nextX, nextY)) {
-//                    userX = nextX;
-//                    userY = nextY;
-//                    System.out.println(userX + "," + userY);
-//                }
-//            }
-//        });
         setVisible(true);
     }
 
@@ -260,7 +237,33 @@ public class GamePanel extends JPanel {
         if (isValidMode(nextX, nextY)) {
             userX = nextX;
             userY = nextY;
+            sendMoveToServer(userX,userY);
             System.out.println(userX + "," + userY);
         }
     }
+    private void sendMoveToServer(int x, int y){
+        Move move = new Move(clientFrame.getRoomTitle(),x,y,clientFrame.getClient().getName());
+        try {
+            clientFrame.getClient().sendMessage("MOVE");
+            clientFrame.getClient().sendMoveMessage(move);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void listenForMoves() {
+        while (true) {
+                Object input = clientFrame.getClient().receiveMoveMessage();
+                if (input instanceof Move) {
+                    Move move = (Move) input;
+                    updateGameStateWithMove(move);
+                }
+        }
+    }
+
+    private void updateGameStateWithMove(Move move) {
+
+    }
+
 }

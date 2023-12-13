@@ -31,6 +31,7 @@ public class CreateRoomFrame extends JFrame {
                 JTextField t = (JTextField) e.getSource();
                 roomTitle = t.getText().toString();
                 System.out.println("roomTitle"+roomTitle);
+                client.sendMessage("TEXT");
                 client.sendMessage("300/"+roomTitle);
 
                 clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);

@@ -40,7 +40,8 @@ public class ParticipantSetNameFrame extends JFrame {
         setVisible(true);
     }
     private Boolean connectClient(String name) {
-        client = new Client("127.0.0.1", 29998);
+        client = new Client("127.0.0.1", 29998,name);
+        client.sendMessage("TEXT");
         client.sendMessage("200/"+name);
         clientFrame.setClient(client);  // ClientFrame에 Client 객체 저장
         client.receiveMessage();

@@ -7,19 +7,17 @@ enum State {LEFT, RIGHT, FRONT,BACK}
 public class Move implements Serializable {
     private static final long serialVersionUID = 2L;
     private String code;
-    private int roomId;
+    private String roomId;
     private int posX;
     private int posY;
     private String userName;
     private State type;
 
-    public Move(String code, int roomId, int posX, int posY, String userName, State type) {
-        this.code = code;
+    public Move(String roomId, int posX, int posY, String userName) {
         this.roomId = roomId;
         this.posX = posX;
         this.posY = posY;
         this.userName = userName;
-        this.type = type;
     }
 
     public String getCode() {
@@ -27,7 +25,7 @@ public class Move implements Serializable {
     }
 
 
-    public int getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 

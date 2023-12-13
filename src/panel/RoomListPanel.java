@@ -33,6 +33,7 @@ public class RoomListPanel extends JPanel {
                 new CreateRoomFrame(clientFrame,client);
             }
         });
+        client.sendMessage("TEXT");
         client.sendMessage("303/ ");
         SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
             @Override
@@ -54,7 +55,9 @@ public class RoomListPanel extends JPanel {
                         JButton enterRoomButton = new JButton(room);
                         enterRoomButton.addActionListener(e -> {
                             // 버튼이 클릭되면 해당 방에 입장하도록 서버에 요청
+                            client.sendMessage("TEXT");
                             client.sendMessage("302/"+room);
+                            client.sendMessage("TEXT");
                             client.sendMessage("401/"+room);
                             clientFrame.setRoomTitle(room);
                             clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);

@@ -10,11 +10,18 @@ public class Client{
     private static ObjectOutputStream oos;
     private static ObjectInputStream ois;
     private String serverMessage;
+    private Object serverMoveMessage;
+    private String name;
 
-    public Client(String serverAddress, int port){
+    public Client(String serverAddress, int port,String name){
+        this.name = name;
         this.serverAddress = serverAddress;
         this.port = port;
         connectServer();
+    }
+
+    public String getName(){
+        return name;
     }
 
     public void connectServer(){
@@ -32,7 +39,7 @@ public class Client{
     public void sendMessage(String message) {
         try {
             if (oos != null && !socket.isClosed()) { // null 체크 추가
-                oos.writeUTF(message);
+                oos.writeObject(message);
                 oos.flush();
             } else {
                 System.err.println("ObjectOutputStream is null. Connection may be closed.");
@@ -40,6 +47,34 @@ public class Client{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendMoveMessage(Object message) {
+        try {
+            if (oos != null && !socket.isClosed()) { // null 체크 추가
+                oos.writeObject(message);
+                oos.flush();
+            } else {
+                System.err.println("ObjectOutputStream is null. Connection may be closed.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String receiveMoveMessage() {
+        try {
+            if (ois != null) { // null 체크 추가
+                serverMoveMessage = ois.readUTF();
+            } else {
+                System.err.println("ObjectInputStream is null. Connection may be closed.");
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
     }
 
     public String receiveMessage() {
