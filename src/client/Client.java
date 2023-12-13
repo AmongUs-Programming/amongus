@@ -1,5 +1,7 @@
 package client;
 
+import server.Move;
+
 import java.io.*;
 import java.net.*;
 
@@ -10,7 +12,8 @@ public class Client{
     private static ObjectOutputStream oos;
     private static ObjectInputStream ois;
     private String serverMessage;
-    private Object serverMoveMessage;
+    private Move serverMoveMessage;
+    private String serverRealMessage;
     private String name;
 
     public Client(String serverAddress, int port,String name){
@@ -62,38 +65,31 @@ public class Client{
         }
     }
 
-    public String receiveMoveMessage() {
+    public void receiveMessage() {
         try {
             if (ois != null) { // null 체크 추가
-                serverMoveMessage = ois.readUTF();
-            } else {
-                System.err.println("ObjectInputStream is null. Connection may be closed.");
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return null;
-    }
-
-    public String receiveMessage() {
-        try {
-            if (ois != null) { // null 체크 추가
-                serverMessage = ois.readUTF();
-                System.out.println("client serverMessage:"+serverMessage);
-                if(serverMessage.split("/")[0].equals("100")){
-                    return serverMessage.split("/")[1];
+                Object input = ois.readObject();
+                if (input instanceof Move) {
+                    serverMoveMessage = (Move)input;
+                } else if (input instanceof String) {
+                    serverMessage =(String)input;
+                    System.out.println("client serverMessage:"+serverMessage);
+                    if(serverMessage.split("/")[0].equals("100")){
+                        serverRealMessage = serverMessage.split("/")[1];
+                    }
                 }
             } else {
                 System.err.println("ObjectInputStream is null. Connection may be closed.");
-                return null;
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            return null;
         }
-        return null;
     }
 
+    public Move getServerMoveMessage(){
+        return serverMoveMessage;
+    }
+    public String getServerRealMessage(){
+        return serverRealMessage;
+    }
 }

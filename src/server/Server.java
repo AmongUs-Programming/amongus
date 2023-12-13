@@ -174,7 +174,7 @@ public class Server extends JFrame {
         // 클라이언트에게 메시지 전송
         public void sendMessage(String message) {
             try {
-                oos.writeUTF(message);
+                oos.writeObject(message);
                 oos.flush();
                 System.out.println("server->client : " + message);
             } catch (IOException e) {

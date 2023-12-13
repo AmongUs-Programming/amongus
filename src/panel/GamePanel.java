@@ -253,7 +253,7 @@ public class GamePanel extends JPanel {
 
     public void listenForMoves() {
         while (true) {
-                Object input = clientFrame.getClient().receiveMoveMessage();
+                Object input = clientFrame.getClient().getServerMoveMessage();
                 if (input instanceof Move) {
                     Move move = (Move) input;
                     updateGameStateWithMove(move);

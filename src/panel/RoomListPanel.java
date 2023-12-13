@@ -38,8 +38,9 @@ public class RoomListPanel extends JPanel {
             @Override
             protected Void doInBackground() throws Exception {
                 // 서버로부터 응답을 기다립니다.
-                    String msg = client.receiveMessage();
-                    System.out.println("listPanel: "+msg);
+                    client.receiveMessage();
+                String msg = client.getServerRealMessage();
+                System.out.println("listPanel: "+msg);
                     publish(msg);  // publish 메서드를 사용하   여 결과를 처리합니다.
 
                 return null;
