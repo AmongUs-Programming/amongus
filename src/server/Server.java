@@ -323,10 +323,18 @@ public class Server extends JFrame {
                                 }
                             case "500"://request game start
                                 //select Imposter
-                                gameThList.get(msg).getUserNamesWithColors(msg);
+                                //gameThList.get(msg).getUserNamesWithColors(msg);
+                                //Map<String, String> userColors = gameThList.get(msg).getUserNamesWithColors(msg);
+
                                 //changePanel (역할 결과 화면)
                                 break;
-                            case "501": //
+                            case "501"://게임패널변경
+//                                System.out.println("패널변경요청");
+//                                Map<String, UserThread> panelParticipantList = gameThList.get(msg).getParticipant(msg);
+//                                for(UserThread userThread : panelParticipantList.values()){
+//                                    System.out.println("panel : "+"send to"+userThread.userName);
+//                                    userThread.sendMessage("100/"+"ChangePanel");
+//                                }
                         }
                     }
                 } catch (IOException e) {

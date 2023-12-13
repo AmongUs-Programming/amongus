@@ -29,13 +29,13 @@ public class RoomListPanel extends JPanel {
 
         //title.setForeground(Color.WHITE); // 흰색 글자로 설정
         title.setFont(title.getFont().deriveFont(20.0f)); // 현재 폰트를 유지하며 크기만 변경
-        title.setForeground(Color.WHITE);
+        title.setForeground(Color.BLACK);
 
 
-        button.setBorder(BorderFactory.createLineBorder(Color.WHITE)); // 흰색 테두리 설정
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // 흰색 테두리 설정
         button.setFont(title.getFont().deriveFont(15.0f)); // 현재 폰트를 유지하며 크기만 변경
-        button.setBorder(BorderFactory.createLineBorder(Color.WHITE,3));
-        button.setForeground(Color.WHITE);
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK,3));
+        button.setForeground(Color.BLACK);
         button.setBackground(null); // 배경 투명으로 설정
 
         topPanel.add(title);
@@ -44,9 +44,9 @@ public class RoomListPanel extends JPanel {
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(panel);
-        topPanel.setBackground(Color.BLACK);
-        panel.setBackground(Color.BLACK); // panel의 배경도 흰색으로 설정
-        scrollPane.getViewport().setBackground(Color.BLACK); // 스크롤 패널 내부도 흰색으로 설정
+        topPanel.setBackground(Color.WHITE);
+        panel.setBackground(Color.WHITE); // panel의 배경도 흰색으로 설정
+        scrollPane.getViewport().setBackground(Color.WHITE); // 스크롤 패널 내부도 흰색으로 설정
 
 
         button.addActionListener(new ActionListener() {
@@ -67,10 +67,10 @@ public class RoomListPanel extends JPanel {
                 enterRoomButton.setPreferredSize(buttonSize);
                 enterRoomButton.setMinimumSize(buttonSize);
                 enterRoomButton.setMaximumSize(buttonSize);
-                enterRoomButton.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
+                enterRoomButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
                 enterRoomButton.setFont(new Font("Arial",Font.BOLD,15));
-                enterRoomButton.setBackground(Color.BLACK);
-                enterRoomButton.setForeground(Color.WHITE);
+                enterRoomButton.setBackground(Color.WHITE);
+                enterRoomButton.setForeground(Color.BLACK);
                 enterRoomButton.addActionListener(e -> {
                     // 버튼이 클릭되면 해당 방에 입장하도록 서버에 요청
                     client.sendMessage("302/" + room);
@@ -79,7 +79,6 @@ public class RoomListPanel extends JPanel {
                     clientFrame.setPanelState(ClientFrame.PanelState.ROOM_PANEL);
                 });
                 panel.add(enterRoomButton);
-                panel.add(Box.createVerticalStrut(10));
             }
         }
 

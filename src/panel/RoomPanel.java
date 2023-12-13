@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
 
 public class RoomPanel extends JPanel {
     //Boolean condition=false;
@@ -59,7 +60,12 @@ public class RoomPanel extends JPanel {
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
+                //client.sendMessage("501/"+roomTitle);
+                //clientFrame.getClient().receiveMessage();
+                //String panelChange = clientFrame.getClient().getServerRealMessage();
+                //System.out.println(panelChange);
+                clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
+                //clientFrame.setPanelState(ClientFrame.PanelState.LOADING_PANEL);
             }
         });
 

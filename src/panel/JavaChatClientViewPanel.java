@@ -38,7 +38,7 @@ public class JavaChatClientViewPanel extends JPanel {
         String port_no = "30000";
 
         setLayout(null);
-        setBackground(Color.BLACK);
+        setBackground(Color.WHITE);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 10, 595, 450);
@@ -60,7 +60,7 @@ public class JavaChatClientViewPanel extends JPanel {
         lblUserName = new JLabel("Name");
         lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
         lblUserName.setBounds(12, 480, 67, 40);
-        lblUserName.setForeground(Color.WHITE);
+        lblUserName.setForeground(Color.BLACK);
         add(lblUserName);
         setVisible(true);
 
