@@ -6,19 +6,34 @@ import client.ClientFrame;
 //import notUse.RoomList;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 
 public class RoomParticipantListPanel extends JPanel {
     public RoomParticipantListPanel(ClientFrame clientFrame,String msg,String roomTitle) {
 
-
+        setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel("참가자"));
-        //add(new JLabel(msg+"-현재 참가자 이름"));
+        JLabel title = new JLabel("참가자");
+        title.setForeground(Color.WHITE);
+        title.setFont(title.getFont().deriveFont(20.0f)); // 현재 폰트를 유지하며 크기만 변경
+        title.setMaximumSize(new Dimension(635, 40));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT); // 가운데 정렬
+        title.setHorizontalAlignment(JLabel.CENTER);     // 수평 가운데 정렬
+        title.setVerticalAlignment(JLabel.CENTER);       // 수직 가운데 정렬
+        add(title);
 
         String[] parts = msg.split(":"); // ":" 기준으로 문자열을 나눕니다.
         String[] participants = parts[1].split(","); // 참가자 이름을 "," 기준으로 나누어 배열로 만듭니다.
         for(int i=0;i<participants.length;i++){
-            add(new JLabel(participants[i]));
+            JLabel label = new JLabel(participants[i]);
+            label.setForeground(Color.WHITE);
+            label.setMaximumSize(new Dimension(635, 40));
+            label.setAlignmentX(Component.CENTER_ALIGNMENT); // 가운데 정렬
+            label.setHorizontalAlignment(JLabel.CENTER);     // 수평 가운데 정렬
+            label.setVerticalAlignment(JLabel.CENTER);       // 수직 가운데 정렬
+            label.setFont(title.getFont().deriveFont(15.0f)); // 현재 폰트를 유지하며 크기만 변경
+            add(label);
         }
 
 //        clientFrame.getClient().sendMessage("400/"+roomTitle);
@@ -51,13 +66,26 @@ public class RoomParticipantListPanel extends JPanel {
 
     public void updateMessage(String msg) {
         removeAll(); // 기존 라벨들을 제거
-        add(new JLabel("참가자"));
+        JLabel title = new JLabel("참가자");
+        title.setForeground(Color.WHITE);
+        title.setFont(title.getFont().deriveFont(20.0f)); // 현재 폰트를 유지하며 크기만 변경
+        title.setMaximumSize(new Dimension(635, 40));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT); // 가운데 정렬
+        title.setHorizontalAlignment(JLabel.CENTER);     // 수평 가운데 정렬
+        title.setVerticalAlignment(JLabel.CENTER);       // 수직 가운데 정렬
+        add(title);
 
         String[] parts = msg.split(":"); // ":" 기준으로 문자열을 나눕니다.
         String[] participants = parts[1].split(","); // 참가자 이름을 "," 기준으로 나누어 배열로 만듭니다.
         for(int i=0;i<participants.length;i++){
-            add(new JLabel(participants[i]));
-            System.out.println("updateMeesage " +participants[i]);
+            JLabel label = new JLabel(participants[i]);
+            label.setForeground(Color.WHITE);
+            label.setMaximumSize(new Dimension(635, 30));
+            label.setAlignmentX(Component.CENTER_ALIGNMENT); // 가운데 정렬
+            label.setHorizontalAlignment(JLabel.CENTER);     // 수평 가운데 정렬
+            label.setVerticalAlignment(JLabel.CENTER);       // 수직 가운데 정렬
+            label.setFont(title.getFont().deriveFont(15.0f)); // 현재 폰트를 유지하며 크기만 변경
+            add(label);
         }
         revalidate();
         repaint();

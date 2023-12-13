@@ -1,5 +1,6 @@
 package panel;
 
+import client.Client;
 import client.ClientFrame;
 import thread.JavaChatClientViewPanel;
 
@@ -13,8 +14,14 @@ public class RoomChatPanel extends JPanel {
     String ip_addr = "127.0.0.1";
     String port_no = "30000";
     String userName;
+    private Client client;
+
        public RoomChatPanel(String userName){
-           this.userName = userName;
+           client = clientFrame.getClient();
+           //client.sendMessage("202/"+"userName");
+           //userName = client.receiveMessage();
+           //System.out.println("내 이름"+userName);
+           //this.userName = userName;
            //this.clientFrame = clientFrame;
            setLayout(new BorderLayout());
 
@@ -41,12 +48,6 @@ public class RoomChatPanel extends JPanel {
                 }
             });
         }
-
-
-
-
-
-
 
 
 }

@@ -1,5 +1,6 @@
 package thread;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
@@ -34,9 +35,10 @@ public class JavaChatClientViewPanel extends JPanel {
 	public JavaChatClientViewPanel(String username, String ip_addr, String port_no) {
 
 		setLayout(null);
+        setBackground(Color.BLACK);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 352, 340);
+		scrollPane.setBounds(20, 10, 595, 450);
 		add(scrollPane);
 
 		textArea = new JTextArea();
@@ -44,17 +46,18 @@ public class JavaChatClientViewPanel extends JPanel {
 		scrollPane.setViewportView(textArea);
 
 		txtInput = new JTextField();
-		txtInput.setBounds(91, 365, 185, 40);
+		txtInput.setBounds(91, 480, 435, 40);
 		add(txtInput);
 		txtInput.setColumns(10);
 
 		btnSend = new JButton("Send");
-		btnSend.setBounds(288, 364, 76, 40);
+		btnSend.setBounds(535,480 , 76, 40);
 		add(btnSend);
 
 		lblUserName = new JLabel("Name");
 		lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUserName.setBounds(12, 364, 67, 40);
+		lblUserName.setBounds(12, 480, 67, 40);
+        lblUserName.setForeground(Color.WHITE);
 		add(lblUserName);
 		setVisible(true);
 

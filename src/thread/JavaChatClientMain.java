@@ -10,12 +10,6 @@ import javax.swing.JTextField;
 
 public class JavaChatClientMain extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField txtUserName;
-	private JTextField txtIpAddress;
-	private JTextField txtPortNumber;
-
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

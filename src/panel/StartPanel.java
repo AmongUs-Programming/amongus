@@ -16,6 +16,7 @@ public class StartPanel extends JPanel {
     private Image backgroundImg;
     private JButton startButton;
     private ClientFrame clientFrame;
+
     public StartPanel(ClientFrame clientFrame){
         this.clientFrame = clientFrame;
         setLayout(null);
