@@ -236,98 +236,89 @@ public class Server extends JFrame {
         public void run() {
             while (true) {
                 try {
+                    Object input = ois.readObject();
+                    if (input instanceof Move) {
+                        Move move = (Move) input;
+                        // Move 객체를 서버의 메인 클래스에 전달하여 다른 클라이언트에게 전송
+                        broadcastMoveToOtherClients(move, this);
+                        AppendMovingInfo(move);
+                    }
+                    if(input instanceof String){
+                        request = (String) input;
+                        System.out.println("client->server requset: " + request);
+                        String code = request.split("/")[0];
+                        String msg = request.split("/")[1];
 
-                    String messageType = ois.readUTF();
-                    switch (messageType){
-                        case "TEXT":
-                            request = ois.readUTF();
+                        switch (code) {
+                            case "200": //login
+                                System.out.println("server login 성공 id : " + msg);
+                                this.userName = msg;
+                                handlePlayerRegistration(this);
+                                this.sendMessage("100/ok");
+                                break;
+                            case "201": //logout
+                                break;
+                            case "202": //user Name
+                                this.sendMessage("100/"+this.userName);
+                                System.out.println("내이름 : "+userName);
+                                break;
+                            case "300": //createRoom
+                                createRoom(msg);
+                                //create gameThread
+                                gameThList.put(msg, new GameTherad());
+                                //owner enter room
+                                gameThList.get(msg).enterRoom(userName, msg, this);
+                                //get all paricipants
+                                gameThList.get(msg).getParticipant(msg);
+                                System.out.println("server Room 생성됌 ID: " + msg);
 
-                            System.out.println("client->server requset: " + request);
-                            String code = request.split("/")[0];
-                            String msg = request.split("/")[1];
-
-
-
-                            switch (code) {
-                                case "200": //login
-                                    System.out.println("server login 성공 id : " + msg);
-                                    this.userName = msg;
-                                    handlePlayerRegistration(this);
-                                    this.sendMessage("100/ok");
-                                    break;
-                                case "201": //logout
-                                    break;
-                                case "202": //user Name
-                                    this.sendMessage("100/"+this.userName);
-                                    System.out.println("내이름 : "+userName);
-                                    break;
-                                case "300": //createRoom
-                                    createRoom(msg);
-                                    //create gameThread
-                                    gameThList.put(msg, new GameTherad());
-                                    //owner enter room
-                                    gameThList.get(msg).enterRoom(userName, msg, this);
-                                    //get all paricipants
-                                    gameThList.get(msg).getParticipant(msg);
-                                    System.out.println("server Room 생성됌 ID: " + msg);
-
-                                    int size1 = gameThList.get(msg).getParticipantNum(msg);
-                                    //모든 참가자들 이름과 참가자 수 전송하기
-                                    StringBuilder sb1 = new StringBuilder();
-                                    sb1.append(size1 + ":");
-                                    sb1.append(gameThList.get(msg).getParticipantsName(msg));
-                                    String dataToSend1 = sb1.toString();
-                                    System.out.println("현재 방 참가자 수: " + dataToSend1);
-                                    this.sendMessage("100/" + dataToSend1);
-                                    break;
-                                case "301"://removeRoom
-                                    removeRoom(msg);
-                                    gameThList.remove(msg);
-                                    break;
-                                case "302"://enterRoom
-                                    System.out.println("여기1" + msg);
-                                    gameThList.get(msg).enterRoom(userName, msg, this);
-                                    break;
-                                case "303": //roomList
-                                    this.sendMessage("100/" + getRoomIDs());
-                                    AppendText("현재 방 list:" + getRoomIDs());
-                                    break;
-                                case "400"://search owner
-                                    System.out.println("수신완료");
-                                    String owner = gameThList.get(msg).setGetRoomOwner(msg);
-                                    this.sendMessage("100/" + owner);
-                                    break;
-                                case "401"://participantList
-                                    //print current 참가자 수
-                                    int size = gameThList.get(msg).getParticipantNum(msg);
-                                    //모든 참가자들 이름과 참가자 수 전송하기
-                                    StringBuilder sb = new StringBuilder();
-                                    sb.append(size + ":");
-                                    sb.append(gameThList.get(msg).getParticipantsName(msg));
-                                    String dataToSend = sb.toString();
-                                    System.out.println("현재 방 참가자 수: " + dataToSend);
-                                    Map<String, UserThread> participantList = gameThList.get(msg).getParticipant(msg);
-                                    for (UserThread userThread : participantList.values()) {
-                                        System.out.println("data : " + dataToSend + "send to " + userThread.userName);
-                                        userThread.sendMessage("100/" + dataToSend);
-                                    }
-                                case "500"://request game start
-                                    //select Imposter
-                                    gameThList.get(msg).getUserNamesWithColors(msg);
-                                    //changePanel (역할 결과 화면)
-                                    break;
-                                case "501": //
-                            }
-                            break;
-                        case "MOVE":
-                            Object input = ois.readObject();
-                            if (input instanceof Move) {
-                                Move move = (Move) input;
-                                // Move 객체를 서버의 메인 클래스에 전달하여 다른 클라이언트에게 전송
-                                broadcastMoveToOtherClients(move, this);
-                                AppendMovingInfo(move);
-                            }
-                            break;
+                                int size1 = gameThList.get(msg).getParticipantNum(msg);
+                                //모든 참가자들 이름과 참가자 수 전송하기
+                                StringBuilder sb1 = new StringBuilder();
+                                sb1.append(size1 + ":");
+                                sb1.append(gameThList.get(msg).getParticipantsName(msg));
+                                String dataToSend1 = sb1.toString();
+                                System.out.println("현재 방 참가자 수: " + dataToSend1);
+                                this.sendMessage("100/" + dataToSend1);
+                                break;
+                            case "301"://removeRoom
+                                removeRoom(msg);
+                                gameThList.remove(msg);
+                                break;
+                            case "302"://enterRoom
+                                System.out.println("여기1" + msg);
+                                gameThList.get(msg).enterRoom(userName, msg, this);
+                                break;
+                            case "303": //roomList
+                                this.sendMessage("100/" + getRoomIDs());
+                                AppendText("현재 방 list:" + getRoomIDs());
+                                break;
+                            case "400"://search owner
+                                System.out.println("수신완료");
+                                String owner = gameThList.get(msg).setGetRoomOwner(msg);
+                                this.sendMessage("100/" + owner);
+                                break;
+                            case "401"://participantList
+                                //print current 참가자 수
+                                int size = gameThList.get(msg).getParticipantNum(msg);
+                                //모든 참가자들 이름과 참가자 수 전송하기
+                                StringBuilder sb = new StringBuilder();
+                                sb.append(size + ":");
+                                sb.append(gameThList.get(msg).getParticipantsName(msg));
+                                String dataToSend = sb.toString();
+                                System.out.println("현재 방 참가자 수: " + dataToSend);
+                                Map<String, UserThread> participantList = gameThList.get(msg).getParticipant(msg);
+                                for (UserThread userThread : participantList.values()) {
+                                    System.out.println("data : " + dataToSend + "send to " + userThread.userName);
+                                    userThread.sendMessage("100/" + dataToSend);
+                                }
+                            case "500"://request game start
+                                //select Imposter
+                                gameThList.get(msg).getUserNamesWithColors(msg);
+                                //changePanel (역할 결과 화면)
+                                break;
+                            case "501": //
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

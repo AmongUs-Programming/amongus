@@ -244,7 +244,6 @@ public class GamePanel extends JPanel {
     private void sendMoveToServer(int x, int y){
         Move move = new Move(clientFrame.getRoomTitle(),x,y,clientFrame.getClient().getName());
         try {
-            clientFrame.getClient().sendMessage("MOVE");
             clientFrame.getClient().sendMoveMessage(move);
         } catch (Exception e) {
             throw new RuntimeException(e);
