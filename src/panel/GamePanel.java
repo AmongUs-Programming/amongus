@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GamePanel extends JPanel {
 
@@ -28,6 +29,9 @@ public class GamePanel extends JPanel {
     private JLabel citizenLabel;
 
     private ClientFrame clientFrame;
+    private Map<String, Point> playerPositions = new HashMap<>();
+    private Map<String, Image> playerImages = new HashMap<>();
+    private String initMessage;
 
     // 좌표가 맵 위나 통로에 있는지 확인하고 true, false 값 return
     private boolean isValidMode(int x, int y) {
@@ -84,7 +88,7 @@ public class GamePanel extends JPanel {
 //        RoomPanel.running=false;
 
         String role = clientFrame.getRole();
-        String color = clientFrame.getColor();
+//        String color = clientFrame.getColor();
 
         this.clientFrame = clientFrame;
         String roomTitle = this.clientFrame.getRoomTitle();
@@ -92,6 +96,7 @@ public class GamePanel extends JPanel {
         this.clientFrame.getClient().sendMessage("304/" + roomTitle);
         this.clientFrame.getClient().sendMessage("600/" + roomTitle);
         //this.clientFrame.getClient().sendMessage("502/"+roomTitle);
+
 
 //        MoveThread moveThread = new MoveThread(clientFrame);
 //        moveThread.start();
@@ -110,20 +115,28 @@ public class GamePanel extends JPanel {
             add(citizenLabel);
         }
 
-        // 이미지 로드
-        switch (color) {
-            case "red":
-                userImage = new ImageIcon(Client.class.getResource("/images/red.png")).getImage();
-                break;
-            case "blue":
-                userImage = new ImageIcon(Client.class.getResource("/images/blue.png")).getImage();
-                break;
-            case "yellow":
-                userImage = new ImageIcon(Client.class.getResource("/images/yellow.png")).getImage();
-                break;
-            case "green":
-                userImage = new ImageIcon(Client.class.getResource("/images/green.png")).getImage();
-                break;
+
+//        // 이미지 로드
+//        switch (color) {
+//            case "red":
+//                userImage = new ImageIcon(Client.class.getResource("/images/red.png")).getImage();
+//                break;
+//            case "blue":
+//                userImage = new ImageIcon(Client.class.getResource("/images/blue.png")).getImage();
+//                break;
+//            case "yellow":
+//                userImage = new ImageIcon(Client.class.getResource("/images/yellow.png")).getImage();
+//                break;
+//            case "green":
+//                userImage = new ImageIcon(Client.class.getResource("/images/green.png")).getImage();
+//                break;
+//        }
+        this.clientFrame.getClient().sendMessage("601/" + userX + "," + userY);
+        this.clientFrame.getClient().receiveMessage();
+        initMessage = this.clientFrame.getClient().getServerRealMessage();
+        System.out.println("initMessage : "+initMessage);
+        for(int i =0 ; i<initMessage.split("//").length;i++){
+            playerImages.put(initMessage.split("//")[i], new ImageIcon(Client.class.getResource("/images/green.png")).getImage());
         }
         backgroundImage = new ImageIcon(Client.class.getResource("/images/gamebg.png")).getImage();
         cafeteriaImage = new ImageIcon(Client.class.getResource("/images/cafeteria.png")).getImage();
@@ -184,6 +197,8 @@ public class GamePanel extends JPanel {
                 }
             });
         }
+        MoveThread moveThread = new MoveThread(clientFrame);
+        moveThread.start();
         setVisible(true);
     }
 
@@ -192,7 +207,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         // 사용자 그리기
-        if (userImage != null) {
+//        if (userImage != null) {
             // 사용자 주변 원 그리기
             int circleX = userX - 50;
             int circleY = userY - 50;
@@ -253,12 +268,20 @@ public class GamePanel extends JPanel {
                 g.drawImage(cctvImage, 400, 330, 500, 250, this);
             }
 
-            g.drawImage(userImage, userX, userY, userWidth, userHeight, this);
+//            g.drawImage(userImage, userX, userY, userWidth, userHeight, this);
+            for (Map.Entry<String, Point> entry : playerPositions.entrySet()) {
+                Point position = entry.getValue();
+                g.drawImage(playerImages.get(entry.getKey()), position.x, position.y, this);
+            }
             // 클리핑 해제
             g.setClip(null);
-        }
+//        }
 
         repaint();
+    }
+
+    public void updatePlayerPosition(String playerName, int x, int y) {
+        playerPositions.put(playerName, new Point(x, y));
     }
 
     private void movePlayer(int deltaX, int deltaY) {
@@ -269,27 +292,41 @@ public class GamePanel extends JPanel {
             userX = nextX;
             userY = nextY;
             clientFrame.getClient().sendMessage("601/" + userX + "," + userY);
-            this.clientFrame.getClient().receiveMessage();
-            System.out.println("client : "+this.clientFrame.getClient().getServerRealMessage());
         }
     }
 
 
-//    class MoveThread extends Thread {
-//        ClientFrame clientFrame;
-//
-//        public MoveThread(ClientFrame clientFrame) {
-//            this.clientFrame = clientFrame;
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (true) {
-//                this.clientFrame.getClient().sendMessage("600/"+);
-//
-//
-//            }
-//        }
-//    }
+    class MoveThread extends Thread {
+        ClientFrame clientFrame;
+
+        public MoveThread(ClientFrame clientFrame) {
+            this.clientFrame = clientFrame;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                this.clientFrame.getClient().receiveMessage();
+                String message = this.clientFrame.getClient().getServerRealMessage();
+
+                    System.out.println("message"+message);
+                    String[] playerDataArray = message.split("//");
+
+                    for (String playerData : playerDataArray) {
+                        if (!playerData.isEmpty()) {
+                            String[] parts = playerData.split(":");
+                            String playerName = parts[0];
+                            String[] coords = parts[1].split(",");
+                            int x = Integer.parseInt(coords[0]);
+                            int y = Integer.parseInt(coords[1]);
+                            System.out.println("Player: " + playerName + ", X: " + x + ", Y: " + y);
+                            updatePlayerPosition(playerName,x,y);
+                            repaint();
+                        }
+                    }
+
+            }
+        }
+    }
 
 }
