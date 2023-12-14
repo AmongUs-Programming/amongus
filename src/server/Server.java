@@ -18,6 +18,7 @@ public class Server extends JFrame {
     private CopyOnWriteArrayList<Room> roomList = new CopyOnWriteArrayList<>(); //게임 방list
     private CopyOnWriteArrayList<UserThread> users = new CopyOnWriteArrayList<>(); //게임에 접속한 모든 사람들
     private Map<String, GameTherad> gameThList = new HashMap<>(); //각 게임마다의 thread
+
     private JTextArea textArea;
 
     public Server(int port) {
@@ -75,10 +76,8 @@ public class Server extends JFrame {
     }
 
     public void AppendMovingInfo(Move msg) {
-        textArea.append("roomId = " + msg.getRoomId() + "\n");
         textArea.append("posX = " + msg.getPosX() + "\n");
         textArea.append("posY = " + msg.getPosY() + "\n");
-        textArea.append("characterNum = " + msg.getUserName() + "\n");
         textArea.setCaretPosition(textArea.getText().length());
     }
 
@@ -156,6 +155,7 @@ public class Server extends JFrame {
         //1-마피아
         Boolean isAlive = true;
 
+        private String room;
         public int getRole() {
             return role;
         }
@@ -186,24 +186,10 @@ public class Server extends JFrame {
         public void createRoom(String roomTitle) {
             Room newRoom = new Room(socket, roomTitle);
             roomList.add(newRoom);
-//            try {
-//                oos.writeUTF("Room '" + roomTitle +"' created successfully");
-//                oos.flush();
-//            } catch (IOException e) {
-//                AppendText("Error informing client about room creation");
-//                e.printStackTrace();
-//            }
         }
 
         public void removeRoom(String roomTitle) {
             roomList.remove(roomTitle);
-//            try {
-//                oos.writeUTF("Room '" + roomTitle +"RoomID:"+roomID+"' delete successfully");
-//                oos.flush();
-//            } catch (IOException e) {
-//                AppendText("Error informing client about room delete");
-//                e.printStackTrace();
-//            }
         }
 
         public String getRoomIDs() {
@@ -244,8 +230,11 @@ public class Server extends JFrame {
                     Object input = ois.readObject();
                     if (input instanceof Move) {
                         Move move = (Move) input;
-                        // Move 객체를 서버의 메인 클래스에 전달하여 다른 클라이언트에게 전송
-                        broadcastMoveToOtherClients(move, this);
+                        Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
+                        for (UserThread userThread : participantListForMove.values()) {
+                            System.out.println("data : " + move +"send to " + userThread.userName);
+                            userThread.sendMessage("100/" +move);
+                        }
                         AppendMovingInfo(move);
                     }
                     if(input instanceof String){
@@ -302,6 +291,9 @@ public class Server extends JFrame {
                                     this.sendMessage("100/" + getRoomIDs());
                                     AppendText("현재 방 list:" + getRoomIDs());
                                 }
+                                break;
+                            case "304":
+                                room = msg;
                                 break;
                             case "400"://search owner
                                 System.out.println("수신완료");
@@ -362,7 +354,26 @@ public class Server extends JFrame {
 
     //게임 thread
     class GameTherad extends Thread {
-        //        public Participant participant;
+        private Map<String,Move> participantMove = new HashMap<>();
+        public void makeParticipantMove(String roomID){
+            Room room;
+            for (Room rooms : roomList) {
+                if (rooms.getRoomTitle().equals(roomID)) {
+                    room = rooms;
+                    if (room != null) {
+                        for (String key : room.getParticipants().keySet()) {
+                            participantMove.put(key,new Move(600,200));
+                        }
+                    } else {
+                        System.out.println("Room not found with title: " + room);
+                    }
+                    break;
+                }
+            }
+        }
+        public void updateParticipantMove(String roomID){
+            
+        }
         //방 입장
         public void enterRoom(String userName, String roomID, UserThread userThread) {
             Room room = null;
