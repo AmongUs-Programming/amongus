@@ -135,8 +135,13 @@ public class GamePanel extends JPanel {
         this.clientFrame.getClient().receiveMessage();
         initMessage = this.clientFrame.getClient().getServerRealMessage();
         System.out.println("initMessage : "+initMessage);
-        for(int i =0 ; i<initMessage.split("//").length;i++){
-            playerImages.put(initMessage.split("//")[i], new ImageIcon(Client.class.getResource("/images/green.png")).getImage());
+        String[] playerDatas = initMessage.split("&");
+        for (String playerData : playerDatas) {
+            if (!playerData.isEmpty()) {
+                String[] parts = playerData.split(":");
+                String playerName = parts[0];
+                playerImages.put(playerName, new ImageIcon(Client.class.getResource("/images/green.png")).getImage());
+            }
         }
         backgroundImage = new ImageIcon(Client.class.getResource("/images/gamebg.png")).getImage();
         cafeteriaImage = new ImageIcon(Client.class.getResource("/images/cafeteria.png")).getImage();
@@ -271,7 +276,8 @@ public class GamePanel extends JPanel {
 //            g.drawImage(userImage, userX, userY, userWidth, userHeight, this);
             for (Map.Entry<String, Point> entry : playerPositions.entrySet()) {
                 Point position = entry.getValue();
-                g.drawImage(playerImages.get(entry.getKey()), position.x, position.y, this);
+//                System.out.println("positionImage"+entry.getKey()+","+position.x+","+position.y);
+                g.drawImage(playerImages.get(entry.getKey()), position.x, position.y,userWidth,userHeight, this);
             }
             // 클리핑 해제
             g.setClip(null);
