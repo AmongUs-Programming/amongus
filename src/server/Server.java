@@ -293,8 +293,6 @@ public class Server extends JFrame {
                                 break;
                             case "500"://request game start
                                 System.out.println("500 check");
-                                gameThList.get(msg).getUserNamesWithColors(msg);
-                                Map<String, String> userColors = gameThList.get(msg).getUserNamesWithColors(msg);
                                 Map<String, UserThread> participantListForChange = gameThList.get(msg).getParticipant(msg);
                                 for (UserThread userThread : participantListForChange.values()) {
                                     System.out.println("CHANGEPANEL : " + "send to " + userThread.userName);
@@ -311,6 +309,25 @@ public class Server extends JFrame {
                                     System.out.println("SENDROLE : " + "send to " + userThread.userName);
                                     String role = userThread.getRole() == 1 ? "IMPOSTER" : "CITIZEN";
                                     userThread.sendMessage("100/ROLE" + role);
+                                }
+                                break;
+
+                            case "502":
+                                System.out.println("색상 지정 요청 받음");
+                                String userName="";
+                                String color="";
+                                Map<String, String> userColors = gameThList.get(msg).getUserNamesWithColors(msg);
+                                System.out.println("userColors : "+userColors);
+                                for (Map.Entry<String, String> entry : userColors.entrySet()) {
+                                    userName = entry.getKey();// 사용자 이름
+                                    color = entry.getValue(); // 해당 사용자의 색상
+
+                                    Map<String, UserThread> participantColor = gameThList.get(msg).getParticipant(msg);
+                                    for (UserThread userThread : participantColor.values()) {
+                                        if(userThread.getName().equals(userName)){
+                                        userThread.sendMessage("100/COLOR"+color);
+                                        }
+                                    }
                                 }
                                 break;
 
@@ -333,7 +350,6 @@ public class Server extends JFrame {
                                 }
                                 AppendMovingInfo(myMove);
                                 break;
-
                         }
                     }
                 } catch (IOException e) {

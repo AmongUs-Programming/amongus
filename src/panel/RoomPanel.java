@@ -61,7 +61,7 @@ public class RoomPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 client.sendMessage("500/"+roomTitle);
                 client.sendMessage("501/"+roomTitle);
-                System.out.println("hihi");
+                client.sendMessage("502/"+roomTitle);
             }
         });
 
@@ -91,6 +91,12 @@ public class RoomPanel extends JPanel {
                         String role = message2.substring(4);
                         System.out.println("Your role is: " + role);
                         clientFrame.setRole(role);
+                        messageThread.interrupt();
+                    }
+                    else if(message2.startsWith("COLOR")){
+                        String color = message2.substring(5);
+                        System.out.println("Your color is: " + color);
+                        clientFrame.setColor(color);
                         messageThread.interrupt();
                     }
                     else {

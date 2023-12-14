@@ -80,6 +80,10 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(ClientFrame clientFrame) {
+
+        String role = clientFrame.getRole();
+        String color = clientFrame.getColor();
+
         this.clientFrame=clientFrame;
         String roomTitle = this.clientFrame.getRoomTitle();
         //Move List 생성
@@ -90,17 +94,32 @@ public class GamePanel extends JPanel {
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
         killLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-        add(killLabel);
+        if(role.equals("IMPOSTER")){
+        add(killLabel);}
 
         citizenLabel = new JLabel("run!!");
         citizenLabel.setForeground(Color.BLUE); // Set text color
         citizenLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-        //add(citizenLabel);
+        if(role.equals("CITIZEN")){
+        add(citizenLabel);}
 
         // 이미지 로드
+        switch (color){
+            case "red":
+                userImage = new ImageIcon(Client.class.getResource("/images/red.png")).getImage();
+                break;
+            case "blue":
+                userImage = new ImageIcon(Client.class.getResource("/images/blue.png")).getImage();
+                break;
+            case "yellow":
+                userImage = new ImageIcon(Client.class.getResource("/images/yellow.png")).getImage();
+                break;
+            case "green":
+                userImage = new ImageIcon(Client.class.getResource("/images/green.png")).getImage();
+                break;
+        }
         backgroundImage = new ImageIcon(Client.class.getResource("/images/gamebg.png")).getImage();
         cafeteriaImage = new ImageIcon(Client.class.getResource("/images/cafeteria.png")).getImage();
-        userImage = new ImageIcon(Client.class.getResource("/images/red.png")).getImage();
         medicalImage = new ImageIcon(Client.class.getResource("/images/medical.png")).getImage();
         shieldImage = new ImageIcon(Client.class.getResource("/images/shield.png")).getImage();
         cctvImage = new ImageIcon(Client.class.getResource("/images/cctv.png")).getImage();
