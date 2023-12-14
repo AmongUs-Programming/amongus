@@ -1,5 +1,7 @@
 package server;
 
+import thread.JavaChatServer;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -234,6 +236,8 @@ public class Server extends JFrame {
                                 break;
                             case "300": //createRoom
                                 createRoom(msg);
+                                JavaChatServer chatServer = new JavaChatServer();
+                                chatServer.startServer();
                                 //create gameThread
                                 gameThList.put(msg, new GameTherad());
                                 //owner enter room

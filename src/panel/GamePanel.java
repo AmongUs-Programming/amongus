@@ -81,7 +81,7 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(ClientFrame clientFrame) {
-        RoomPanel.running=false;
+//        RoomPanel.running=false;
 
         String role = clientFrame.getRole();
         String color = clientFrame.getColor();
@@ -175,13 +175,15 @@ public class GamePanel extends JPanel {
         });
 
         // 스페이스바 키 바인딩
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceBar");
-        actionMap.put("spaceBar", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("space");
-            }
-        });
+        if(clientFrame.getRole().equals("IMPOSTER")) {
+            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceBar");
+            actionMap.put("spaceBar", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("space");
+                }
+            });
+        }
         setVisible(true);
     }
 

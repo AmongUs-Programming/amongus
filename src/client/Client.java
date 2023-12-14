@@ -87,8 +87,7 @@ public class Client{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        JavaChatServer chatServer = new JavaChatServer();
-        chatServer.startServer();
+//        JavaChatServer chatServer = new JavaChatServer();
+//        chatServer.startServer();
     }
 }
