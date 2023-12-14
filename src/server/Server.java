@@ -399,7 +399,7 @@ public class Server extends JFrame {
         public String getParticipantListMove(){
             StringBuilder sb = new StringBuilder();
             for (String key : participantMove.keySet()) {
-                sb.append(key).append(":").append(participantMove.get(key).getPosX()).append(",").append(participantMove.get(key).getPosY());
+                sb.append(key).append(":").append(participantMove.get(key).getPosX()).append(",").append(participantMove.get(key).getPosY()).append("//");
             }
             return sb.toString();
         }

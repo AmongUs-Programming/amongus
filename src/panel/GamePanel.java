@@ -273,22 +273,28 @@ public class GamePanel extends JPanel {
         }
     }
 
+    public void updateLocation(String name, int x, int y){
 
-//    class MoveThread extends Thread {
-//        ClientFrame clientFrame;
-//
-//        public MoveThread(ClientFrame clientFrame) {
-//            this.clientFrame = clientFrame;
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (true) {
-//                this.clientFrame.getClient().sendMessage("600/"+);
-//
-//
-//            }
-//        }
-//    }
+    }
+
+    class MoveThread extends Thread {
+        ClientFrame clientFrame;
+
+        public MoveThread(ClientFrame clientFrame) {
+            this.clientFrame = clientFrame;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                clientFrame.getClient().receiveMessage();
+                String message = clientFrame.getClient().getServerRealMessage();
+                for (int i=0;i<message.split("//").length;i++){
+                    System.out.println("init:" +message);
+                    updateLocation(message.split("//")[i].split(":")[0],Integer.parseInt(message.split("//")[i].split(":")[1].split(",")[0]),Integer.parseInt(message.split("//")[i].split(":")[1].split(",")[0]));
+                }
+            }
+        }
+    }
 
 }
