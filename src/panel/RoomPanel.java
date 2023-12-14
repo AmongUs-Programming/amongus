@@ -62,8 +62,8 @@ public class RoomPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.sendMessage("500/"+roomTitle);
-                messageThread.interrupt();
-                //clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
+//                messageThread.interrupt();
+//                clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
             }
         });
 
@@ -86,15 +86,13 @@ public class RoomPanel extends JPanel {
                 System.out.println("message2: "+message2);
                 if (!message2.equals(message)) {
                     if(message2.equals("CHANGEPANEL")){
-                        clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
+                        clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
+                        messageThread.interrupt();
                     }else {
                         message = message2;
                         System.out.println(message);
                         participantListPanel.updateMessage(message);
                     }
-                }
-                if (message2.startsWith("ChangePanel")) {
-                    clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
                 }
             }
         }

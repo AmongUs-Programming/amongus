@@ -17,7 +17,9 @@ public class ShowRolePanel extends JPanel {
     String roleText;
     private Image backgroundImg;
     private JLabel roleLabel;
+    ClientFrame clientFrame;
     public ShowRolePanel(ClientFrame clientFrame){
+        this.clientFrame=clientFrame;
         runTimer();
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -33,6 +35,7 @@ public class ShowRolePanel extends JPanel {
         };
         mainPanel.setLayout(null);
         mainPanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        setVisible(true);
 
 //        if(getRole()==1){
 //            roleText = mapiaText;
@@ -40,26 +43,28 @@ public class ShowRolePanel extends JPanel {
 //            roleText = citizenText;
 //        }
 
-        clientFrame.getClient().sendMessage("");
-        clientFrame.getClient().receiveMessage();
-        String role = clientFrame.getClient().getServerRealMessage();
+        //clientFrame.getClient().sendMessage("");
+        //clientFrame.getClient().receiveMessage();
+        //String role = clientFrame.getClient().getServerRealMessage();
 
-        if(role.equals("IMPOSTER")){
-            roleText=mapiaText;
-        }else {
-            roleText=citizenText;
-        }
+//        if(role.equals("IMPOSTER")){
+//            roleText=mapiaText;
+//        }else {
+//            roleText=citizenText;
+//        }
+        roleLabel = new JLabel("당신은 마피아");
 
-        roleLabel = new JLabel(roleText);
-        roleLabel.setSize(200,300);
-        roleLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
+//        roleLabel = new JLabel(roleText);
+//        roleLabel.setSize(200,300);
+//        roleLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
 
         mainPanel.add(timer);
         mainPanel.add(roleLabel);
         add(mainPanel);
+        setVisible(true);
     }
     public void runTimer(){
-        TimerThread th = new TimerThread(timer,5);
+        TimerThread th = new TimerThread(clientFrame,timer,3);
         th.start();
     }
 
