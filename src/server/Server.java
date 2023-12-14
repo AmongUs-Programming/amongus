@@ -274,7 +274,7 @@ public class Server extends JFrame {
                             case "400"://search owner
                                 System.out.println("수신완료");
                                 String owner = gameThList.get(msg).setGetRoomOwner(msg);
-                                this.sendMessage("100/" + owner);
+                                this.sendMessage("100/OWNER" + owner);
                                 break;
                             case "401"://participantList
                                 //print current 참가자 수
@@ -499,21 +499,22 @@ public class Server extends JFrame {
         //방장 select 및 return
         public String setGetRoomOwner(String roomID) {
             System.out.println("지금 받은 방" + roomID);
-
-            Room room;
-            for (Room rooms : roomList) {
-                if (rooms.getRoomTitle().equals(roomID)) {
-                    room = rooms;
-                    if (room != null) {
-                        return room.getParticipants().get(0).getName();
+            for (Room room : roomList) {
+                if (room.getRoomTitle().equals(roomID)) {
+                    if (!room.getParticipants().isEmpty()) {
+                        // 첫 번째 참가자의 이름을 반환
+                        String firstParticipantName = room.getParticipants().keySet().iterator().next();
+                        System.out.println("방장이름"+firstParticipantName);
+                        return firstParticipantName;
                     } else {
-                        System.out.println("Room not found with title: " + room);
+                        System.out.println("Room not found or no participants in room: " + roomID);
+                        break;
                     }
-                    break;
                 }
             }
             return null;
         }
+
 
         //각 paricipant 색 정하기 및 이름과 색 반환
 

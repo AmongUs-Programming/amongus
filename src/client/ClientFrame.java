@@ -7,6 +7,7 @@ public class ClientFrame extends JFrame {
     private String roomTitle;
     private String role;
     private String color;
+    private String owner;
 
     // Client 객체를 설정하는 메서드
     public void setClient(Client client) {
@@ -73,6 +74,14 @@ public class ClientFrame extends JFrame {
                 }
             }
         }
+    }
+
+    public void setRoomOwner(String owner) {
+        this.owner = owner;
+        System.out.println("방장지정"+owner);
+    }
+    public String getRoomOwner(){
+        return owner;
     }
     public synchronized void setPanelState(PanelState newState) {
         this.currentPanelState = newState;

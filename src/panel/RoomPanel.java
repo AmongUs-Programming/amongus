@@ -25,6 +25,7 @@ public class RoomPanel extends JPanel {
         System.out.println("message: " + message);
         messageThread = new MessageThread();
         messageThread.start();
+        client.sendMessage("400/"+clientFrame.getRoomTitle());
 
         setLayout(new BorderLayout()); // 전체 패널을 BorderLayout으로 설정
 
@@ -45,6 +46,15 @@ public class RoomPanel extends JPanel {
         centerPanel.add(leftPanel);
         centerPanel.add(rightPanel);
 
+        //준비 라벨
+        JLabel readylb = new JLabel("게임 대기중...");
+        readylb.setBackground(Color.BLACK);
+        readylb.setForeground(Color.WHITE);
+        readylb.setFont(readylb.getFont().deriveFont(15.0f));
+        Dimension readySize = new Dimension(1270,40);
+        readylb.setPreferredSize(readySize);
+        readylb.setMinimumSize(readySize);
+        readylb.setMaximumSize(readySize);
         // 시작하기 버튼
         JButton startBtn = new JButton("게임 시작");
         startBtn.setBackground(Color.BLACK);
@@ -55,6 +65,16 @@ public class RoomPanel extends JPanel {
         startBtn.setPreferredSize(buttonSize);
         startBtn.setMinimumSize(buttonSize);
         startBtn.setMaximumSize(buttonSize);
+
+        System.out.println("같은지 확인"+clientFrame.getClient().getName());
+        System.out.println("같은지 확인"+clientFrame.getRoomOwner());
+        if(clientFrame.getClient().getName().equals(clientFrame.getRoomOwner())){
+            add(startBtn, BorderLayout.NORTH);
+        }
+        else{
+            add(readylb, BorderLayout.NORTH);
+        }
+
         startBtn.addActionListener(new ActionListener() {
 
             @Override
@@ -67,7 +87,7 @@ public class RoomPanel extends JPanel {
 
         // 전체 패널에 추가
         add(centerPanel, BorderLayout.CENTER);
-        add(startBtn, BorderLayout.NORTH);
+
 
         setVisible(true);
     }
@@ -100,6 +120,11 @@ public class RoomPanel extends JPanel {
                         System.out.println("Your color is: " + color);
                         clientFrame.setColor(color);
 
+                    }
+                    else if(message2.startsWith("OWNER")){
+                        this.interrupt();
+                        String owner = message2.substring(5);
+                        clientFrame.setRoomOwner(owner);
                     }
                     else {
                         message = message2;
