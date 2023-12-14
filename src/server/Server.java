@@ -348,13 +348,11 @@ public class Server extends JFrame {
                                 int y = Integer.parseInt(msg.split(",")[1]);
                                 myMove.setPosX(x);
                                 myMove.setPosY(y);
-                                gameThList.get(room).updateParticipantMove(this, myMove);
-                                Map<String, String> userColorsForMove = gameThList.get(room).getUserNamesWithColors(room);
-                                for (UserThread userThread : users) {
-                                    String colorForMove = userColorsForMove.getOrDefault(userThread.userName, "unknown");
-                                    String userInfo = "100/" + userThread.userName + "/" + colorForMove + "/" + myMove.getPosX() + "," + myMove.getPosY();
-                                    System.out.println(userInfo);
-                                    userThread.sendMessage(userInfo);
+                                gameThList.get(room).updateParticipantMove(this,myMove);
+                                Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
+                                for (UserThread userThread : participantListForMove.values()) {
+                                    System.out.println("data : " + gameThList.get(room).getParticipantListMove() + "send to " + userThread.userName);
+                                    userThread.sendMessage("100/" + gameThList.get(room).getParticipantListMove());
                                 }
                                 break;
                         }

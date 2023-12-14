@@ -21,7 +21,7 @@ public class TimerThread extends Thread{
         while (true){
             try {
                 Thread.sleep(delay);
-                if(count<=0){
+                if(count<=-1){
                     //panel 바꾸기
                     if(panelName.equals("SHOW_ROLE_PANEL")){
                         clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
