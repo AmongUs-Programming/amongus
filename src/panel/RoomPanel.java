@@ -64,6 +64,7 @@ public class RoomPanel extends JPanel {
                 //clientFrame.getClient().receiveMessage();
                 //String panelChange = clientFrame.getClient().getServerRealMessage();
                 //System.out.println(panelChange);
+                messageThread.interrupt();
                 clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
                 //clientFrame.setPanelState(ClientFrame.PanelState.LOADING_PANEL);
             }
@@ -81,14 +82,14 @@ public class RoomPanel extends JPanel {
     public class MessageThread extends Thread {
         @Override
         public void run() {
-//            clientFrame.getClient().sendMessage("401/"+clientFrame.getRoomTitle());
-            clientFrame.getClient().receiveMessage();
-            String message2 = clientFrame.getClient().getServerRealMessage();
-            System.out.println("message2: " + message2);
-            if (!message2.equals(message)) {
-                message = message2;
-                System.out.println(message);
-                participantListPanel.updateMessage(message);
+            while (true){
+                clientFrame.getClient().receiveMessage();
+                String message2 = clientFrame.getClient().getServerRealMessage();
+                if (!message2.equals(message)) {
+                    message = message2;
+                    System.out.println(message);
+                    participantListPanel.updateMessage(message);
+                }
             }
         }
     }
