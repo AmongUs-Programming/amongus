@@ -5,11 +5,14 @@ import javax.swing.*;
 public class ClientFrame extends JFrame {
     private Client client;  // Client 객체를 저장
     private String roomTitle;
+    private String role;
 
     // Client 객체를 설정하는 메서드
     public void setClient(Client client) {
         this.client = client;
     }
+    public String getRole(){return role;}
+    public void setRole(String role){this.role=role;}
 
     // Client 객체에 접근하는 메서드
     public Client getClient() {

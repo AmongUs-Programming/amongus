@@ -303,6 +303,18 @@ public class Server extends JFrame {
                                 GameTherad gameThread = gameThList.get(msg);
                                 gameThread.selectImposter(msg);
                                 break;
+
+                            case "501"://임포스터 여부
+                                System.out.println("501 check");
+                                Map<String, UserThread> participant = gameThList.get(msg).getParticipant(msg);
+                                for (UserThread userThread : participant.values()) {
+                                    System.out.println("SENDROLE : " + "send to " + userThread.userName);
+                                    String role = userThread.getRole() == 1 ? "IMPOSTER" : "CITIZEN";
+                                    userThread.sendMessage("100/ROLE" + role);
+                                }
+                                break;
+
+
                             case "600": //make Move
                                 gameThList.get(msg).makeParticipantMove(msg);
                                 break;

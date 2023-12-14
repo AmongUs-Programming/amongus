@@ -2,6 +2,7 @@ package panel;
 
 import client.Client;
 import client.ClientFrame;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,9 +56,12 @@ public class RoomPanel extends JPanel {
         startBtn.setMinimumSize(buttonSize);
         startBtn.setMaximumSize(buttonSize);
         startBtn.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.sendMessage("500/"+roomTitle);
+                client.sendMessage("501/"+roomTitle);
+                System.out.println("hihi");
             }
         });
 
@@ -82,7 +86,14 @@ public class RoomPanel extends JPanel {
                     if(message2.equals("CHANGEPANEL")){
                         clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
                         messageThread.interrupt();
-                    }else {
+                    }
+                    else if(message2.startsWith("ROLE")){
+                        String role = message2.substring(4);
+                        System.out.println("Your role is: " + role);
+                        clientFrame.setRole(role);
+                        messageThread.interrupt();
+                    }
+                    else {
                         message = message2;
                         System.out.println(message);
                         participantListPanel.updateMessage(message);

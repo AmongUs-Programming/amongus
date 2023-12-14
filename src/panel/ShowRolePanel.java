@@ -20,7 +20,6 @@ public class ShowRolePanel extends JPanel {
     ClientFrame clientFrame;
     public ShowRolePanel(ClientFrame clientFrame){
         this.clientFrame=clientFrame;
-        runTimer();
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -37,34 +36,25 @@ public class ShowRolePanel extends JPanel {
         mainPanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         setVisible(true);
 
-//        if(getRole()==1){
-//            roleText = mapiaText;
-//        }else if(getRole()==0){
-//            roleText = citizenText;
-//        }
+        String role = clientFrame.getRole();
+        if(role.equals("IMPOSTER")){
+            roleText=mapiaText;
+        }else {
+            roleText=citizenText;
+        }
 
-        //clientFrame.getClient().sendMessage("");
-        //clientFrame.getClient().receiveMessage();
-        //String role = clientFrame.getClient().getServerRealMessage();
+        roleLabel = new JLabel(roleText);
+        roleLabel.setSize(200,300);
+        roleLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
 
-//        if(role.equals("IMPOSTER")){
-//            roleText=mapiaText;
-//        }else {
-//            roleText=citizenText;
-//        }
-        roleLabel = new JLabel("당신은 마피아");
-
-//        roleLabel = new JLabel(roleText);
-//        roleLabel.setSize(200,300);
-//        roleLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
-
-        mainPanel.add(timer);
+        //mainPanel.add(timer);
         mainPanel.add(roleLabel);
         add(mainPanel);
         setVisible(true);
+        runTimer();
     }
     public void runTimer(){
-        TimerThread th = new TimerThread(clientFrame,timer,3);
+        TimerThread th = new TimerThread(clientFrame,timer,1);
         th.start();
     }
 

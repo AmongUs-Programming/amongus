@@ -81,9 +81,11 @@ public class GamePanel extends JPanel {
 
     public GamePanel(ClientFrame clientFrame) {
         this.clientFrame=clientFrame;
+        String roomTitle = this.clientFrame.getRoomTitle();
         //Move List 생성
-        this.clientFrame.getClient().sendMessage("304/"+this.clientFrame.getRoomTitle());
-        this.clientFrame.getClient().sendMessage("600/"+this.clientFrame.getRoomTitle());
+        this.clientFrame.getClient().sendMessage("304/"+roomTitle);
+        this.clientFrame.getClient().sendMessage("600/"+roomTitle);
+        //this.clientFrame.getClient().sendMessage("502/"+roomTitle);
 
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
@@ -94,8 +96,6 @@ public class GamePanel extends JPanel {
         citizenLabel.setForeground(Color.BLUE); // Set text color
         citizenLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
         //add(citizenLabel);
-
-        System.out.println("gamepanel입니다");
 
         // 이미지 로드
         backgroundImage = new ImageIcon(Client.class.getResource("/images/gamebg.png")).getImage();
@@ -243,6 +243,8 @@ public class GamePanel extends JPanel {
             System.out.println(userX + "," + userY);
         }
     }
+
+
 
 
 }
