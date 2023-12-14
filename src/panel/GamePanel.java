@@ -269,6 +269,7 @@ public class GamePanel extends JPanel {
             userX = nextX;
             userY = nextY;
             clientFrame.getClient().sendMessage("601/" + userX + "," + userY);
+            this.clientFrame.getClient().receiveMessage();
             System.out.println("client : "+this.clientFrame.getClient().getServerRealMessage());
         }
     }

@@ -80,9 +80,9 @@ public class RoomPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.sendMessage("500/"+roomTitle);
                 client.sendMessage("501/"+roomTitle);
                 client.sendMessage("502/"+roomTitle);
+                client.sendMessage("500/"+roomTitle);
             }
         });
 
@@ -106,7 +106,8 @@ public class RoomPanel extends JPanel {
                 System.out.println("message2: "+message2);
                 if (!message2.equals(message)) {
                     if(message2.equals("CHANGEPANEL")){
-                        clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
+                        running=false;
+                        break;
                     }
                     else if(message2.startsWith("ROLE")){
                         String role = message2.substring(4);
@@ -129,11 +130,16 @@ public class RoomPanel extends JPanel {
 //                        clientFrame.setRoomOwner(owner);
                     }
                     else {
+                        System.out.println("else");
                         message = message2;
                         System.out.println(message);
                         participantListPanel.updateMessage(message);
                     }
                 }
+                System.out.println("running");
+            }
+            if (!running) {
+                clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
             }
 
         }
