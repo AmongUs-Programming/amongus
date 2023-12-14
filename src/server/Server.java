@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
-import java.sql.SQLOutput;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -148,8 +147,6 @@ public class Server extends JFrame {
                 AppendText("userService error");
             }
         }
-
-        String name;
         int role = 0;
         //0-시민
         //1-마피아
@@ -216,16 +213,6 @@ public class Server extends JFrame {
             while (true) {
                 try {
                     Object input = ois.readObject();
-//                    if (input instanceof Move) {
-//                        Move move = (Move) input;
-//                        gameThList.get(room).updateParticipantMove(this,move);
-//                        Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
-//                        for (UserThread userThread : participantListForMove.values()) {
-//                            System.out.println("data : " + move +"send to " + userThread.userName);
-//                            userThread.sendMessage("100/" +gameThList.get(room).getParticipantMove());
-//                        }
-//                        AppendMovingInfo(move);
-//                    }
                     if(input instanceof String){
                         request = (String) input;
                         System.out.println("client->server requset: " + request);
@@ -316,13 +303,6 @@ public class Server extends JFrame {
                                 GameTherad gameThread = gameThList.get(msg);
                                 gameThread.selectImposter(msg);
                                 break;
-                            case "501"://게임패널변경
-//                                System.out.println("패널변경요청");
-//                                Map<String, UserThread> panelParticipantList = gameThList.get(msg).getParticipant(msg);
-//                                for(UserThread userThread : panelParticipantList.values()){
-//                                    System.out.println("panel : "+"send to"+userThread.userName);
-//                                    userThread.sendMessage("100/"+"ChangePanel");
-//                                }
                             case "600": //make Move
                                 gameThList.get(msg).makeParticipantMove(msg);
                                 break;
@@ -549,48 +529,6 @@ public class Server extends JFrame {
             return userNamesWithColors;
         }
     }
-//        public Map<String, String> getUserNamesWithColors(String roomID) {
-//            Map<String, UserThread> allParticipants = null;
-//            Room findRoom;
-//            for (Room rooms : roomList) {
-//                if (rooms.getRoomTitle().equals(roomID)) {
-//                    findRoom = rooms;
-//                    if (findRoom != null) {
-//                        System.out.println("Room found : "+findRoom);
-//                    } else {
-//                        System.out.println("Room not found with title: " + findRoom);
-//                    }
-//                    break;
-//                }
-//            }
-//            Map<String, String> userNamesWithColors = new HashMap<>();
-//            int index = 0;
-//
-//            for (Map.Entry<String, UserThread> entry : allParticipants.entrySet()) {
-//                UserThread participant = entry.getValue();
-//                String name = participant.getName();
-//                List<String> colorList = Arrays.asList("red", "blue", "green", "yellow");
-//                String color = colorList.get(index % colorList.size());
-//                Room room;
-//                for (Room rooms : roomList) {
-//                    if (rooms.getRoomTitle().equals(roomID)) {
-//                        room = rooms;
-//                        if (room != null) {
-//                            room.assignColorToPlayer(name, color);
-//                        } else {
-//                            System.out.println("Room not found with title: " + room);
-//                        }
-//                        break;
-//                    }
-//                }
-//                userNamesWithColors.put(name, color);
-//
-//                index++;
-//            }
-//
-//            return userNamesWithColors;
-//        }
-
     public static void main(String[] args) {
         new Server(29998);
     }

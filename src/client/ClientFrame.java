@@ -1,8 +1,5 @@
 package client;
-
-//import notUse.LoadingPanel;
 import panel.*;
-
 import javax.swing.*;
 
 public class ClientFrame extends JFrame {
@@ -86,15 +83,9 @@ public class ClientFrame extends JFrame {
             case GAME_PANEL:
                 setContentPane(new GamePanel(this));
                 break;
-//            case LOADING_PANEL:
-//                setContentPane(new LoadingPanel(this));
-//                break;
             case ROLE_PANEL:
                 setContentPane(new ShowRolePanel(this));
                 break;
-//            case IMPOSTER_PANEL:
-//                setContentPane(new ImposterPanel(this));
-//                break;
         }
         revalidate();
         repaint();

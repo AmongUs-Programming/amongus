@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CreateRoomFrame extends JFrame {
-    String owner;
     String roomTitle;
     private Client client;
     private ClientFrame clientFrame;

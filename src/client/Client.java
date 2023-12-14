@@ -1,11 +1,11 @@
 package client;
 
 import server.Move;
+import thread.JavaChatServer;
 
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Client{
     private String serverAddress;
@@ -54,19 +54,6 @@ public class Client{
         }
     }
 
-    public void sendMoveMessage(Object message) {
-        try {
-            if (oos != null && !socket.isClosed()) { // null 체크 추가
-                oos.writeObject(message);
-                oos.flush();
-            } else {
-                System.err.println("ObjectOutputStream is null. Connection may be closed.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void receiveMessage() {
         try {
             if (ois != null) { // null 체크 추가
@@ -93,5 +80,16 @@ public class Client{
     }
     public String getServerRealMessage(){
         return serverRealMessage;
+    }
+
+    public static void main(String[] args) throws IOException {
+        try{
+            new ClientFrame();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        JavaChatServer chatServer = new JavaChatServer();
+        chatServer.startServer();
     }
 }

@@ -1,8 +1,7 @@
 package panel;
 
+import client.Client;
 import client.ClientFrame;
-import main.Main;
-import server.Move;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,12 +98,12 @@ public class GamePanel extends JPanel {
         System.out.println("gamepanel입니다");
 
         // 이미지 로드
-        backgroundImage = new ImageIcon(Main.class.getResource("/images/gamebg.png")).getImage();
-        cafeteriaImage = new ImageIcon(Main.class.getResource("/images/cafeteria.png")).getImage();
-        userImage = new ImageIcon(Main.class.getResource("/images/red.png")).getImage();
-        medicalImage = new ImageIcon(Main.class.getResource("/images/medical.png")).getImage();
-        shieldImage = new ImageIcon(Main.class.getResource("/images/shield.png")).getImage();
-        cctvImage = new ImageIcon(Main.class.getResource("/images/cctv.png")).getImage();
+        backgroundImage = new ImageIcon(Client.class.getResource("/images/gamebg.png")).getImage();
+        cafeteriaImage = new ImageIcon(Client.class.getResource("/images/cafeteria.png")).getImage();
+        userImage = new ImageIcon(Client.class.getResource("/images/red.png")).getImage();
+        medicalImage = new ImageIcon(Client.class.getResource("/images/medical.png")).getImage();
+        shieldImage = new ImageIcon(Client.class.getResource("/images/shield.png")).getImage();
+        cctvImage = new ImageIcon(Client.class.getResource("/images/cctv.png")).getImage();
 
         setFocusable(true);
         requestFocusInWindow();

@@ -9,7 +9,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class RoomListPanel extends JPanel {
     private ClientFrame clientFrame;
@@ -81,42 +80,6 @@ public class RoomListPanel extends JPanel {
                 panel.add(enterRoomButton);
             }
         }
-
-//        Map<Integer, Room> rooms = roomList.getRoomList();
-//        for (Map.Entry<Integer, Room> entry : rooms.entrySet()) {
-//            Integer roomNumber = entry.getKey();
-//            Room room = entry.getValue();
-//            int paticipantNum = roomList.getParticipantList(entry.getKey()).getParticipantListSize();
-//            JPanel eachRoomPanel = new JPanel();
-//            JPanel paticipantNumPanel = new JPanel();
-//            ImageIcon peopleIcon = new ImageIcon("images/peopleIcon.png");
-//            eachRoomPanel.setLayout(new FlowLayout());
-//            paticipantNumPanel.setLayout(new FlowLayout());
-//            JLabel paticipantNumLabel = new JLabel(String.valueOf(paticipantNum));
-//            JLabel roomNumberLabel = new JLabel(String.valueOf(roomNumber));
-//            JLabel roomTitleLabel = new JLabel(room.getRoomTitle());
-//            paticipantNumPanel.add(new JLabel("hi"));
-//            paticipantNumPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(paticipantNumLabel);
-//            eachRoomPanel.add(roomNumberLabel);
-//            eachRoomPanel.add(roomTitleLabel);
-//            eachRoomPanel.addMouseListener(new MouseAdapter() {
-//                @Override
-//                public void mouseClicked(MouseEvent e) {
-//                    //선택한 해당 RoomPanel에 이동하기
-////                  StartFrame.setPanel(roomListPanel,new RoomPanel(roomList.getParticipantList(entry.getKey()).getOwner(),roomNumber));
-//                    RoomListPanel.roomList.getParticipantList(entry.getKey()).addParticipant(UserInfo.getName());
-//                    new Role(roomList.getParticipantList(entry.getKey()).getParticipants());
-//                    StartFrame.setPanel(roomListPanel,showRolePanel);
-//                    showRolePanel.runTimer();
-//                }
-//            });
-//            eachRoomPanel.setVisible(true);
-//            panel.add(eachRoomPanel);
-//            System.out.println("Room Number: " + roomNumber + ", Room: " + room.getRoomTitle());
-//        }
-//
         add(panel);
         setVisible(true);
     }

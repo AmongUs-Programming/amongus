@@ -4,15 +4,11 @@ import client.Client;
 import client.ClientFrame;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLOutput;
 
 public class RoomPanel extends JPanel {
-    //Boolean condition=false;
-    String owner;
     private RoomParticipantListPanel participantListPanel;
     private String message;
     private ClientFrame clientFrame;
@@ -62,8 +58,6 @@ public class RoomPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.sendMessage("500/"+roomTitle);
-//                messageThread.interrupt();
-//                clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
             }
         });
 

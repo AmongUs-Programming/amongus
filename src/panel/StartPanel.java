@@ -1,8 +1,8 @@
 package panel;
 
+import client.Client;
 import client.ClientFrame;
 import frame.ParticipantSetNameFrame;
-import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ public class StartPanel extends JPanel {
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         // 배경 이미지 로드
-        backgroundImg = new ImageIcon(Main.class.getResource("/images/backgroundImg.PNG")).getImage();
+        backgroundImg = new ImageIcon(Client.class.getResource("/images/backgroundImg.PNG")).getImage();
 
         // 시작 버튼 생성
         startButton = new JButton("시작하기");
@@ -32,8 +32,6 @@ public class StartPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ParticipantSetNameFrame(clientFrame);
-                //세으나 밑에꺼 주석처리 풀면 됑
-                //clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
             }
         });
         add(startButton); // 패널에 버튼 추가

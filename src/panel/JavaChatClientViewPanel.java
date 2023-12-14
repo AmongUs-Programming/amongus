@@ -23,7 +23,6 @@ public class JavaChatClientViewPanel extends JPanel {
     private String UserName;
     private JButton btnSend;
     private JTextArea textArea;
-    private static final int BUF_LEN = 128; // Windows 처럼 BUF_LEN 을 정의
     private Socket socket; // 연결소켓
     private InputStream is;
     private OutputStream os;
@@ -64,7 +63,6 @@ public class JavaChatClientViewPanel extends JPanel {
         add(lblUserName);
         setVisible(true);
 
-        //AppendText("User " + username + " connecting " + ip_addr + " " + port_no + "\n");
         UserName = username;
         lblUserName.setText(username + ">");
 
