@@ -4,6 +4,8 @@ import server.Move;
 
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Client{
     private String serverAddress;
@@ -12,7 +14,7 @@ public class Client{
     private static ObjectOutputStream oos;
     private static ObjectInputStream ois;
     private String serverMessage;
-    private Move serverMoveMessage;
+    private HashMap<String, Move> serverMoveMessage;
     private String serverRealMessage;
     private String name;
 
@@ -69,8 +71,8 @@ public class Client{
         try {
             if (ois != null) { // null 체크 추가
                 Object input = ois.readObject();
-                if (input instanceof Move) {
-                    serverMoveMessage = (Move)input;
+                if (input instanceof HashMap<?, ?>) {
+                    serverMoveMessage = (HashMap<String, Move>) input;
                 } else if (input instanceof String) {
                     serverMessage =(String)input;
                     System.out.println("client serverMessage:"+serverMessage);
@@ -86,7 +88,7 @@ public class Client{
         }
     }
 
-    public Move getServerMoveMessage(){
+    public HashMap<String, Move> getServerMoveMessage(){
         return serverMoveMessage;
     }
     public String getServerRealMessage(){

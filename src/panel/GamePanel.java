@@ -82,6 +82,9 @@ public class GamePanel extends JPanel {
 
     public GamePanel(ClientFrame clientFrame) {
         this.clientFrame=clientFrame;
+        //Move List 생성
+        this.clientFrame.getClient().sendMessage("304/"+this.clientFrame.getRoomTitle());
+        this.clientFrame.getClient().sendMessage("600/"+this.clientFrame.getRoomTitle());
 
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
@@ -237,32 +240,10 @@ public class GamePanel extends JPanel {
         if (isValidMode(nextX, nextY)) {
             userX = nextX;
             userY = nextY;
-            sendMoveToServer(userX,userY);
+            clientFrame.getClient().sendMessage("601/"+userX+","+userY);
             System.out.println(userX + "," + userY);
         }
     }
-    private void sendMoveToServer(int x, int y){
-        Move move = new Move(clientFrame.getRoomTitle(),x,y,clientFrame.getClient().getName());
-        try {
-            clientFrame.getClient().sendMoveMessage(move);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
-    }
-
-    public void listenForMoves() {
-        while (true) {
-                Object input = clientFrame.getClient().getServerMoveMessage();
-                if (input instanceof Move) {
-                    Move move = (Move) input;
-                    updateGameStateWithMove(move);
-                }
-        }
-    }
-
-    private void updateGameStateWithMove(Move move) {
-
-    }
 
 }

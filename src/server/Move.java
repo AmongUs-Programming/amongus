@@ -11,13 +11,20 @@ public class Move implements Serializable {
         this.posX = posX;
         this.posY = posY;
     }
+    public int setPosX(int posX) {
+        return this.posX=posX;
+    }
+
     public int getPosX() {
         return posX;
     }
 
-
     public int getPosY() {
         return posY;
+    }
+
+    public int setPosY(int posY) {
+        return this.posY=posY;
     }
 
 }

@@ -205,18 +205,6 @@ public class Server extends JFrame {
             }
         }
 
-        public void broadcastMoveToOtherClients(Move move, UserThread sourceUser) {
-            for (UserThread user : users) {
-                if (user != sourceUser) { // 원본 클라이언트를 제외한 모든 클라이언트에게 전송
-                    try {
-                        user.sendMove(move);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
         // UserThread 클래스 내부에 sendMove 메소드 추가
         public void sendMove(Move move) throws IOException {
             oos.writeObject(move);
@@ -228,15 +216,16 @@ public class Server extends JFrame {
             while (true) {
                 try {
                     Object input = ois.readObject();
-                    if (input instanceof Move) {
-                        Move move = (Move) input;
-                        Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
-                        for (UserThread userThread : participantListForMove.values()) {
-                            System.out.println("data : " + move +"send to " + userThread.userName);
-                            userThread.sendMessage("100/" +move);
-                        }
-                        AppendMovingInfo(move);
-                    }
+//                    if (input instanceof Move) {
+//                        Move move = (Move) input;
+//                        gameThList.get(room).updateParticipantMove(this,move);
+//                        Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
+//                        for (UserThread userThread : participantListForMove.values()) {
+//                            System.out.println("data : " + move +"send to " + userThread.userName);
+//                            userThread.sendMessage("100/" +gameThList.get(room).getParticipantMove());
+//                        }
+//                        AppendMovingInfo(move);
+//                    }
                     if(input instanceof String){
                         request = (String) input;
                         System.out.println("client->server requset: " + request);
@@ -334,6 +323,25 @@ public class Server extends JFrame {
 //                                    System.out.println("panel : "+"send to"+userThread.userName);
 //                                    userThread.sendMessage("100/"+"ChangePanel");
 //                                }
+                            case "600": //make Move
+                                gameThList.get(msg).makeParticipantMove(msg);
+                                break;
+                            case "601"://update Move
+                                Move myMove =  gameThList.get(room).getParticipantMove(this);
+                                //msg - x,y
+                                int x = Integer.parseInt(msg.split(",")[0]);
+                                int y = Integer.parseInt(msg.split(",")[1]);
+                                myMove.setPosX(x);
+                                myMove.setPosY(y);
+                                gameThList.get(room).updateParticipantMove(this,myMove);
+                                Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
+                                for (UserThread userThread : participantListForMove.values()) {
+                                    System.out.println("data : " + myMove +"send to " + userThread.userName);
+                                    userThread.sendMessage("100/" +gameThList.get(room).getParticipantListMove());
+                                }
+                                AppendMovingInfo(myMove);
+                                break;
+
                         }
                     }
                 } catch (IOException e) {
@@ -373,8 +381,14 @@ public class Server extends JFrame {
                 }
             }
         }
-        public void updateParticipantMove(String roomID){
-            
+        public void updateParticipantMove(UserThread userThread,Move move){
+            participantMove.put(userThread.userName,move);
+        }
+        public Map<String,Move> getParticipantListMove(){
+            return this.participantMove;
+        }
+        public Move getParticipantMove(UserThread userThread){
+            return participantMove.get(userThread.userName);
         }
         //방 입장
         public void enterRoom(String userName, String roomID, UserThread userThread) {
