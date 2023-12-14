@@ -409,7 +409,7 @@ public class Server extends JFrame {
         public String getParticipantListMove(){
             StringBuilder sb = new StringBuilder();
             for (String key : participantMove.keySet()) {
-                sb.append(key).append(":").append(participantMove.get(key).getPosX()).append(",").append(participantMove.get(key).getPosY());
+                sb.append(key).append(":").append(participantMove.get(key).getPosX()).append(",").append(participantMove.get(key).getPosY()).append("//");
             }
             return sb.toString();
         }
@@ -509,26 +509,6 @@ public class Server extends JFrame {
             }
             return null;
         }
-
-        //방장 select 및 return
-//        public String setGetRoomOwner(String roomID) {
-//            System.out.println("지금 받은 방" + roomID);
-//            for (Room room : roomList) {
-//                if (room.getRoomTitle().equals(roomID)) {
-//                    if (!room.getParticipants().isEmpty()) {
-//                        // 첫 번째 참가자의 이름을 반환
-//                        String firstParticipantName = room.getParticipants().keySet().iterator().next();
-//                        System.out.println("방장이름"+firstParticipantName);
-//                        return firstParticipantName;
-//                    } else {
-//                        System.out.println("Room not found or no participants in room: " + roomID);
-//                        break;
-//                    }
-//                }
-//            }
-//            return null;
-//        }
-
 
         //각 paricipant 색 정하기 및 이름과 색 반환
 
