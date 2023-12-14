@@ -81,6 +81,7 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(ClientFrame clientFrame) {
+        RoomPanel.running=false;
 
         String role = clientFrame.getRole();
         String color = clientFrame.getColor();

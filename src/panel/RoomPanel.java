@@ -16,6 +16,8 @@ public class RoomPanel extends JPanel {
     private String userName;
     private Client client;
     private  MessageThread messageThread;
+    public static volatile boolean running = true;
+
 
     public RoomPanel(ClientFrame clientFrame) {
         this.clientFrame = clientFrame;
@@ -66,8 +68,6 @@ public class RoomPanel extends JPanel {
         startBtn.setMinimumSize(buttonSize);
         startBtn.setMaximumSize(buttonSize);
 
-        System.out.println("같은지 확인"+clientFrame.getClient().getName());
-        System.out.println("같은지 확인"+clientFrame.getRoomOwner());
         if(clientFrame.getClient().getName().equals(clientFrame.getRoomOwner())){
             add(startBtn, BorderLayout.NORTH);
         }
@@ -95,9 +95,10 @@ public class RoomPanel extends JPanel {
 
 
     public class MessageThread extends Thread {
+
         @Override
         public void run() {
-            while (true){
+            while (running){
                 clientFrame.getClient().receiveMessage();
                 String message2 = clientFrame.getClient().getServerRealMessage();
                 System.out.println("message1: "+message);
@@ -112,14 +113,12 @@ public class RoomPanel extends JPanel {
                         String role = message2.substring(4);
                         System.out.println("Your role is: " + role);
                         clientFrame.setRole(role);
-
                     }
                     else if(message2.startsWith("COLOR")){
                         this.interrupt();
                         String color = message2.substring(5);
                         System.out.println("Your color is: " + color);
                         clientFrame.setColor(color);
-
                     }
                     else if(message2.startsWith("OWNER")){
                         this.interrupt();
@@ -133,6 +132,7 @@ public class RoomPanel extends JPanel {
                     }
                 }
             }
+
         }
     }
 }
