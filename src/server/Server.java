@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -324,13 +325,13 @@ public class Server extends JFrame {
                                 break;
                             case "500"://request game start
                                 System.out.println("500 check");
-//                                gameThList.get(msg).getUserNamesWithColors(msg);
+                                gameThList.get(msg).getUserNamesWithColors(msg);
+                                Map<String, String> userColors = gameThList.get(msg).getUserNamesWithColors(msg);
                                 Map<String, UserThread> participantListForChange = gameThList.get(msg).getParticipant(msg);
                                 for (UserThread userThread : participantListForChange.values()) {
                                     System.out.println("CHANGEPANEL : " + "send to " + userThread.userName);
                                     userThread.sendMessage("100/" + "CHANGEPANEL");
                                 }
-
                                 break;
                             case "501"://게임패널변경
 //                                System.out.println("패널변경요청");
@@ -455,20 +456,23 @@ public class Server extends JFrame {
         }
 
         //각 paricipant 색 정하기 및 이름과 색 반환
+
         public Map<String, String> getUserNamesWithColors(String roomID) {
-            Map<String, UserThread> allParticipants = null;
-            Room findRoom;
+            Room findRoom = null;
             for (Room rooms : roomList) {
                 if (rooms.getRoomTitle().equals(roomID)) {
                     findRoom = rooms;
-                    if (findRoom != null) {
-                        allParticipants = findRoom.getParticipants();
-                    } else {
-                        System.out.println("Room not found with title: " + findRoom);
-                    }
                     break;
                 }
             }
+            if (findRoom == null) {
+                System.out.println("Room not found with title: " + roomID);
+                return Collections.emptyMap(); // 룸을 찾지 못한 경우 빈 맵 반환
+            }
+
+            System.out.println("Room found : " + findRoom);
+            Map<String, UserThread> allParticipants = findRoom.getParticipants(); // 참가자 맵 가져오기
+
             Map<String, String> userNamesWithColors = new HashMap<>();
             int index = 0;
 
@@ -496,8 +500,48 @@ public class Server extends JFrame {
 
             return userNamesWithColors;
         }
-
     }
+//        public Map<String, String> getUserNamesWithColors(String roomID) {
+//            Map<String, UserThread> allParticipants = null;
+//            Room findRoom;
+//            for (Room rooms : roomList) {
+//                if (rooms.getRoomTitle().equals(roomID)) {
+//                    findRoom = rooms;
+//                    if (findRoom != null) {
+//                        System.out.println("Room found : "+findRoom);
+//                    } else {
+//                        System.out.println("Room not found with title: " + findRoom);
+//                    }
+//                    break;
+//                }
+//            }
+//            Map<String, String> userNamesWithColors = new HashMap<>();
+//            int index = 0;
+//
+//            for (Map.Entry<String, UserThread> entry : allParticipants.entrySet()) {
+//                UserThread participant = entry.getValue();
+//                String name = participant.getName();
+//                List<String> colorList = Arrays.asList("red", "blue", "green", "yellow");
+//                String color = colorList.get(index % colorList.size());
+//                Room room;
+//                for (Room rooms : roomList) {
+//                    if (rooms.getRoomTitle().equals(roomID)) {
+//                        room = rooms;
+//                        if (room != null) {
+//                            room.assignColorToPlayer(name, color);
+//                        } else {
+//                            System.out.println("Room not found with title: " + room);
+//                        }
+//                        break;
+//                    }
+//                }
+//                userNamesWithColors.put(name, color);
+//
+//                index++;
+//            }
+//
+//            return userNamesWithColors;
+//        }
 
     public static void main(String[] args) {
         new Server(29998);

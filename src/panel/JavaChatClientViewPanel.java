@@ -64,7 +64,7 @@ public class JavaChatClientViewPanel extends JPanel {
         add(lblUserName);
         setVisible(true);
 
-        AppendText("User " + username + " connecting " + ip_addr + " " + port_no + "\n");
+        //AppendText("User " + username + " connecting " + ip_addr + " " + port_no + "\n");
         UserName = username;
         lblUserName.setText(username + ">");
 

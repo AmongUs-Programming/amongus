@@ -19,6 +19,7 @@ public class Room extends Thread{
        this.roomTitle = roomTitle;
        users = new ArrayList();
        participants = new HashMap<>();
+       this.participantsColorMap = new HashMap<>();
     }
 
     public String getRoomTitle() {
@@ -65,8 +66,8 @@ public class Room extends Thread{
         throw new IllegalArgumentException("Empty map or invalid index");
     }
 
-    public void assignColorToPlayer(String playerName, String color) { //참가자별로 색깔 정하기
-        participantsColorMap.put(playerName, color);
+    public void assignColorToPlayer(String playerName, String color) {
+        this.participantsColorMap.put(playerName, color);
     }
 
     public String getPlayerColor(String playerName) {

@@ -35,12 +35,9 @@ public class JavaChatServer {
         public void run() {
             while (true) {
                 try {
-                    System.out.println("Waiting Chat clients ...");
                     client_socket = socket.accept();
-                    System.out.println("Chat New client: " + client_socket);
                     UserService new_user = new UserService(client_socket);
                     UserVec.add(new_user);
-                    System.out.println("Chat User joined. Current users: " + UserVec.size());
                     new_user.start();
                 } catch (IOException e) {
                     System.out.println("Chat Accept error...");
@@ -69,8 +66,6 @@ public class JavaChatServer {
                 String line1 = dis.readUTF();
                 String[] msg = line1.split(" ");
                 UserName = msg[1].trim();
-                System.out.println("New user: " + UserName);
-                WriteOne(UserName + " 님 환영합니다\n");
             } catch (Exception e) {
                 System.out.println("userService error");
             }
@@ -89,7 +84,6 @@ public class JavaChatServer {
                     e1.printStackTrace();
                 }
                 UserVec.removeElement(this);
-                System.out.println("User left. Remaining users: " + UserVec.size());
             }
         }
 
@@ -114,7 +108,6 @@ public class JavaChatServer {
                         dis.close();
                         client_socket.close();
                         UserVec.removeElement(this);
-                        System.out.println("User left. Remaining users: " + UserVec.size());
                         break;
                     } catch (Exception ee) {
                         break;
@@ -125,7 +118,6 @@ public class JavaChatServer {
     }
 
     public void startServer() {
-        System.out.println("Chat Server started...");
         AcceptServer accept_server = new AcceptServer();
         accept_server.start();
     }

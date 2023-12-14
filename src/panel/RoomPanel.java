@@ -62,6 +62,8 @@ public class RoomPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.sendMessage("500/"+roomTitle);
+                messageThread.interrupt();
+                //clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
             }
         });
 
@@ -90,6 +92,9 @@ public class RoomPanel extends JPanel {
                         System.out.println(message);
                         participantListPanel.updateMessage(message);
                     }
+                }
+                if (message2.startsWith("ChangePanel")) {
+                    clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
                 }
             }
         }
