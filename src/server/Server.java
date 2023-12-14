@@ -12,6 +12,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server extends JFrame {
+    private List<Item> Items;
+    private Random random = new Random();
     private int port;
     private ServerSocket socket;
     private Socket client_socket;
@@ -306,6 +308,9 @@ public class Server extends JFrame {
                                 }
                                 GameTherad gameThread = gameThList.get(msg);
                                 gameThread.selectImposter(msg);
+
+                                Items = new ArrayList<>();
+                                initializeItems();
                                 break;
 
                             case "501"://임포스터 여부
@@ -380,6 +385,21 @@ public class Server extends JFrame {
             }
 
 
+        }
+    }
+
+    private void initializeItems() {
+        generateRandomItems(675, 1175, 0, 300, 2); // 범위: 675,0~1175,300 (2개의 보물)
+        generateRandomItems(10, 310, 300, 600, 1); // 범위: 10,300~310,600 (1개의 보물)
+        generateRandomItems(950, 1250, 300, 600, 1); // 범위: 950,300~1250,600 (1개의 보물)
+        generateRandomItems(400, 900, 330, 780, 1); // 범위: 400,330~900,780 (1개의 보물)
+    }
+
+    private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int numTreasures) {
+        for (int i = 0; i < numTreasures; i++) {
+            int x = random.nextInt(xEnd - xStart + 1) + xStart;
+            int y = random.nextInt(yEnd - yStart + 1) + yStart;
+            Items.add(new Item(x, y));
         }
     }
 
