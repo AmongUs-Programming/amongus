@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -195,7 +194,7 @@ public class GamePanel extends JPanel {
         int circleDiameter = userWidth + 100;
 
         // 원 안쪽의 영역을 클리핑
-        //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
+        g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
 
         // 배경이미지 그리기
         if (backgroundImage != null) {
