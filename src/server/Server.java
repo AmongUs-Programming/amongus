@@ -321,6 +321,7 @@ public class Server extends JFrame {
                                     System.out.println("data : " + dataToSend + "send to " + userThread.userName);
                                     userThread.sendMessage("100/" + dataToSend);
                                 }
+                                break;
                             case "500"://request game start
                                 System.out.println("500 check");
 //                                gameThList.get(msg).getUserNamesWithColors(msg);

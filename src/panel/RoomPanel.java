@@ -58,12 +58,12 @@ public class RoomPanel extends JPanel {
         startBtn.setPreferredSize(buttonSize);
         startBtn.setMinimumSize(buttonSize);
         startBtn.setMaximumSize(buttonSize);
-//        startBtn.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                client.sendMessage("500/"+roomTitle);
-//            }
-//        });
+        startBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                client.sendMessage("500/"+roomTitle);
+            }
+        });
 
         // 전체 패널에 추가
         add(centerPanel, BorderLayout.CENTER);
