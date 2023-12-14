@@ -22,6 +22,7 @@ public class TimerThread extends Thread{
                 if(count<=0){
                     //panel 바꾸기
                     clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);  // 상태를 ROOM_LIST_PANEL로 변경
+                    this.interrupt();
                     break;
                 }else {
                     count--;
