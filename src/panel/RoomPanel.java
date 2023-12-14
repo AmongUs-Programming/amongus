@@ -16,6 +16,7 @@ public class RoomPanel extends JPanel {
     private String userName;
     private Client client;
     private  MessageThread messageThread;
+    private Boolean isOwner;
     public static volatile boolean running = true;
 
 
@@ -68,7 +69,7 @@ public class RoomPanel extends JPanel {
         startBtn.setMinimumSize(buttonSize);
         startBtn.setMaximumSize(buttonSize);
 
-        if(clientFrame.getClient().getName().equals(clientFrame.getRoomOwner())){
+        if(isOwner){
             add(startBtn, BorderLayout.NORTH);
         }
         else{
@@ -105,25 +106,27 @@ public class RoomPanel extends JPanel {
                 System.out.println("message2: "+message2);
                 if (!message2.equals(message)) {
                     if(message2.equals("CHANGEPANEL")){
-                        this.interrupt();
                         clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
                     }
                     else if(message2.startsWith("ROLE")){
-                        this.interrupt();
                         String role = message2.substring(4);
                         System.out.println("Your role is: " + role);
                         clientFrame.setRole(role);
                     }
                     else if(message2.startsWith("COLOR")){
-                        this.interrupt();
                         String color = message2.substring(5);
                         System.out.println("Your color is: " + color);
                         clientFrame.setColor(color);
                     }
                     else if(message2.startsWith("OWNER")){
-                        this.interrupt();
-                        String owner = message2.substring(5);
-                        clientFrame.setRoomOwner(owner);
+                        String owner = message2.split(":")[1];
+                        if(owner.equals(client.getName())){
+                            isOwner=true;
+                        }else {
+                            isOwner=false;
+                        }
+                        System.out.println("check : "+isOwner);
+//                        clientFrame.setRoomOwner(owner);
                     }
                     else {
                         message = message2;
