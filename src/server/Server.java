@@ -311,7 +311,7 @@ public class Server extends JFrame {
                                 //print current 참가자 수
                                 int size = gameThList.get(msg).getParticipantNum(msg);
                                 //모든 참가자들 이름과 참가자 수 전송하기
-                                StringBuilder sb = new StringBuilder();
+                                 StringBuilder sb = new StringBuilder();
                                 sb.append(size + ":");
                                 sb.append(gameThList.get(msg).getParticipantsName(msg));
                                 String dataToSend = sb.toString();
@@ -322,11 +322,14 @@ public class Server extends JFrame {
                                     userThread.sendMessage("100/" + dataToSend);
                                 }
                             case "500"://request game start
-                                //select Imposter
-                                //gameThList.get(msg).getUserNamesWithColors(msg);
-                                //Map<String, String> userColors = gameThList.get(msg).getUserNamesWithColors(msg);
+                                System.out.println("500 check");
+//                                gameThList.get(msg).getUserNamesWithColors(msg);
+                                Map<String, UserThread> participantListForChange = gameThList.get(msg).getParticipant(msg);
+                                for (UserThread userThread : participantListForChange.values()) {
+                                    System.out.println("CHANGEPANEL : " + "send to " + userThread.userName);
+                                    userThread.sendMessage("100/" + "CHANGEPANEL");
+                                }
 
-                                //changePanel (역할 결과 화면)
                                 break;
                             case "501"://게임패널변경
 //                                System.out.println("패널변경요청");

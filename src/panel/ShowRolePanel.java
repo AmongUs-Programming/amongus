@@ -1,5 +1,6 @@
 package panel;
 
+import client.ClientFrame;
 import thread.TimerThread;
 
 import javax.swing.*;
@@ -16,7 +17,8 @@ public class ShowRolePanel extends JPanel {
     String roleText;
     private Image backgroundImg;
     private JLabel roleLabel;
-    public ShowRolePanel(){
+    public ShowRolePanel(ClientFrame clientFrame){
+        runTimer();
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -37,10 +39,20 @@ public class ShowRolePanel extends JPanel {
 //        }else if(getRole()==0){
 //            roleText = citizenText;
 //        }
+
+        clientFrame.getClient().sendMessage("");
+        clientFrame.getClient().receiveMessage();
+        String role = clientFrame.getClient().getServerRealMessage();
+
+        if(role.equals("IMPOSTER")){
+            roleText=mapiaText;
+        }else {
+            roleText=citizenText;
+        }
+
         roleLabel = new JLabel(roleText);
         roleLabel.setSize(200,300);
         roleLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
-
 
         mainPanel.add(timer);
         mainPanel.add(roleLabel);

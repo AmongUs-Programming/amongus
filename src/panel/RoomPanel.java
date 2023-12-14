@@ -18,6 +18,7 @@ public class RoomPanel extends JPanel {
     private ClientFrame clientFrame;
     private String userName;
     private Client client;
+    private  MessageThread messageThread;
 
     public RoomPanel(ClientFrame clientFrame) {
         this.clientFrame = clientFrame;
@@ -25,7 +26,7 @@ public class RoomPanel extends JPanel {
         clientFrame.getClient().receiveMessage();
         message = clientFrame.getClient().getServerRealMessage();
         System.out.println("message: " + message);
-        MessageThread messageThread = new MessageThread();
+        messageThread = new MessageThread();
         messageThread.start();
 
         setLayout(new BorderLayout()); // 전체 패널을 BorderLayout으로 설정
@@ -57,18 +58,12 @@ public class RoomPanel extends JPanel {
         startBtn.setPreferredSize(buttonSize);
         startBtn.setMinimumSize(buttonSize);
         startBtn.setMaximumSize(buttonSize);
-        startBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //client.sendMessage("501/"+roomTitle);
-                //clientFrame.getClient().receiveMessage();
-                //String panelChange = clientFrame.getClient().getServerRealMessage();
-                //System.out.println(panelChange);
-                messageThread.interrupt();
-                clientFrame.setPanelState(ClientFrame.PanelState.IMPOSTER_PANEL);
-                //clientFrame.setPanelState(ClientFrame.PanelState.LOADING_PANEL);
-            }
-        });
+//        startBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                client.sendMessage("500/"+roomTitle);
+//            }
+//        });
 
         // 전체 패널에 추가
         add(centerPanel, BorderLayout.CENTER);
@@ -85,10 +80,16 @@ public class RoomPanel extends JPanel {
             while (true){
                 clientFrame.getClient().receiveMessage();
                 String message2 = clientFrame.getClient().getServerRealMessage();
+                System.out.println("message1: "+message);
+                System.out.println("message2: "+message2);
                 if (!message2.equals(message)) {
-                    message = message2;
-                    System.out.println(message);
-                    participantListPanel.updateMessage(message);
+                    if(message2.equals("CHANGEPANEL")){
+                        clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
+                    }else {
+                        message = message2;
+                        System.out.println(message);
+                        participantListPanel.updateMessage(message);
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package client;
 
+//import notUse.LoadingPanel;
 import panel.*;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class ClientFrame extends JFrame {
 
     public enum PanelState {
         START_PANEL, ROOM_LIST_PANEL, ROOM_PANEL, GAME_PANEL, VOTE_PANEL, GAME_OVER_PANEL, LOADING_PANEL
-        ,IMPOSTER_PANEL
+        , ROLE_PANEL, IMPOSTER_PANEL
     }
     private volatile PanelState currentPanelState = PanelState.START_PANEL;
     private volatile boolean isChange = false;
@@ -85,12 +86,15 @@ public class ClientFrame extends JFrame {
             case GAME_PANEL:
                 setContentPane(new GamePanel(this));
                 break;
-            case LOADING_PANEL:
-                setContentPane(new LoadingPanel(this));
+//            case LOADING_PANEL:
+//                setContentPane(new LoadingPanel(this));
+//                break;
+            case ROLE_PANEL:
+                setContentPane(new ShowRolePanel(this));
                 break;
-            case IMPOSTER_PANEL:
-                setContentPane(new ImposterPanel(this));
-                break;
+//            case IMPOSTER_PANEL:
+//                setContentPane(new ImposterPanel(this));
+//                break;
         }
         revalidate();
         repaint();
