@@ -84,20 +84,22 @@ public class RoomPanel extends JPanel {
                 System.out.println("message2: "+message2);
                 if (!message2.equals(message)) {
                     if(message2.equals("CHANGEPANEL")){
+                        this.interrupt();
                         clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
-                        messageThread.interrupt();
                     }
                     else if(message2.startsWith("ROLE")){
+                        this.interrupt();
                         String role = message2.substring(4);
                         System.out.println("Your role is: " + role);
                         clientFrame.setRole(role);
-                        messageThread.interrupt();
+
                     }
                     else if(message2.startsWith("COLOR")){
+                        this.interrupt();
                         String color = message2.substring(5);
                         System.out.println("Your color is: " + color);
                         clientFrame.setColor(color);
-                        messageThread.interrupt();
+
                     }
                     else {
                         message = message2;

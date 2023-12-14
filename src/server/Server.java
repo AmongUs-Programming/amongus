@@ -345,7 +345,7 @@ public class Server extends JFrame {
                                 gameThList.get(room).updateParticipantMove(this,myMove);
                                 Map<String, UserThread> participantListForMove = gameThList.get(room).getParticipant(room);
                                 for (UserThread userThread : participantListForMove.values()) {
-                                    System.out.println("data : " + myMove +"send to " + userThread.userName);
+                                    System.out.println("data : " + gameThList.get(room).getParticipantListMove() +"send to " + userThread.userName);
                                     userThread.sendMessage("100/" +gameThList.get(room).getParticipantListMove());
                                 }
                                 AppendMovingInfo(myMove);
@@ -392,8 +392,12 @@ public class Server extends JFrame {
         public void updateParticipantMove(UserThread userThread,Move move){
             participantMove.put(userThread.userName,move);
         }
-        public Map<String,Move> getParticipantListMove(){
-            return this.participantMove;
+        public String getParticipantListMove(){
+            StringBuilder sb = new StringBuilder();
+            for (String key : participantMove.keySet()) {
+                sb.append(key).append(":").append(participantMove.get(key).getPosX()).append(",").append(participantMove.get(key).getPosY());
+            }
+            return sb.toString();
         }
         public Move getParticipantMove(UserThread userThread){
             return participantMove.get(userThread.userName);

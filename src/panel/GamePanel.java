@@ -2,11 +2,13 @@ package panel;
 
 import client.Client;
 import client.ClientFrame;
+import server.Move;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
+import java.util.HashMap;
 
 public class GamePanel extends JPanel {
 
@@ -21,7 +23,6 @@ public class GamePanel extends JPanel {
     private int userY = 200; // 사용자 이미지 초기 y 좌표
     private final int userWidth = 20;
     private final int userHeight = 20;
-    private final String name = "세은";
 
     private JLabel killLabel;
     private JLabel citizenLabel;
@@ -84,27 +85,32 @@ public class GamePanel extends JPanel {
         String role = clientFrame.getRole();
         String color = clientFrame.getColor();
 
-        this.clientFrame=clientFrame;
+        this.clientFrame = clientFrame;
         String roomTitle = this.clientFrame.getRoomTitle();
         //Move List 생성
-        this.clientFrame.getClient().sendMessage("304/"+roomTitle);
-        this.clientFrame.getClient().sendMessage("600/"+roomTitle);
+        this.clientFrame.getClient().sendMessage("304/" + roomTitle);
+        this.clientFrame.getClient().sendMessage("600/" + roomTitle);
         //this.clientFrame.getClient().sendMessage("502/"+roomTitle);
+
+//        MoveThread moveThread = new MoveThread(clientFrame);
+//        moveThread.start();
 
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
         killLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-        if(role.equals("IMPOSTER")){
-        add(killLabel);}
+        if (role.equals("IMPOSTER")) {
+            add(killLabel);
+        }
 
         citizenLabel = new JLabel("run!!");
         citizenLabel.setForeground(Color.BLUE); // Set text color
         citizenLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-        if(role.equals("CITIZEN")){
-        add(citizenLabel);}
+        if (role.equals("CITIZEN")) {
+            add(citizenLabel);
+        }
 
         // 이미지 로드
-        switch (color){
+        switch (color) {
             case "red":
                 userImage = new ImageIcon(Client.class.getResource("/images/red.png")).getImage();
                 break;
@@ -251,6 +257,7 @@ public class GamePanel extends JPanel {
 
         repaint();
     }
+
     private void movePlayer(int deltaX, int deltaY) {
         int nextX = userX + deltaX;
         int nextY = userY + deltaY;
@@ -258,12 +265,27 @@ public class GamePanel extends JPanel {
         if (isValidMode(nextX, nextY)) {
             userX = nextX;
             userY = nextY;
-            clientFrame.getClient().sendMessage("601/"+userX+","+userY);
-            System.out.println(userX + "," + userY);
+            clientFrame.getClient().sendMessage("601/" + userX + "," + userY);
+            System.out.println("client : "+this.clientFrame.getClient().getServerRealMessage());
         }
     }
 
 
-
+//    class MoveThread extends Thread {
+//        ClientFrame clientFrame;
+//
+//        public MoveThread(ClientFrame clientFrame) {
+//            this.clientFrame = clientFrame;
+//        }
+//
+//        @Override
+//        public void run() {
+//            while (true) {
+//                this.clientFrame.getClient().sendMessage("600/"+);
+//
+//
+//            }
+//        }
+//    }
 
 }
