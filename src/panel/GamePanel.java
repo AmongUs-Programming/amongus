@@ -310,7 +310,7 @@ public class GamePanel extends JPanel {
                 String message = this.clientFrame.getClient().getServerRealMessage();
 
                     System.out.println("message"+message);
-                    String[] playerDataArray = message.split("//");
+                    String[] playerDataArray = message.split("&");
 
                     for (String playerData : playerDataArray) {
                         if (!playerData.isEmpty()) {
