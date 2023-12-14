@@ -324,6 +324,8 @@ public class Server extends JFrame {
                                     System.out.println("CHANGEPANEL : " + "send to " + userThread.userName);
                                     userThread.sendMessage("100/" + "CHANGEPANEL");
                                 }
+                                GameTherad gameThread = gameThList.get(msg);
+                                gameThread.selectImposter(msg);
                                 break;
                             case "501"://게임패널변경
 //                                System.out.println("패널변경요청");
@@ -428,6 +430,27 @@ public class Server extends JFrame {
                 }
             }
             return 0;
+        }
+
+        //역할지정
+        public void selectImposter(String roomID) {
+            Room room = null;
+            for (Room r : roomList) {
+                if (r.getRoomTitle().equals(roomID)) {
+                    room = r;
+                    break;
+                }
+            }
+
+            if (room == null || room.getParticipants().isEmpty()) {
+                throw new IllegalArgumentException("Room not found or no participants in room: " + roomID);
+            }
+
+            List<UserThread> participants = new ArrayList<>(room.getParticipants().values());
+            int randomIndex = new Random().nextInt(participants.size());
+            UserThread imposter = participants.get(randomIndex);
+            imposter.setRole(1); // 임포스터로 설정
+            System.out.println("임포스터 결정: " + imposter.userName);
         }
 
         //찾고자 하는 참가자의 역할

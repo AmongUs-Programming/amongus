@@ -51,20 +51,20 @@ public class Room extends Thread{
         participants.put(userName,userThread);
     }
 
-    public void selectImposter(){
-        int size = participants.size();
-        int item = new Random().nextInt(size);
-        int i = 0;
-        for (String key : participants.keySet()) {
-            if (i == item) {
-                participants.get(i).setRole(1);
-                System.out.print("임포스터 결정 : ");
-                System.out.println(participants.get(i).getName()+participants.get(i).getRole());
-            }
-            i++;
-        }
-        throw new IllegalArgumentException("Empty map or invalid index");
-    }
+//    public void selectImposter(){
+//        int size = participants.size();
+//        int item = new Random().nextInt(size);
+//        int i = 0;
+//        for (String key : participants.keySet()) {
+//            if (i == item) {
+//                participants.get(i).setRole(1);
+//                System.out.print("임포스터 결정 : ");
+//                System.out.println(participants.get(i).getName()+participants.get(i).getRole());
+//            }
+//            i++;
+//        }
+//        throw new IllegalArgumentException("Empty map or invalid index");
+//    }
 
     public void assignColorToPlayer(String playerName, String color) {
         this.participantsColorMap.put(playerName, color);
