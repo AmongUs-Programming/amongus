@@ -9,7 +9,9 @@ public class TimerThread extends Thread{
     private JLabel text = null;
     private int count;
     private int delay = 1000;
-    public TimerThread(ClientFrame clientFrame,JLabel text, int count){
+    private String panelName;
+    public TimerThread(ClientFrame clientFrame,JLabel text, int count,String panelName){
+        this.panelName = panelName;
         this.clientFrame = clientFrame;
         this.text = text;
         this.count = count;
@@ -21,7 +23,11 @@ public class TimerThread extends Thread{
                 Thread.sleep(delay);
                 if(count<=0){
                     //panel 바꾸기
-                    clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);  // 상태를 ROOM_LIST_PANEL로 변경
+                    if(panelName.equals("SHOW_ROLE_PANEL")){
+                        clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
+                    }else {
+                        clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);
+                    }
                     this.interrupt();
                     break;
                 }else {

@@ -89,6 +89,9 @@ public class ClientFrame extends JFrame {
             case ROLE_PANEL:
                 setContentPane(new ShowRolePanel(this));
                 break;
+            case GAME_OVER_PANEL:
+                setContentPane(new GameOverPanel(this));
+                break;
         }
         revalidate();
         repaint();
