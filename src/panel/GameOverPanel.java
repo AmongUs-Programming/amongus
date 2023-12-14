@@ -20,6 +20,10 @@ public class GameOverPanel extends JPanel {
 
     public GameOverPanel(ClientFrame clientFrame) {
         this.clientFrame = clientFrame;
+        clientFrame.getClient().sendMessage("503/"+clientFrame.getRoomTitle());
+        clientFrame.getClient().receiveMessage();
+        String msg = clientFrame.getClient().getServerRealMessage();
+        resultText = msg;
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -48,7 +52,7 @@ public class GameOverPanel extends JPanel {
     }
 
     public void runTimer() {
-        TimerThread th = new TimerThread(clientFrame, timer, 1,"GAEM_OVER_PANEL");
+        TimerThread th = new TimerThread(clientFrame, timer, 1,"ROOM_LIST_PANEL");
         th.start();
     }
 }

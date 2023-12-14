@@ -155,6 +155,7 @@ public class Server extends JFrame {
         Boolean isAlive = true;
 
         private String room;
+        private String Mafia="";
         public int getRole() {
             return role;
         }
@@ -315,6 +316,9 @@ public class Server extends JFrame {
                                     System.out.println("SENDROLE : " + "send to " + userThread.userName);
                                     String role = userThread.getRole() == 1 ? "IMPOSTER" : "CITIZEN";
                                     userThread.sendMessage("100/ROLE" + role);
+                                    if (role.equals("IMPOSTER")) {
+                                        Mafia = userThread.userName; // 마피아 역할일 경우, mafia 변수에 이름 할당
+                                    }
                                 }
                                 break;
 
@@ -336,6 +340,16 @@ public class Server extends JFrame {
                                     }
                                 }
                                 break;
+                            case "503":{
+                                String userRole;
+                                System.out.println("503 check"+Mafia);
+                                Map<String, UserThread> participantListForGameOver = gameThList.get(msg).getParticipant(msg);
+                                for (UserThread userThread : participantListForGameOver.values()) {
+                                    userThread.sendMessage("100/" + Mafia);
+                                }
+
+                                break;
+                            }
 
 
                             case "600": //make Move
