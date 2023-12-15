@@ -72,14 +72,8 @@ public class Server extends JFrame {
     }
 
     //serverFrame message
-    public void AppendText(String str) {
+    public void ServerText(String str) {
         textArea.append(str + "\n");
-        textArea.setCaretPosition(textArea.getText().length());
-    }
-
-    public void AppendMovingInfo(Move msg) {
-        textArea.append("posX = " + msg.getPosX() + "\n");
-        textArea.append("posY = " + msg.getPosY() + "\n");
         textArea.setCaretPosition(textArea.getText().length());
     }
 
@@ -103,9 +97,8 @@ public class Server extends JFrame {
         public void run() {
             while (true) {
                 try {
-                    AppendText("Waiting new clients..." + socket.getLocalPort());
                     client_socket = socket.accept();
-                    AppendText("new user from" + client_socket);
+                    ServerText("new user from" + client_socket);
 
                     //user 마다 thread 생성
                     UserThread user = new UserThread(client_socket, this);
@@ -113,7 +106,7 @@ public class Server extends JFrame {
                         users.add(user);
                     }
                     user.start();
-                    AppendText("현재 인원 :" + users.size());
+                    ServerText("현재 인원 :" + users.size());
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -138,7 +131,6 @@ public class Server extends JFrame {
         private CopyOnWriteArrayList userList;
 
         public UserThread(Socket client_socket, AcceptServer acceptServer) {
-            // 매개변수로 넘어온 자료 저장
             this.client_socket = client_socket;
             this.socket = acceptServer.getSocket();
             this.userList = acceptServer.getUserList();
@@ -147,7 +139,7 @@ public class Server extends JFrame {
                 oos.flush();
                 ois = new ObjectInputStream(client_socket.getInputStream());
             } catch (Exception e) {
-                AppendText("userService error");
+                ServerText("userService error");
             }
         }
 
@@ -244,7 +236,7 @@ public class Server extends JFrame {
                                     this.sendMessage("100/null");
                                 }else{
                                     this.sendMessage("100/" + getRoomIDs());
-                                    AppendText("현재 방 list:" + getRoomIDs());
+                                    ServerText("현재 방 list:" + getRoomIDs());
                                 }
                                 break;
                             case "304":
@@ -354,7 +346,7 @@ public class Server extends JFrame {
     public void handlePlayerRegistration(UserThread userThread) {
         String userName = userThread.userName;
         userThread.sendMessage("SUCCESS: " + userName + "님, 등록되었습니다.");
-        AppendText("새로운 플레이어 등록: " + userName);
+        ServerText("새로운 플레이어 등록: " + userName);
     }
 
     //게임 thread
@@ -441,9 +433,9 @@ public class Server extends JFrame {
 
             if (room != null) {
                 room.enterRoomParticipant(userName, userThread);
-                AppendText(room.getRoomID() + ": " + "새로운 참가자 " + userName + " 입장.");
+                ServerText(room.getRoomID() + ": " + "새로운 참가자 " + userName + " 입장.");
             } else {
-                AppendText("Room not found with title: " + roomID);
+                ServerText("Room not found with title: " + roomID);
             }
         }
 
