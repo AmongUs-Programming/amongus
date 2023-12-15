@@ -59,7 +59,7 @@ public class SelectItemPanel extends JPanel {
         add(textArea,BorderLayout.SOUTH);
 
         JLabel timer = new JLabel("");
-        new TimerThread(clientFrame,timer,10,"SELECT_ITEM_PANEL").start();
+        new TimerThread(clientFrame,timer,15,"SELECT_ITEM_PANEL").start();
         setVisible(true);
     }
 
