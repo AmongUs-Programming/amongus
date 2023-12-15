@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server extends JFrame {
-    private List<Item> Items;
     private Random random = new Random();
     private int port;
     private ServerSocket socket;
@@ -356,10 +355,10 @@ public class Server extends JFrame {
                             {
                                 System.out.println("504 check");
                                 Map<String, UserThread> participantListForItems = gameThList.get(msg).getParticipant(msg);
-                                Items = new ArrayList<>();
-                                initializeItems();
+                                gameThList.get(msg).initItems();
+                                gameThList.get(msg).initializeItems();
                                 StringBuilder itemsInfo = new StringBuilder("100/ITEMS:");
-                                for (Item item : Items) {
+                                for (Item item : gameThList.get(msg).getItems()) {
                                     itemsInfo.append(item.getX()).append(",").append(item.getY()).append(",").append(item.getItemNum()).append(";");
                                 }
                                 for (UserThread userThread : participantListForItems.values()) {
@@ -401,26 +400,7 @@ public class Server extends JFrame {
         }
     }
 
-    private void initializeItems() {
-        generateRandomItems(675, 1175, 0, 300, 2); // 범위: 675,0~1175,300 (2개의 보물)
-        generateRandomItems(10, 310, 300, 600, 1); // 범위: 10,300~310,600 (1개의 보물)
-        generateRandomItems(950, 1250, 300, 600, 1); // 범위: 950,300~1250,600 (1개의 보물)
-        generateRandomItems(400, 900, 330, 780, 1); // 범위: 400,330~900,780 (1개의 보물)
-    }
 
-    private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int numTreasures) {
-        List<Integer> itemNumbers = new ArrayList<>();
-        for (int i = 1; i < 14; i++) {
-            itemNumbers.add(i);
-        }
-        Collections.shuffle(itemNumbers);
-        for (int i = 0; i < numTreasures; i++) {
-            int x = random.nextInt(xEnd - xStart + 1) + xStart;
-            int y = random.nextInt(yEnd - yStart + 1) + yStart;
-            int itemNum = itemNumbers.get(i);
-            Items.add(new Item(x, y, itemNum));
-        }
-    }
 
 
 
@@ -432,9 +412,38 @@ public class Server extends JFrame {
 
     //게임 thread
     class GameTherad extends Thread {
+        private List<Item> items;
         private Map<String,Move> participantMove = new HashMap<>();
         private String owner;
 
+        public void initItems(){
+            items = new ArrayList<>();
+        }
+        public List<Item> getItems(){
+            return items;
+        }
+        public void putInItems(Item item){
+            this.items.add(item);
+        }
+        private void initializeItems() {
+            generateRandomItems(675, 1175, 0, 300, 2); // 범위: 675,0~1175,300 (2개의 보물)
+            generateRandomItems(10, 310, 300, 600, 1); // 범위: 10,300~310,600 (1개의 보물)
+            generateRandomItems(950, 1250, 300, 600, 1); // 범위: 950,300~1250,600 (1개의 보물)
+            generateRandomItems(400, 900, 330, 780, 1); // 범위: 400,330~900,780 (1개의 보물)
+        }
+        private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int numTreasures) {
+            List<Integer> itemNumbers = new ArrayList<>();
+            for (int i = 1; i < 14; i++) {
+                itemNumbers.add(i);
+            }
+            Collections.shuffle(itemNumbers);
+            for (int i = 0; i < numTreasures; i++) {
+                int x = random.nextInt(xEnd - xStart + 1) + xStart;
+                int y = random.nextInt(yEnd - yStart + 1) + yStart;
+                int itemNum = itemNumbers.get(i);
+                putInItems(new Item(x, y, itemNum));
+            }
+        }
         public void setOwner(String owner) {
             this.owner = owner;
         }
