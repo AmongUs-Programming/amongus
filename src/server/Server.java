@@ -427,23 +427,25 @@ public class Server extends JFrame {
             this.items.add(item);
         }
         private void initializeItems() {
-            generateRandomItems(675, 1175, 0, 300, 2); // 범위: 675,0~1175,300 (2개의 보물)
-            generateRandomItems(10, 310, 300, 600, 1); // 범위: 10,300~310,600 (1개의 보물)
-            generateRandomItems(950, 1250, 300, 600, 1); // 범위: 950,300~1250,600 (1개의 보물)
-            generateRandomItems(400, 900, 330, 780, 1); // 범위: 400,330~900,780 (1개의 보물)
-        }
-        private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int numTreasures) {
-            List<Integer> itemNumbers = new ArrayList<>();
-            for (int i = 1; i < 14; i++) {
-                itemNumbers.add(i);
+            List<Integer> numbers = new ArrayList<>();
+            for (int i = 1; i <= 13; i++) {
+                numbers.add(i);
             }
-            Collections.shuffle(itemNumbers);
-            for (int i = 0; i < numTreasures; i++) {
+            Collections.shuffle(numbers);
+            List<Integer> itemNumbers = numbers.subList(0, 5);
+            System.out.println("아이템넘버 확인" +itemNumbers);
+            generateRandomItems(435, 835, 0, 300,itemNumbers.get(0)); // 범위: 675,0~1175,300 (2개의 보물)
+            generateRandomItems(435, 835, 0, 300,itemNumbers.get(1)); // 범위: 675,0~1175,300 (2개의 보물)
+            generateRandomItems(20, 300, 320, 580, itemNumbers.get(2)); // 범위: 10,300~310,600 (1개의 보물)
+            generateRandomItems(970, 1230, 320, 580, itemNumbers.get(3)); // 범위: 950,300~1250,600 (1개의 보물)
+            generateRandomItems(430, 870, 350, 760, itemNumbers.get(4)); // 범위: 400,330~900,780 (1개의 보물)
+        }
+        private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int itemNum) {
+
                 int x = random.nextInt(xEnd - xStart + 1) + xStart;
                 int y = random.nextInt(yEnd - yStart + 1) + yStart;
-                int itemNum = itemNumbers.get(i);
+                System.out.println("번호 중복 확인" + itemNum);
                 putInItems(new Item(x, y, itemNum));
-            }
         }
         public void setOwner(String owner) {
             this.owner = owner;
