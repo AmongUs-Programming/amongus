@@ -11,19 +11,12 @@ import static client.ClientFrame.SCREEN_WIDTH;
 
 public class GameOverPanel extends JPanel {
     JLabel timer = new JLabel("5");
-    String winnerText = "당신은 마피아";
-    String loseText = "Loading...";
-    String resultText;
     private Image backgroundImg;
     private JLabel resultLabel;
     ClientFrame clientFrame;
 
     public GameOverPanel(ClientFrame clientFrame) {
         this.clientFrame = clientFrame;
-        clientFrame.getClient().sendMessage("503/"+clientFrame.getRoomTitle());
-        clientFrame.getClient().receiveMessage();
-        String msg = clientFrame.getClient().getServerRealMessage();
-        resultText = msg;
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -40,7 +33,7 @@ public class GameOverPanel extends JPanel {
         mainPanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         setVisible(true);
 
-        resultLabel = new JLabel(resultText);
+        resultLabel = new JLabel(String.valueOf(clientFrame.getClient().getScore()));
         resultLabel.setSize(200, 300);
         resultLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
 

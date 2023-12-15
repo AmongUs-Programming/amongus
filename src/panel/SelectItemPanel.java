@@ -15,8 +15,10 @@ public class SelectItemPanel extends JPanel {
     private ArrayList<String> clickItem = new ArrayList<>();
     private int score = 0;
     private JTextArea textArea;
+    private ClientFrame clientFrame;
 
     public SelectItemPanel(ClientFrame clientFrame) {
+        this.clientFrame=clientFrame;
         setLayout(new FlowLayout());
         String[] msg = clientFrame.getItemLocation().split(":")[1].split(";");
         int i = 0;
@@ -81,9 +83,11 @@ public class SelectItemPanel extends JPanel {
         for (String item : clickItem) {
             if (gameItem.contains(item)) {
                 score += 10;
+                clientFrame.getClient().addScore(score);
                 System.out.println(score);
             } else {
                 score -= 10;
+                clientFrame.getClient().minusScore(score);
                 System.out.println(score);
             }
         }

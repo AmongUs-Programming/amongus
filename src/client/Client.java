@@ -89,6 +89,9 @@ public class Client{
     public void addScore(int score) {
         this.score += score;
     }
+    public void minusScore(int score) {
+        this.score -= score;
+    }
 
     public static void main(String[] args) throws IOException {
         try{
