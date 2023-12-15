@@ -42,7 +42,7 @@ public class ClientFrame extends JFrame {
     }
 
     public enum PanelState {
-        START_PANEL, ROOM_LIST_PANEL, ROOM_PANEL, GAME_PANEL, GAME_OVER_PANEL, ROLE_PANEL
+        START_PANEL, ROOM_LIST_PANEL, ROOM_PANEL, GAME_PANEL, GAME_OVER_PANEL, SELECT_ITEM_PANEL, ROLE_PANEL
     }
 
     private volatile PanelState currentPanelState = PanelState.START_PANEL;
@@ -104,6 +104,9 @@ public class ClientFrame extends JFrame {
                 break;
             case ROLE_PANEL:
                 setContentPane(new ShowRolePanel(this));
+                break;
+            case SELECT_ITEM_PANEL:
+                setContentPane(new GameOverPanel(this));
                 break;
             case GAME_OVER_PANEL:
                 setContentPane(new GameOverPanel(this));

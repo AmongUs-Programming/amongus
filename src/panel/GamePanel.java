@@ -2,6 +2,7 @@ package panel;
 
 import client.Client;
 import client.ClientFrame;
+import thread.TimerThread;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GamePanel extends JPanel {
+
+    JLabel timer = new JLabel("5");
 
     private Image backgroundImage;
     private Image cafeteriaImage;
@@ -196,6 +199,8 @@ public class GamePanel extends JPanel {
                 }
             });
         }
+        TimerThread th = new TimerThread(clientFrame, timer, 10,"SELECT_ITEM_PANEL");
+        th.start();
         MoveThread moveThread = new MoveThread(clientFrame);
         moveThread.start();
         setVisible(true);
