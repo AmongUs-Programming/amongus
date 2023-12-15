@@ -59,7 +59,7 @@ public class SelectItemPanel extends JPanel {
         add(textArea,BorderLayout.SOUTH);
 
         JLabel timer = new JLabel("");
-        new TimerThread(clientFrame,timer,15,"SELECT_ITEM_PANEL").start();
+        new TimerThread(clientFrame,timer,40,"SELECT_ITEM_PANEL").start();
         setVisible(true);
     }
 
@@ -80,7 +80,7 @@ public class SelectItemPanel extends JPanel {
     private void updateTextArea() {
         textArea.setText("고른것 : "); // textArea 초기화
         for (String item : clickItem) {
-            textArea.append(item + "\n"); // 각 요소 추가
+            textArea.append(item + " "); // 각 요소 추가
         }
         calculScore();
     }

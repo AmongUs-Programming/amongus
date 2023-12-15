@@ -186,7 +186,7 @@ public class GamePanel extends JPanel {
                     System.out.println("space");
                 }
             });
-        TimerThread th = new TimerThread(clientFrame,timer,30,"GAME_PANEL");
+        TimerThread th = new TimerThread(clientFrame,timer,50,"GAME_PANEL");
         th.start();
 
         MoveThread moveThread = new MoveThread(clientFrame);

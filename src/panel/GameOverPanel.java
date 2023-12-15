@@ -47,7 +47,7 @@ public class GameOverPanel extends JPanel {
     }
 
     public void runTimer() {
-        TimerThread th = new TimerThread(clientFrame, timer, 1,"GAEM_OVER_PANEL");
+        TimerThread th = new TimerThread(clientFrame, timer, 10,"GAEM_OVER_PANEL");
         th.start();
     }
 }
