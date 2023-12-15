@@ -25,6 +25,7 @@ public class RoomListPanel extends JPanel {
         setLayout(new BorderLayout());
         JLabel title = new JLabel("게임 방 리스트");
         JButton button = new JButton("방 생성");
+        JLabel label = new JLabel(String.valueOf(clientFrame.getClient().getScore()));
 
         title.setFont(title.getFont().deriveFont(20.0f));
         title.setForeground(Color.BLACK);
@@ -38,6 +39,7 @@ public class RoomListPanel extends JPanel {
 
         topPanel.add(title);
         topPanel.add(button);
+        topPanel.add(label);
         add(topPanel, BorderLayout.NORTH);
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
