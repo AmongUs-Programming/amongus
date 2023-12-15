@@ -30,6 +30,7 @@ public class TimerThread extends Thread{
                     }else if(panelName.equals("SELECT_ITEM_PANEL")){
                         clientFrame.setPanelState(ClientFrame.PanelState.GAME_OVER_PANEL);
                     }else{
+                        clientFrame.getClient().sendMessage("305/"+clientFrame.getRoomTitle());
                         clientFrame.setPanelState(ClientFrame.PanelState.START_PANEL);
                     }
                     this.interrupt();

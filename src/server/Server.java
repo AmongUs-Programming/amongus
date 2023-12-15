@@ -242,6 +242,10 @@ public class Server extends JFrame {
                             case "304":
                                 room = msg;
                                 break;
+                            case "305": //remove Room
+                                gameThList.remove(msg);
+                                roomList.remove(msg);
+                                break;
                             case "400"://search owner
                                 System.out.println("수신완료");
 //                                String owner = gameThList.get(msg).setGetRoomOwner(msg);
