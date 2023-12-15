@@ -18,6 +18,7 @@ public class Client{
     private HashMap serverMoveMessage;
     private String serverRealMessage;
     private String name;
+    private int score = 0;
 
     public Client(String serverAddress, int port,String name){
         this.name = name;
@@ -79,6 +80,14 @@ public class Client{
     }
     public String getServerRealMessage(){
         return serverRealMessage;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
     }
 
     public static void main(String[] args) throws IOException {

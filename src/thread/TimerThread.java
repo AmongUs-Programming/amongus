@@ -27,6 +27,8 @@ public class TimerThread extends Thread{
                         clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
                     }else if(panelName.equals("GAME_PANEL")){
                         clientFrame.setPanelState(ClientFrame.PanelState.SELECT_ITEM_PANEL);
+                    }else if(panelName.equals("SELECT_ITEM_PANEL")){
+                        clientFrame.setPanelState(ClientFrame.PanelState.GAME_OVER_PANEL);
                     }else{
                         clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);
                     }

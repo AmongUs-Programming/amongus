@@ -106,7 +106,7 @@ public class ClientFrame extends JFrame {
                 setContentPane(new ShowRolePanel(this));
                 break;
             case SELECT_ITEM_PANEL:
-                setContentPane(new GameOverPanel(this));
+                setContentPane(new SelectItemPanel(this));
                 break;
             case GAME_OVER_PANEL:
                 setContentPane(new GameOverPanel(this));
