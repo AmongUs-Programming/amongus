@@ -91,6 +91,10 @@ public class GamePanel extends JPanel {
         //Move List 생성
         this.clientFrame.getClient().sendMessage("304/" + roomTitle);
         this.clientFrame.getClient().sendMessage("600/" + roomTitle);
+        this.clientFrame.getClient().sendMessage("504/" + roomTitle);
+        clientFrame.getClient().receiveMessage();
+        String msg = clientFrame.getClient().getServerRealMessage();
+        System.out.println("504 출력 : "+msg);
 
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color

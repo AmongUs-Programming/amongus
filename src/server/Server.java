@@ -358,9 +358,16 @@ public class Server extends JFrame {
                                 Map<String, UserThread> participantListForItems = gameThList.get(msg).getParticipant(msg);
                                 Items = new ArrayList<>();
                                 initializeItems();
-                                sendItemsToClients(participantListForItems);
+                                StringBuilder itemsInfo = new StringBuilder("100/ITEMS:");
+                                for (Item item : Items) {
+                                    itemsInfo.append(item.getX()).append(",").append(item.getY()).append(",").append(item.getItemNum()).append(";");
+                                }
+                                for (UserThread userThread : participantListForItems.values()) {
+                                    userThread.sendMessage(itemsInfo.toString());
+                                }
+                                break;
                             }
-                            break;
+
 
 
                             case "600": //make Move
@@ -412,17 +419,6 @@ public class Server extends JFrame {
             int y = random.nextInt(yEnd - yStart + 1) + yStart;
             int itemNum = itemNumbers.get(i);
             Items.add(new Item(x, y, itemNum));
-        }
-    }
-
-    private void sendItemsToClients(Map<String, UserThread> participants) {
-        StringBuilder itemsInfo = new StringBuilder("100/ITEMS:");
-        for (Item item : Items) {
-            itemsInfo.append(item.getX()).append(",").append(item.getY()).append(",").append(item.getItemNum()).append(";");
-        }
-
-        for (UserThread userThread : participants.values()) {
-            userThread.sendMessage(itemsInfo.toString());
         }
     }
 
