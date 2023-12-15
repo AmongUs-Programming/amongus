@@ -417,7 +417,7 @@ public class Server extends JFrame {
         private String owner;
 
         public void initItems(){
-            items = new ArrayList<>();
+            items = new CopyOnWriteArrayList<>();
         }
         public List<Item> getItems(){
             return items;
