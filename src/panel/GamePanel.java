@@ -23,8 +23,8 @@ public class GamePanel extends JPanel {
 
     private int userX = 600;
     private int userY = 200;
-    private final int userWidth = 20;
-    private final int userHeight = 20;
+    private final int userWidth = 40;
+    private final int userHeight = 40;
     private JLabel treasureLabel;
 
     private ClientFrame clientFrame;
@@ -199,9 +199,9 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         // 사용자 주변 원 그리기
-        int circleX = userX - 50;
-        int circleY = userY - 50;
-        int circleDiameter = userWidth + 100;
+        int circleX = userX - 70;
+        int circleY = userY - 70;
+        int circleDiameter = userWidth + 150;
 
         // 원 안쪽의 영역을 클리핑
         g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
