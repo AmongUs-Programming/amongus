@@ -34,7 +34,7 @@ public class StartPanel extends JPanel {
                 new ParticipantSetNameFrame(clientFrame);
             }
         });
-        add(startButton); // 패널에 버튼 추가
+        add(startButton);
     }
     @Override
     protected void paintComponent(Graphics g) {

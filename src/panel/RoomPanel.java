@@ -19,7 +19,6 @@ public class RoomPanel extends JPanel {
     private Client client;
     private  MessageThread messageThread;
     private Boolean isOwner;
-    private Map<Integer, Point> itemPositions = new HashMap<>();
     public static volatile boolean running = true;
 
 
@@ -33,7 +32,7 @@ public class RoomPanel extends JPanel {
         messageThread.start();
         client.sendMessage("400/"+clientFrame.getRoomTitle());
 
-        setLayout(new BorderLayout()); // 전체 패널을 BorderLayout으로 설정
+        setLayout(new BorderLayout());
 
         // 왼쪽 패널 (participantListPanel 포함)
         userName = client.getName();
@@ -48,7 +47,7 @@ public class RoomPanel extends JPanel {
         rightPanel.add(roomchatPanel, BorderLayout.CENTER);
 
         // 중앙 패널 (왼쪽 패널과 오른쪽 패널을 반반씩 배치)
-        JPanel centerPanel = new JPanel(new GridLayout(1, 2)); // 1행 2열 그리드 레이아웃
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2));
         centerPanel.add(leftPanel);
         centerPanel.add(rightPanel);
 
@@ -66,7 +65,7 @@ public class RoomPanel extends JPanel {
         startBtn.setBackground(Color.BLACK);
         startBtn.setForeground(Color.WHITE);
         startBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
-        startBtn.setFont(startBtn.getFont().deriveFont(15.0f)); // 현재 폰트를 유지하며 크기만 변경
+        startBtn.setFont(startBtn.getFont().deriveFont(15.0f));
         Dimension buttonSize = new Dimension(1270, 40);
         startBtn.setPreferredSize(buttonSize);
         startBtn.setMinimumSize(buttonSize);
@@ -88,7 +87,6 @@ public class RoomPanel extends JPanel {
             }
         });
 
-        // 전체 패널에 추가
         add(centerPanel, BorderLayout.CENTER);
 
 
@@ -119,7 +117,6 @@ public class RoomPanel extends JPanel {
                             isOwner=false;
                         }
                         System.out.println("check : "+isOwner);
-//                        clientFrame.setRoomOwner(owner);
                     } else if (message2.startsWith("ITEM")) {
                         clientFrame.setItemLocation(message2);
                         System.out.println("504 출력 : "+message2);
@@ -133,7 +130,7 @@ public class RoomPanel extends JPanel {
                 System.out.println("running");
             }
             if (!running) {
-                clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
+                clientFrame.setPanelState(ClientFrame.PanelState.LOADING_PANEL);
             }
 
         }

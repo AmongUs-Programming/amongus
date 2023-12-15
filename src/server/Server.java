@@ -150,28 +150,8 @@ public class Server extends JFrame {
                 AppendText("userService error");
             }
         }
-        int role = 0;
-        //0-시민
-        //1-마피아
-        Boolean isAlive = true;
 
         private String room;
-        private String Mafia="";
-        public int getRole() {
-            return role;
-        }
-
-        public void setRole(int role) {
-            this.role = role;
-        }
-
-        public Boolean getAlive() {
-            return isAlive;
-        }
-
-        public void setAlive(Boolean alive) {
-            isAlive = alive;
-        }
 
         // 클라이언트에게 메시지 전송
         public void sendMessage(String message) {
@@ -187,10 +167,6 @@ public class Server extends JFrame {
         public void createRoom(String roomTitle) {
             Room newRoom = new Room(socket, roomTitle);
             roomList.add(newRoom);
-        }
-
-        public void removeRoom(String roomTitle) {
-            roomList.remove(roomTitle);
         }
 
         public String getRoomIDs() {
@@ -258,10 +234,6 @@ public class Server extends JFrame {
                                 gameThList.get(msg).setOwner(userName);
                                 this.sendMessage("100/" + dataToSend1);
                                 break;
-                            case "301"://removeRoom
-                                removeRoom(msg);
-                                gameThList.remove(msg);
-                                break;
                             case "302"://enterRoom
                                 //System.out.println("여기1" + msg);
                                 gameThList.get(msg).enterRoom(userName, msg, this);
@@ -305,22 +277,6 @@ public class Server extends JFrame {
                                     System.out.println("CHANGEPANEL : " + "send to " + userThread.userName);
                                     userThread.sendMessage("100/" + "CHANGEPANEL");
                                 }
-                                GameTherad gameThread = gameThList.get(msg);
-                                gameThread.selectImposter(msg);
-                                break;
-
-                            case "501"://임포스터 여부
-                                System.out.println("501 check");
-                                gameThList.get(msg).selectImposter(msg);
-                                Map<String, UserThread> participant = gameThList.get(msg).getParticipant(msg);
-                                for (UserThread userThread : participant.values()) {
-                                    System.out.println("SENDROLE : " + "send to " + userThread.userName);
-                                    String role = userThread.getRole() == 1 ? "IMPOSTER" : "CITIZEN";
-                                    userThread.sendMessage("100/ROLE" + role);
-                                    if (role.equals("IMPOSTER")) {
-                                        Mafia = userThread.userName; // 마피아 역할일 경우, mafia 변수에 이름 할당
-                                    }
-                                }
                                 break;
 
                             case "502":
@@ -341,16 +297,6 @@ public class Server extends JFrame {
                                     }
                                 }
                                 break;
-                            case "503":{
-                                String userRole;
-                                System.out.println("503 check"+Mafia);
-                                Map<String, UserThread> participantListForGameOver = gameThList.get(msg).getParticipant(msg);
-                                for (UserThread userThread : participantListForGameOver.values()) {
-                                    userThread.sendMessage("100/" + Mafia);
-                                }
-
-                                break;
-                            }
                             case "504":
                             {
                                 System.out.println("504 check");
@@ -434,11 +380,11 @@ public class Server extends JFrame {
             Collections.shuffle(numbers);
             List<Integer> itemNumbers = numbers.subList(0, 5);
             System.out.println("아이템넘버 확인" +itemNumbers);
-            generateRandomItems(435, 835, 0, 300,itemNumbers.get(0)); // 범위: 675,0~1175,300 (2개의 보물)
-            generateRandomItems(435, 835, 0, 300,itemNumbers.get(1)); // 범위: 675,0~1175,300 (2개의 보물)
-            generateRandomItems(20, 300, 320, 580, itemNumbers.get(2)); // 범위: 10,300~310,600 (1개의 보물)
-            generateRandomItems(970, 1230, 320, 580, itemNumbers.get(3)); // 범위: 950,300~1250,600 (1개의 보물)
-            generateRandomItems(430, 870, 350, 760, itemNumbers.get(4)); // 범위: 400,330~900,780 (1개의 보물)
+            generateRandomItems(435, 835, 0, 300,itemNumbers.get(0));
+            generateRandomItems(435, 835, 0, 300,itemNumbers.get(1));
+            generateRandomItems(20, 300, 320, 580, itemNumbers.get(2));
+            generateRandomItems(970, 1230, 320, 580, itemNumbers.get(3));
+            generateRandomItems(430, 870, 350, 760, itemNumbers.get(4));
         }
         private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int itemNum) {
 
@@ -494,8 +440,6 @@ public class Server extends JFrame {
             }
 
             if (room != null) {
-                // 여기서 participant 객체를 생성합니다.
-//                this.participant = new Participant(userName);
                 room.enterRoomParticipant(userName, userThread);
                 AppendText(room.getRoomID() + ": " + "새로운 참가자 " + userName + " 입장.");
             } else {
@@ -537,27 +481,6 @@ public class Server extends JFrame {
                 }
             }
             return 0;
-        }
-
-        //역할지정
-        public void selectImposter(String roomID) {
-            Room room = null;
-            for (Room r : roomList) {
-                if (r.getRoomTitle().equals(roomID)) {
-                    room = r;
-                    break;
-                }
-            }
-
-            if (room == null || room.getParticipants().isEmpty()) {
-                throw new IllegalArgumentException("Room not found or no participants in room: " + roomID);
-            }
-
-            List<UserThread> participants = new ArrayList<>(room.getParticipants().values());
-            int randomIndex = new Random().nextInt(participants.size());
-            UserThread imposter = participants.get(randomIndex);
-            imposter.setRole(1); // 임포스터로 설정
-            System.out.println("임포스터 결정: " + imposter.userName);
         }
 
         //찾고자 하는 참가자의 역할

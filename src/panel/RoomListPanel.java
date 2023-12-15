@@ -20,22 +20,21 @@ public class RoomListPanel extends JPanel {
         this.clientFrame = clientFrame;
         this.client = clientFrame.getClient();
 
-        Border margin = BorderFactory.createEmptyBorder(10, 0, 20, 0); // 상단에 10px의 마진
+        Border margin = BorderFactory.createEmptyBorder(10, 0, 20, 0);
         topPanel.setBorder(margin);
         setLayout(new BorderLayout());
         JLabel title = new JLabel("게임 방 리스트");
         JButton button = new JButton("방 생성");
 
-        //title.setForeground(Color.WHITE); // 흰색 글자로 설정
-        title.setFont(title.getFont().deriveFont(20.0f)); // 현재 폰트를 유지하며 크기만 변경
+        title.setFont(title.getFont().deriveFont(20.0f));
         title.setForeground(Color.BLACK);
 
 
-        button.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // 흰색 테두리 설정
-        button.setFont(title.getFont().deriveFont(15.0f)); // 현재 폰트를 유지하며 크기만 변경
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        button.setFont(title.getFont().deriveFont(15.0f));
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK,3));
         button.setForeground(Color.BLACK);
-        button.setBackground(null); // 배경 투명으로 설정
+        button.setBackground(null);
 
         topPanel.add(title);
         topPanel.add(button);
@@ -44,8 +43,8 @@ public class RoomListPanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(panel);
         topPanel.setBackground(Color.WHITE);
-        panel.setBackground(Color.WHITE); // panel의 배경도 흰색으로 설정
-        scrollPane.getViewport().setBackground(Color.WHITE); // 스크롤 패널 내부도 흰색으로 설정
+        panel.setBackground(Color.WHITE);
+        scrollPane.getViewport().setBackground(Color.WHITE);
 
 
         button.addActionListener(new ActionListener() {

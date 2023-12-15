@@ -26,21 +26,10 @@ public class Room extends Thread{
         return roomTitle;
     }
 
-    public Boolean getPlaying() {
-        return isPlaying;
-    }
-
-    public void setPlaying(Boolean playing) {
-        isPlaying = playing;
-    }
-
     public String getRoomID(){
         return roomTitle;
     }
 
-    public ArrayList getUsers() {
-        return users;
-    }
 
     public Map<String, Server.UserThread> getParticipants() {
         return participants;
@@ -54,9 +43,6 @@ public class Room extends Thread{
         this.participantsColorMap.put(playerName, color);
     }
 
-    public String getPlayerColor(String playerName) {
-        return participantsColorMap.get(playerName);
-    }
 
 
 }

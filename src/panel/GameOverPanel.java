@@ -20,7 +20,7 @@ public class GameOverPanel extends JPanel {
         setLayout(null);
         setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        backgroundImg = new ImageIcon(panel.ShowRolePanel.class.getResource("/images/backgroundImg.PNG")).getImage();
+        backgroundImg = new ImageIcon(LoadingPanel.class.getResource("/images/backgroundImg.PNG")).getImage();
 
         JPanel mainPanel = new JPanel() {
             @Override
@@ -34,6 +34,8 @@ public class GameOverPanel extends JPanel {
         setVisible(true);
 
         resultLabel = new JLabel(String.valueOf(clientFrame.getClient().getScore()));
+        resultLabel.setForeground(Color.WHITE);
+        resultLabel.setFont(resultLabel.getFont().deriveFont(20.0f)); // 현재 폰트를 유지하며 크기만 변경
         resultLabel.setSize(200, 300);
         resultLabel.setBounds(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 130, 100, 50);
 

@@ -16,6 +16,11 @@ public class SelectItemPanel extends JPanel {
     private int score = 0;
     private JTextArea textArea;
     private ClientFrame clientFrame;
+    private String[] itemNames = {
+            "사과", "바나나", "치즈", "초콜릿", "모래시계",
+            "동전", "달걀", "금트로피", "레모네이드", "푸딩",
+            "호박", "은트로피", "별"
+    };
 
     public SelectItemPanel(ClientFrame clientFrame) {
         this.clientFrame=clientFrame;
@@ -28,9 +33,10 @@ public class SelectItemPanel extends JPanel {
             i++;
         }
 
-        for (int j = 1; j <= 13; j++) {
-            JLabel label = new JLabel(String.valueOf(j));
-            final int index = j;  // j 값을 final 변수로 복사
+
+        for (int j = 0; j < itemNames.length; j++) {
+            JLabel label = new JLabel(j+1+" "+itemNames[j]);
+            final int index = j + 1;
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -52,7 +58,7 @@ public class SelectItemPanel extends JPanel {
         textArea.append("고른것 : ");
         add(textArea);
 
-        JLabel timer = new JLabel("10");
+        JLabel timer = new JLabel("");
         new TimerThread(clientFrame,timer,4,"SELECT_ITEM_PANEL").start();
         setVisible(true);
     }

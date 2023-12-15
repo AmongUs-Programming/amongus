@@ -17,18 +17,15 @@ public class GamePanel extends JPanel {
 
     private Image backgroundImage;
     private Image cafeteriaImage;
-    private Image userImage;
     private Image medicalImage;
     private Image shieldImage;
     private Image cctvImage;
 
-    private int userX = 600; // 사용자 이미지 초기 x 좌표
-    private int userY = 200; // 사용자 이미지 초기 y 좌표
+    private int userX = 600;
+    private int userY = 200;
     private final int userWidth = 20;
     private final int userHeight = 20;
-
-    private JLabel killLabel;
-    private JLabel citizenLabel;
+    private JLabel treasureLabel;
 
     private ClientFrame clientFrame;
     private Map<String, Point> playerPositions = new HashMap<>();
@@ -36,7 +33,6 @@ public class GamePanel extends JPanel {
     private Map<String, Image> playerImages = new HashMap<>();
     private String initMessage;
     private String[] color = {"red", "blue", "green", "pink", "purple", "red", "yellow"};
-    private String itemLocatioonMsg;
 
     // 좌표가 맵 위나 통로에 있는지 확인하고 true, false 값 return
     private boolean isValidMode(int x, int y) {
@@ -90,7 +86,6 @@ public class GamePanel extends JPanel {
     }
 
     public GamePanel(ClientFrame clientFrame) {
-        String role = clientFrame.getRole();
         this.clientFrame = clientFrame;
         String roomTitle = this.clientFrame.getRoomTitle();
 
@@ -115,17 +110,10 @@ public class GamePanel extends JPanel {
             }
         }
 
-        killLabel = new JLabel("Press spacebar to kill");
-        killLabel.setForeground(Color.RED); // Set text color
-        killLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-            add(killLabel);
-
-        citizenLabel = new JLabel("run!!");
-        citizenLabel.setForeground(Color.BLUE); // Set text color
-        citizenLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-//        if (role.equals("CITIZEN")) {
-//            add(citizenLabel);
-//        }
+        treasureLabel = new JLabel("보물을 찾으세요!");
+        treasureLabel.setForeground(Color.BLUE); // Set text color
+        treasureLabel.setFont(treasureLabel.getFont().deriveFont(20.0f));
+        add(treasureLabel);
 
         this.clientFrame.getClient().sendMessage("601/" + userX + "," + userY);
         this.clientFrame.getClient().receiveMessage();
@@ -216,7 +204,7 @@ public class GamePanel extends JPanel {
         int circleDiameter = userWidth + 100;
 
         // 원 안쪽의 영역을 클리핑
-        //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
+        g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
 
         // 배경이미지 그리기
         if (backgroundImage != null) {
@@ -270,10 +258,8 @@ public class GamePanel extends JPanel {
             g.drawImage(cctvImage, 400, 330, 500, 250, this);
         }
 
-//            g.drawImage(userImage, userX, userY, userWidth, userHeight, this);
         for (Map.Entry<String, Point> entry : playerPositions.entrySet()) {
             Point position = entry.getValue();
-//                System.out.println("positionImage"+entry.getKey()+","+position.x+","+position.y);
             g.drawImage(playerImages.get(entry.getKey()), position.x, position.y, userWidth, userHeight, this);
         }
 

@@ -45,7 +45,7 @@ public class Client{
 
     public void sendMessage(String message) {
         try {
-            if (oos != null && !socket.isClosed()) { // null 체크 추가
+            if (oos != null && !socket.isClosed()) {
                 oos.writeObject(message);
                 oos.flush();
             } else {
@@ -58,7 +58,7 @@ public class Client{
 
     public void receiveMessage() {
         try {
-            if (ois != null) { // null 체크 추가
+            if (ois != null) {
                 Object input = ois.readObject();
                if (input instanceof String) {
                     serverMessage =(String)input;

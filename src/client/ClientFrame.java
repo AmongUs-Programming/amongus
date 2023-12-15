@@ -20,10 +20,6 @@ public class ClientFrame extends JFrame {
         return this.client;
     }
 
-    //역할지정 메서드
-    public String getRole() {
-        return role;
-    }
 
     public void setRoomTitle(String roomTitle) {
         this.roomTitle = roomTitle;
@@ -42,7 +38,7 @@ public class ClientFrame extends JFrame {
     }
 
     public enum PanelState {
-        START_PANEL, ROOM_LIST_PANEL, ROOM_PANEL, GAME_PANEL, GAME_OVER_PANEL, SELECT_ITEM_PANEL, ROLE_PANEL
+        START_PANEL, ROOM_LIST_PANEL, ROOM_PANEL, GAME_PANEL, GAME_OVER_PANEL, SELECT_ITEM_PANEL, LOADING_PANEL
     }
 
     private volatile PanelState currentPanelState = PanelState.START_PANEL;
@@ -102,8 +98,8 @@ public class ClientFrame extends JFrame {
             case GAME_PANEL:
                 setContentPane(new GamePanel(this));
                 break;
-            case ROLE_PANEL:
-                setContentPane(new ShowRolePanel(this));
+            case LOADING_PANEL:
+                setContentPane(new LoadingPanel(this));
                 break;
             case SELECT_ITEM_PANEL:
                 setContentPane(new SelectItemPanel(this));
