@@ -361,9 +361,7 @@ public class Server extends JFrame {
                                 for (Item item : gameThList.get(msg).getItems()) {
                                     itemsInfo.append(item.getX()).append(",").append(item.getY()).append(",").append(item.getItemNum()).append(";");
                                 }
-                                for (UserThread userThread : participantListForItems.values()) {
-                                    userThread.sendMessage(itemsInfo.toString());
-                                }
+                                this.sendMessage(itemsInfo.toString());
                                 break;
                             }
 

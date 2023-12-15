@@ -31,7 +31,8 @@ public class GamePanel extends JPanel {
     private Map<String, Point> playerPositions = new HashMap<>();
     private Map<String, Image> playerImages = new HashMap<>();
     private String initMessage;
-    private String[] color = {"red","blue","green","pink","purple","red","yellow"};
+    private String[] color = {"red", "blue", "green", "pink", "purple", "red", "yellow"};
+    private String itemLocatioonMsg;
 
     // 좌표가 맵 위나 통로에 있는지 확인하고 true, false 값 return
     private boolean isValidMode(int x, int y) {
@@ -88,13 +89,25 @@ public class GamePanel extends JPanel {
         String role = clientFrame.getRole();
         this.clientFrame = clientFrame;
         String roomTitle = this.clientFrame.getRoomTitle();
+
         //Move List 생성
         this.clientFrame.getClient().sendMessage("304/" + roomTitle);
         this.clientFrame.getClient().sendMessage("600/" + roomTitle);
-        this.clientFrame.getClient().sendMessage("504/" + roomTitle);
-        clientFrame.getClient().receiveMessage();
-        String msg = clientFrame.getClient().getServerRealMessage();
-        System.out.println("504 출력 : "+msg);
+
+        //itemLocationMsg
+        itemLocatioonMsg = this.clientFrame.getItemLocation();
+        String[] itemLocationDataArray = itemLocatioonMsg.split(":")[1].split(";");
+
+        for (String itemLocationData : itemLocationDataArray) {
+            if (!itemLocationData.isEmpty()) {
+                String[] parts = itemLocationData.split(",");
+                int x = Integer.parseInt(parts[0]);
+                int y = Integer.parseInt(parts[1]);
+                String imageNum = parts[2];
+                updateLocationPosition(imageNum, x, y);
+                repaint();
+            }
+        }
 
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
@@ -115,13 +128,13 @@ public class GamePanel extends JPanel {
         initMessage = this.clientFrame.getClient().getServerRealMessage();
         System.out.println("initMessage : " + initMessage);
         String[] playerDatas = initMessage.split("&");
-        int randomColor = (int) (Math.random()%color.length);
+        int randomColor = (int) (Math.random() % color.length);
         for (String playerData : playerDatas) {
             if (!playerData.isEmpty()) {
                 String[] parts = playerData.split(":");
                 String playerName = parts[0];
-                System.out.println(color[color.length%(++randomColor)]);
-                playerImages.put(playerName, new ImageIcon(Client.class.getResource("/images/"+color[color.length%(++randomColor)]+".png")).getImage());
+                System.out.println(color[color.length % (++randomColor)]);
+                playerImages.put(playerName, new ImageIcon(Client.class.getResource("/images/" + color[color.length % (++randomColor)] + ".png")).getImage());
             }
         }
         backgroundImage = new ImageIcon(Client.class.getResource("/images/gamebg.png")).getImage();

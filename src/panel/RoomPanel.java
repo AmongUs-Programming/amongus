@@ -83,8 +83,7 @@ public class RoomPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.sendMessage("501/"+roomTitle);
-                client.sendMessage("502/"+roomTitle);
+                client.sendMessage("504/"+ roomTitle);
                 client.sendMessage("500/"+roomTitle);
             }
         });
@@ -112,16 +111,6 @@ public class RoomPanel extends JPanel {
                         running=false;
                         break;
                     }
-                    else if(message2.startsWith("ROLE")){
-                        String role = message2.substring(4);
-                        System.out.println("Your role is: " + role);
-                        clientFrame.setRole(role);
-                    }
-                    else if(message2.startsWith("COLOR")){
-                        String color = message2.substring(5);
-                        System.out.println("Your color is: " + color);
-                        clientFrame.setColor(color);
-                    }
                     else if(message2.startsWith("OWNER")){
                         String owner = message2.split(":")[1];
                         if(owner.equals(client.getName())){
@@ -131,8 +120,12 @@ public class RoomPanel extends JPanel {
                         }
                         System.out.println("check : "+isOwner);
 //                        clientFrame.setRoomOwner(owner);
-                    }
-                    else {
+                    } else if (message2.startsWith("LOCATION")) {
+                        clientFrame.getClient().receiveMessage();
+                        String msg = clientFrame.getClient().getServerRealMessage();
+                        clientFrame.setItemLocation(msg);
+                        System.out.println("504 출력 : "+msg);
+                    } else {
                         System.out.println("else");
                         message = message2;
                         System.out.println(message);
