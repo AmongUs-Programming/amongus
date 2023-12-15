@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RoomPanel extends JPanel {
     private RoomParticipantListPanel participantListPanel;
@@ -17,6 +19,7 @@ public class RoomPanel extends JPanel {
     private Client client;
     private  MessageThread messageThread;
     private Boolean isOwner;
+    private Map<Integer, Point> itemPositions = new HashMap<>();
     public static volatile boolean running = true;
 
 
@@ -139,7 +142,7 @@ public class RoomPanel extends JPanel {
                 System.out.println("running");
             }
             if (!running) {
-                clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
+                clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
             }
 
         }

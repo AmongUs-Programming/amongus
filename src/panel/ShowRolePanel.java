@@ -54,7 +54,7 @@ public class ShowRolePanel extends JPanel {
         runTimer();
     }
     public void runTimer(){
-        TimerThread th = new TimerThread(clientFrame,timer,1,"GAME_PANEL");
+        TimerThread th = new TimerThread(clientFrame,timer,1,"SHOW_ROLE_PANEL");
         th.start();
     }
 

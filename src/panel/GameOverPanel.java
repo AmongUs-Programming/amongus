@@ -52,7 +52,7 @@ public class GameOverPanel extends JPanel {
     }
 
     public void runTimer() {
-        TimerThread th = new TimerThread(clientFrame, timer, 1,"ROOM_LIST_PANEL");
+        TimerThread th = new TimerThread(clientFrame, timer, 1,"GAEM_OVER_PANEL");
         th.start();
     }
 }

@@ -24,13 +24,9 @@ public class TimerThread extends Thread{
                 if(count<=-1){
                     //panel 바꾸기
                     if(panelName.equals("SHOW_ROLE_PANEL")){
-                        clientFrame.setPanelState(ClientFrame.PanelState.ROLE_PANEL);
-                    }else if(panelName.equals("ROOM_LIST_PANEL")){
-                        clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);
-                    }else if(panelName.equals("GAME_PANEL")){
                         clientFrame.setPanelState(ClientFrame.PanelState.GAME_PANEL);
                     }else{
-                        clientFrame.setPanelState(ClientFrame.PanelState.START_PANEL);
+                        clientFrame.setPanelState(ClientFrame.PanelState.ROOM_LIST_PANEL);
                     }
                     this.interrupt();
                     break;

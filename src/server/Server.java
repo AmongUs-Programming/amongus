@@ -308,9 +308,6 @@ public class Server extends JFrame {
                                 }
                                 GameTherad gameThread = gameThList.get(msg);
                                 gameThread.selectImposter(msg);
-
-                                Items = new ArrayList<>();
-                                initializeItems();
                                 break;
 
                             case "501"://임포스터 여부
@@ -355,6 +352,15 @@ public class Server extends JFrame {
 
                                 break;
                             }
+                            case "504":
+                            {
+                                System.out.println("504 check");
+                                Map<String, UserThread> participantListForItems = gameThList.get(msg).getParticipant(msg);
+                                Items = new ArrayList<>();
+                                initializeItems();
+                                sendItemsToClients(participantListForItems);
+                            }
+                            break;
 
 
                             case "600": //make Move
@@ -396,12 +402,31 @@ public class Server extends JFrame {
     }
 
     private void generateRandomItems(int xStart, int xEnd, int yStart, int yEnd, int numTreasures) {
+        List<Integer> itemNumbers = new ArrayList<>();
+        for (int i = 1; i < 14; i++) {
+            itemNumbers.add(i);
+        }
+        Collections.shuffle(itemNumbers);
         for (int i = 0; i < numTreasures; i++) {
             int x = random.nextInt(xEnd - xStart + 1) + xStart;
             int y = random.nextInt(yEnd - yStart + 1) + yStart;
-            Items.add(new Item(x, y));
+            int itemNum = itemNumbers.get(i);
+            Items.add(new Item(x, y, itemNum));
         }
     }
+
+    private void sendItemsToClients(Map<String, UserThread> participants) {
+        StringBuilder itemsInfo = new StringBuilder("100/ITEMS:");
+        for (Item item : Items) {
+            itemsInfo.append(item.getX()).append(",").append(item.getY()).append(",").append(item.getItemNum()).append(";");
+        }
+
+        for (UserThread userThread : participants.values()) {
+            userThread.sendMessage(itemsInfo.toString());
+        }
+    }
+
+
 
     public void handlePlayerRegistration(UserThread userThread) {
         String userName = userThread.userName;
