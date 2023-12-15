@@ -32,7 +32,7 @@ public class SelectItemPanel extends JPanel {
             gameItem.add(parts[2]);
             i++;
         }
-
+        JPanel panel = new JPanel();
 
         for (int j = 0; j < itemNames.length; j++) {
             JLabel label = new JLabel(j+1+" "+itemNames[j]);
@@ -51,15 +51,15 @@ public class SelectItemPanel extends JPanel {
                     }
                 }
             });
-            add(label,BorderLayout.CENTER);
+            panel.add(label);
         }
-
+        add(panel,BorderLayout.CENTER);
         textArea = new JTextArea();
         textArea.append("고른것 : ");
         add(textArea,BorderLayout.SOUTH);
 
         JLabel timer = new JLabel("");
-        new TimerThread(clientFrame,timer,4,"SELECT_ITEM_PANEL").start();
+        new TimerThread(clientFrame,timer,10,"SELECT_ITEM_PANEL").start();
         setVisible(true);
     }
 

@@ -274,25 +274,6 @@ public class Server extends JFrame {
                                     userThread.sendMessage("100/" + "CHANGEPANEL");
                                 }
                                 break;
-
-                            case "502":
-                                System.out.println("색상 지정 요청 받음");
-                                String userName="";
-                                String color="";
-                                Map<String, String> userColors = gameThList.get(msg).getUserNamesWithColors(msg);
-                                System.out.println("userColors : "+userColors);
-                                for (Map.Entry<String, String> entry : userColors.entrySet()) {
-                                    userName = entry.getKey();// 사용자 이름
-                                    color = entry.getValue(); // 해당 사용자의 색상
-
-                                    Map<String, UserThread> participantColor = gameThList.get(msg).getParticipant(msg);
-                                    for (UserThread userThread : participantColor.values()) {
-                                        if(userThread.getName().equals(userName)){
-                                        userThread.sendMessage("100/COLOR"+color);
-                                        }
-                                    }
-                                }
-                                break;
                             case "504":
                             {
                                 System.out.println("504 check");
@@ -309,9 +290,6 @@ public class Server extends JFrame {
 
                                 break;
                             }
-
-
-
                             case "600": //make Move
                                 gameThList.get(msg).makeParticipantMove(msg);
                                 break;
