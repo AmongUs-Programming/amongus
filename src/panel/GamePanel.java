@@ -199,7 +199,7 @@ public class GamePanel extends JPanel {
                 }
             });
         }
-        TimerThread th = new TimerThread(clientFrame, timer, 10,"SELECT_ITEM_PANEL");
+        TimerThread th = new TimerThread(clientFrame, timer, 10,"GAME_PANEL");
         th.start();
         MoveThread moveThread = new MoveThread(clientFrame);
         moveThread.start();
