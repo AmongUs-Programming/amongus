@@ -24,7 +24,7 @@ public class SelectItemPanel extends JPanel {
 
     public SelectItemPanel(ClientFrame clientFrame) {
         this.clientFrame=clientFrame;
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
         String[] msg = clientFrame.getItemLocation().split(":")[1].split(";");
         int i = 0;
         for (String itemData : msg) {
@@ -51,12 +51,12 @@ public class SelectItemPanel extends JPanel {
                     }
                 }
             });
-            add(label);
+            add(label,BorderLayout.CENTER);
         }
 
         textArea = new JTextArea();
         textArea.append("고른것 : ");
-        add(textArea);
+        add(textArea,BorderLayout.SOUTH);
 
         JLabel timer = new JLabel("");
         new TimerThread(clientFrame,timer,4,"SELECT_ITEM_PANEL").start();
