@@ -120,11 +120,9 @@ public class RoomPanel extends JPanel {
                         }
                         System.out.println("check : "+isOwner);
 //                        clientFrame.setRoomOwner(owner);
-                    } else if (message2.startsWith("LOCATION")) {
-                        clientFrame.getClient().receiveMessage();
-                        String msg = clientFrame.getClient().getServerRealMessage();
-                        clientFrame.setItemLocation(msg);
-                        System.out.println("504 출력 : "+msg);
+                    } else if (message2.startsWith("ITEM")) {
+                        clientFrame.setItemLocation(message2);
+                        System.out.println("504 출력 : "+message2);
                     } else {
                         System.out.println("else");
                         message = message2;

@@ -32,6 +32,7 @@ public class GamePanel extends JPanel {
 
     private ClientFrame clientFrame;
     private Map<String, Point> playerPositions = new HashMap<>();
+    private Map<String, Point> itemPositions = new HashMap<>();
     private Map<String, Image> playerImages = new HashMap<>();
     private String initMessage;
     private String[] color = {"red", "blue", "green", "pink", "purple", "red", "yellow"};
@@ -98,8 +99,10 @@ public class GamePanel extends JPanel {
         this.clientFrame.getClient().sendMessage("600/" + roomTitle);
 
         //itemLocationMsg
-        itemLocatioonMsg = this.clientFrame.getItemLocation();
-        String[] itemLocationDataArray = itemLocatioonMsg.split(":")[1].split(";");
+        String itemLocationMsg = this.clientFrame.getItemLocation();
+        System.out.println("확인1 : "+itemLocationMsg);
+        String[] itemLocationDataArray = itemLocationMsg.split(":")[1].split(";");
+        System.out.println("확인2 : "+itemLocationDataArray);
 
         for (String itemLocationData : itemLocationDataArray) {
             if (!itemLocationData.isEmpty()) {
@@ -115,16 +118,14 @@ public class GamePanel extends JPanel {
         killLabel = new JLabel("Press spacebar to kill");
         killLabel.setForeground(Color.RED); // Set text color
         killLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-        if (role.equals("IMPOSTER")) {
             add(killLabel);
-        }
 
         citizenLabel = new JLabel("run!!");
         citizenLabel.setForeground(Color.BLUE); // Set text color
         citizenLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Set font and size
-        if (role.equals("CITIZEN")) {
-            add(citizenLabel);
-        }
+//        if (role.equals("CITIZEN")) {
+//            add(citizenLabel);
+//        }
 
         this.clientFrame.getClient().sendMessage("601/" + userX + "," + userY);
         this.clientFrame.getClient().receiveMessage();
@@ -190,17 +191,14 @@ public class GamePanel extends JPanel {
         });
 
         // 스페이스바 키 바인딩
-        if (clientFrame.getRole().equals("IMPOSTER")) {
-            inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceBar");
-            actionMap.put("spaceBar", new AbstractAction() {
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceBar");
+        actionMap.put("spaceBar", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("space");
                 }
             });
-        }
-        TimerThread th = new TimerThread(clientFrame, timer, 10,"GAME_PANEL");
-        th.start();
+
         MoveThread moveThread = new MoveThread(clientFrame);
         moveThread.start();
         setVisible(true);
@@ -216,7 +214,7 @@ public class GamePanel extends JPanel {
         int circleDiameter = userWidth + 100;
 
         // 원 안쪽의 영역을 클리핑
-        g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
+        //g.setClip(new Ellipse2D.Double(circleX, circleY, circleDiameter, circleDiameter));
 
         // 배경이미지 그리기
         if (backgroundImage != null) {
@@ -276,6 +274,17 @@ public class GamePanel extends JPanel {
 //                System.out.println("positionImage"+entry.getKey()+","+position.x+","+position.y);
             g.drawImage(playerImages.get(entry.getKey()), position.x, position.y, userWidth, userHeight, this);
         }
+
+        for (Map.Entry<String, Point> entry : itemPositions.entrySet()) {
+            String imageNum = entry.getKey();
+            Point position = entry.getValue();
+            Image img = new ImageIcon(Client.class.getResource("/images/items/"+imageNum+".png")).getImage();
+            if (img != null) {
+                g.drawImage(img, position.x, position.y,30,30, this);
+            } else {
+                System.out.println("Image not found for item number: " + imageNum);
+            }
+        }
         // 클리핑 해제
         g.setClip(null);
         repaint();
@@ -285,6 +294,12 @@ public class GamePanel extends JPanel {
         playerPositions.put(playerName, new Point(x, y));
     }
 
+    public void updateLocationPosition(String imageNum, int x, int y) {
+        SwingUtilities.invokeLater(() -> {
+            itemPositions.put(imageNum, new Point(x, y));
+            repaint();
+        });
+    }
     private void movePlayer(int deltaX, int deltaY) {
         int nextX = userX + deltaX;
         int nextY = userY + deltaY;
